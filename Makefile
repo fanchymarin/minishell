@@ -6,7 +6,7 @@
 #    By: fmarin-p <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/12 14:33:11 by fmarin-p          #+#    #+#              #
-#    Updated: 2023/01/12 15:10:59 by fmarin-p         ###   ########.fr        #
+#    Updated: 2023/01/12 15:20:34 by fmarin-p         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -35,9 +35,11 @@ $(OBJDIR)%.o: $(SRCDIR)%.c
 	gcc $(CFLAGS) $^ -o $@
 
 clean:
+	$(MAKE) clean -C $(LIBFTDIR)
 	rm -rf $(OBJDIR)
 
 fclean: clean
+	$(MAKE) fclean -C $(LIBFTDIR)
 	rm -rf $(NAME)
 
 re: fclean all
