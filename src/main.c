@@ -6,34 +6,89 @@
 /*   By: fmarin-p <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 14:36:43 by fmarin-p          #+#    #+#             */
-/*   Updated: 2023/01/12 17:46:09 by fmarin-p         ###   ########.fr       */
+/*   Updated: 2023/02/02 19:05:57 by fmarin-p         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+void	free_dp(char **dp)
+{
+	int	i;
+
+	i = 0;
+	while (dp[i])
+		free(dp[i++]);
+	free(dp);
+}
+
+void	free_struct(t_prompt *tty, int stat)
+{
+	free(tty->rl_line);
+	free(tty->line);
+	free_dp(tty->word);
+	if (stat)
+	{
+		free(tty);
+		exit(0/*system("leaks minishell")*/);
+	}
+}
+
+void	echo_command(char **word)
+{
+	int	i;
+
+	i = 1;
+	if (!ft_strncmp(word[1], "-n\0", 3))
+		i++;
+	while (word[i])
+	{
+		printf("%s", word[i]);
+		if (word[i++ + 1])
+			printf(" ");
+	}
+	if (ft_strncmp(word[1], "-n\0", 3))
+		printf("\n");
+}
+
+void	exec_command(t_prompt *tty)
+{
+	if (!ft_strncmp(tty->word[0], "exit\0", 5))
+		free_struct(tty, 1);
+	else if (!ft_strncmp(tty->word[0], "pwd\0", 4))
+	{
+		tty->abs_path = malloc(sizeof(char) * 1000);
+		printf("%s\n", getcwd(tty->abs_path, 1000));
+		free(tty->abs_path);
+	}
+	else if (!ft_strncmp(tty->word[0], "cd\0", 3))
+	{
+		if (chdir(tty->word[1]))
+			perror("cd");
+	}
+	else if (!ft_strncmp(tty->word[0], "echo\0", 5))
+		echo_command(tty->word);
+}
+
 int	main(void)
 {
-	char	*line;
-	char	*abs_path;
+	t_prompt	*tty;
 
-	abs_path = malloc(sizeof(char) * 1000);
+	tty = malloc(sizeof(t_prompt));
 	while (1)
 	{
-		getcwd(abs_path, 1000);
-		line = ft_strtrim(readline("minishell$ "), " ");
-		if (line && *line)
-			add_history(line);
-		if (!ft_strncmp(line, "exit\0", 5))
-			break ;
-		else if (!ft_strncmp(line, "pwd\0", 4))
-			printf("%s\n", abs_path);
-		else if (!ft_strncmp(line, "cd\0", 3) || !ft_strncmp(line, "cd ", 3))
-			if (chdir(&line[3]))
-				perror("cd");
-		free(line);
-		ft_bzero(abs_path, 1000);
+		tty->rl_line = readline("minishell$ ");
+		tty->line = ft_strtrim(tty->rl_line, " ");
+		if (!*tty->line)
+		{
+			free(tty->rl_line);
+			free(tty->line);
+			continue ;
+		}
+		add_history(tty->line);
+		tty->word = ft_split(tty->line, ' ');
+		exec_command(tty);
+		free_struct(tty, 0);
 	}
-	free(abs_path);
 	return (0);
 }
