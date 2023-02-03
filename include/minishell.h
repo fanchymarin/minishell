@@ -25,6 +25,9 @@ typedef struct s_prompt
 	char	*line;
 	char	**word;
 	char	*abs_path;
+	char	**cmd_lines;
+	int		first_word[100];
+	int		n_child;
 }	t_prompt;
 
 #endif

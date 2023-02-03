@@ -51,8 +51,77 @@ void	echo_command(char **word)
 		printf("\n");
 }
 
+<<<<<<< Updated upstream
 void	exec_command(t_prompt *tty)
 {
+=======
+char	*ft_find_path(char *cmd)
+{
+	int		i;
+	char	**split_path;
+	char	*path;
+
+	if (!cmd)
+		return (0);
+	split_path = ft_split(getenv("PATH"), ':');
+	i = 0;
+	while (split_path[i])
+	{
+		path = ft_strjoin(ft_strjoin(split_path[i], "/"), cmd);
+		if (access(path, 0) == 0)
+			return (path);
+		i++;
+	}
+	free(path);
+	return (0);
+}
+
+void	child_process(t_prompt *tty)
+{
+	extern char	**environ;
+
+	execve(ft_find_path(tty->word[0]), tty->word, environ);
+}
+
+void	split_commands(t_prompt *tty)
+{
+	int	i;
+	
+	i = 0;
+	tty->n_child = 1;
+	while (tty->word[i])
+		if (!ft_strncmp(tty->word[i++], "|", 1))
+			tty->n_child++;
+	tty->cmd_lines = ft_split(tty->line, '|');
+	i = 0;
+	while ((tty->cmd_lines[i] = ft_strtrim(tty->cmd_lines[i], " ")), tty->cmd_lines[i])
+		i++;
+	
+}
+
+void	parent_process(t_prompt *tty)
+{
+	// pid_t	pid;
+
+	split_commands(tty);
+	while (n_child)
+	{
+		if ((pid = fork()) < 0)
+			perror("fork");
+		else if (pid == 0)
+		{
+			child_process(tty);
+			return (0);
+		}
+		else
+			wait(NULL);
+		n_child--;
+	}
+}
+
+void	exec_command(t_prompt *tty)
+{
+>>>>>>> Stashed changes
 	if (!ft_strncmp(tty->word[0], "exit\0", 5))
 		free_struct(tty, 1);
 	else if (!ft_strncmp(tty->word[0], "pwd\0", 4))
@@ -68,6 +137,11 @@ void	exec_command(t_prompt *tty)
 	}
 	else if (!ft_strncmp(tty->word[0], "echo\0", 5))
 		echo_command(tty->word);
+<<<<<<< Updated upstream
+=======
+	else
+		parent_process(tty);
+>>>>>>> Stashed changes
 }
 
 int	main(void)
