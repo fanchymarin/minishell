@@ -6,7 +6,7 @@
 #    By: fmarin-p <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/12 14:33:11 by fmarin-p          #+#    #+#              #
-#    Updated: 2023/01/12 15:20:34 by fmarin-p         ###   ########.fr        #
+#    Updated: 2023/02/03 13:53:21 by fmarin-p         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -28,7 +28,7 @@ all: $(NAME)
 
 $(NAME): $(SRCOBJ)
 	$(MAKE) bonus -C $(LIBFTDIR)
-	gcc -o $@ -lreadline $^ $(LIBFTDIR)libft.a
+	gcc $^ $(LIBFTDIR)libft.a -lreadline -o $@
 
 $(OBJDIR)%.o: $(SRCDIR)%.c
 	mkdir -p obj
