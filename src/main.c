@@ -6,7 +6,7 @@
 /*   By: fmarin-p <fmarin-p@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 14:36:43 by fmarin-p          #+#    #+#             */
-/*   Updated: 2023/02/03 18:18:29 by fmarin-p         ###   ########.fr       */
+/*   Updated: 2023/02/05 14:14:56 by fmarin-p         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,34 +87,32 @@ void	exec_command(t_prompt *tty)
 	else if (!ft_strncmp(tty->word[0], "echo\0", 5))
 		echo_cmd(tty->word);
 	else if (!ft_strncmp(tty->word[0], "env\0", 4))
-		env_cmd(tty->environ);
+		env_cmd(environ);
 	else if (!ft_strncmp(tty->word[0], "export\0", 7))
-		export_cmd(tty->environ, "");
+		environ = export_cmd(tty->word, tty->env_address);
 	//else
 	//	parent_process(tty);
 }
 
 int	main(void)
 {
-	t_prompt	*tty;
-	extern char	**environ;
+	t_prompt	tty;
 
-	tty = malloc(sizeof(t_prompt));
-	tty->environ = environ;
+	tty.env_address = &environ;
 	while (1)
 	{
-		tty->rl_line = readline("minishell$ ");
-		tty->line = ft_strtrim(tty->rl_line, " ");
-		if (!*tty->line)
+		tty.rl_line = readline("minishell$ ");
+		tty.line = ft_strtrim(tty.rl_line, " ");
+		if (!*tty.line)
 		{
-			free(tty->rl_line);
-			free(tty->line);
+			free(tty.rl_line);
+			free(tty.line);
 			continue ;
 		}
-		add_history(tty->line);
-		tty->word = ft_split(tty->line, ' ');
-		exec_command(tty);
-		free_struct(tty, 0);
+		add_history(tty.line);
+		tty.word = ft_split(tty.line, ' ');
+		exec_command(&tty);
+		free_struct(&tty, 0);
 	}
 	return (0);
 }

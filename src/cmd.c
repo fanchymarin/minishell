@@ -6,7 +6,7 @@
 /*   By: fmarin-p <fmarin-p@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/03 17:32:59 by fmarin-p          #+#    #+#             */
-/*   Updated: 2023/02/03 18:27:10 by fmarin-p         ###   ########.fr       */
+/*   Updated: 2023/02/05 14:16:35 by fmarin-p         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,30 +49,4 @@ void	env_cmd(char **environ)
 	i = 0;
 	while (environ[i])
 		printf("%s\n", environ[i++]);
-}
-
-char	**export_cmd(char **environ, char *new_var)
-{
-	char		**new_environ;
-	int			i;
-	int			j;
-	t_dbarray	size;
-
-	if (check_syntax(new_var))
-		return (NULL);
-	size = find_size_dbarray(environ);
-	new_environ = malloc(sizeof(char *) * size.lines + 2);
-	i = 0;
-	while (i < size.lines)
-	{
-		new_environ[i] = malloc(sizeof(char) * size.chars[i] + 1);
-		j = 0;
-		while (j < size.chars[i])
-		{
-			new_environ[i][j] = environ[i][j];
-			j++;
-		}
-		new_environ[i++][j] = 0;
-	}
-	return (new_environ);
 }

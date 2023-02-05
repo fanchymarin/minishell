@@ -6,7 +6,7 @@
 /*   By: fmarin-p <fmarin-p@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 14:34:40 by fmarin-p          #+#    #+#             */
-/*   Updated: 2023/02/03 18:18:49 by fmarin-p         ###   ########.fr       */
+/*   Updated: 2023/02/05 14:02:56 by fmarin-p         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,10 +23,10 @@
 typedef struct s_prompt
 {
 	char	*rl_line;
-	char	**environ;
 	char	*line;
 	char	**word;
-	char	**cmd_lines;
+	char	***env_address;
+	char	**cmd_lines; //liberarlo en free_struct?
 	int		first_word[100];
 	int		n_child;
 }	t_prompt;
@@ -34,18 +34,19 @@ typedef struct s_prompt
 typedef struct s_dbarray
 {
 	int	lines;
-	int	*chars;
+	int	new_lines;
 }	t_dbarray;
 
+extern char	**environ;
 
 void		free_dp(char **dp);
 void		free_struct(t_prompt *tty, int stat);
-t_dbarray	find_size_dbarray(char **environ);
+int			check_syntax_n_size(char **new_vars);
 
 void		pwd_cmd(void);
 void		cd_cmd(char *dir);
 void		echo_cmd(char **word);
 void		env_cmd(char **environ);
-char	**export_cmd(char **environ, char *new_var);
+char		**export_cmd(char **new_vars, char ***env_address);
 
 #endif
