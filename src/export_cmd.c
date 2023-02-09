@@ -6,7 +6,7 @@
 /*   By: fmarin-p <fmarin-p@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/05 13:12:20 by fmarin-p          #+#    #+#             */
-/*   Updated: 2023/02/05 14:42:20 by fmarin-p         ###   ########.fr       */
+/*   Updated: 2023/02/09 19:06:44 by fmarin-p         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,6 @@ char	**export_cmd(char **new_vars, char ***env_address)
 		if (*new_vars[j] != '?')
 			new_environ[i++] = new_vars[j];
 	if (env_address != &environ)
-		free_dp(environ);
+		free_dp(environ, 0);
 	return (new_environ);
 }

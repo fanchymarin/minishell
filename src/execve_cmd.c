@@ -21,32 +21,32 @@ char	*ft_find_path(char *cmd)
 	return (0);
 }
 
-void	child_process(t_prompt *tty, int i)
+void	child_process(t_cmdtable *rl, int i)
 {
 	extern char	**environ;
 
-	if (execve(ft_find_path(tty->cmd_lines[i][0]), tty->cmd_lines[i], environ) == -1)
-		printf("bash: %s: command not found\n", tty->word[0]);
+	if (execve(ft_find_path(rl->cmd_lines[i][0]), rl->cmd_lines[i], environ) == -1)
+		printf("bash: %s: command not found\n", rl->cmd[0]);
 }
 
-int	parent_process(t_prompt *tty)
+int	parent_process(t_cmdtable *rl)
 {
 	pid_t	pid;
 	int		i;
 
-	cmd_counter(tty);
-	split_line(tty);
+	cmd_counter(rl);
+	split_line(rl);
 	i = 0;
-	while (tty->n_cmd)
+	while (rl->n_cmd)
 	{
 		if ((pid = fork()) < 0)
 			perror("fork");
 		else if (pid == 0)
 		{
-			child_process(tty, i);
+			child_process(rl, i);
 			return (0);
 		}
-		(tty->n_cmd--, i++, wait(NULL));
+		(rl->n_cmd--, i++, wait(NULL));
 	}
 	return (0);
 }
