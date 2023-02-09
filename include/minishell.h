@@ -26,9 +26,10 @@ typedef struct s_prompt
 	char	*line;
 	char	**word;
 	char	***env_address;
-	char	**cmd_lines; //liberarlo en free_struct?
-	int		first_word[100];
-	int		n_child;
+	char	**oper;
+	char	***cmd_lines; //liberarlo en free_struct?
+	int		n_cmd;
+	int		n_oper;
 }	t_prompt;
 
 typedef struct s_dbarray
@@ -48,5 +49,12 @@ void		cd_cmd(char *dir);
 void		echo_cmd(char **word);
 void		env_cmd(char **environ);
 char		**export_cmd(char **new_vars, char ***env_address);
+
+char		*ft_find_path(char *cmd);
+void		child_process(t_prompt *tty, int i);
+int			parent_process(t_prompt *tty);
+
+void		cmd_counter(t_prompt *tty);
+void		split_line(t_prompt *tty);
 
 #endif
