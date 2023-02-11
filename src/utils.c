@@ -22,3 +22,13 @@ int	free_dp(char **dp, int status)
 	free(dp);
 	return (status);
 }
+
+size_t	cmd_counter(t_cmdtable *rl)
+{
+	int	i;
+
+	i = 0;
+	while (rl->all_cmd[i])
+		++i;
+	return (i);
+}

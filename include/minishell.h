@@ -26,8 +26,9 @@ typedef struct s_cmdtable
 	char	**all_cmd;
 	size_t	n_cmd;
 	char	**cmd;
-	char	***cmd_lines;
-	int		n_oper;
+	int		pipe[2];
+	int		infile;
+	int		outfile;
 }	t_cmdtable;
 
 typedef struct s_dbarray
@@ -47,11 +48,11 @@ int			echo_cmd(char **word);
 int			env_cmd(char **environ);
 char		**export_cmd(char **new_vars, char ***env_address);
 
+// execve_cmd
 char		*ft_find_path(char *cmd);
-void		child_process(t_cmdtable *tty, int i);
-int			parent_process(t_cmdtable *tty);
+void		ft_execute_cmd(t_cmdtable *rl);
 
 size_t		cmd_counter(t_cmdtable *tty);
-void		split_line(t_cmdtable *tty);
+
 
 #endif
