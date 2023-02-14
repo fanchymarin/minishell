@@ -18,7 +18,8 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <unistd.h>
-# include <sys/wait.h> 
+# include <sys/wait.h>
+# include <fcntl.h>
 
 typedef struct s_cmdtable
 {
@@ -52,6 +53,7 @@ char		**export_cmd(char **new_vars, char ***env_address);
 char		*ft_find_path(char *cmd);
 void		ft_execute_cmd(t_cmdtable *rl);
 
+void		check_in_out_file(t_cmdtable *rl);
 size_t		cmd_counter(t_cmdtable *tty);
 
 

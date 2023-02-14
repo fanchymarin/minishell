@@ -32,7 +32,7 @@ $(NAME): $(SRCOBJ)
 
 $(OBJDIR)%.o: $(SRCDIR)%.c
 	mkdir -p obj
-	gcc $(CFLAGS) $^ -o $@
+	gcc -g $(CFLAGS) $^ -o $@
 
 clean:
 	$(MAKE) clean -C $(LIBFTDIR)

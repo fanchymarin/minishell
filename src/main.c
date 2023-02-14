@@ -34,21 +34,23 @@ void	exec_command(t_cmdtable *rl)
 
 void	red_pipe_child(t_cmdtable *rl, int i)
 {
-	close(rl->pipe[0]);// cierra canal de lectura 
-	if (i == 0 && rl->infile)// si existe archivo de entrada y es el primer cmd
+	if (i == 0 && rl->infile)// si es el 1er cmd y existe archivo de entrada
 		dup2(rl->infile, 0);
-	if ((i + 1 == (int)rl->n_cmd) && rl->outfile)// si existe archivo de salida y es el ultimo cmd
+	if ((i == (int)rl->n_cmd -1) && rl->outfile)// si es el ultimo y existe archivo de salida
 		dup2(rl->outfile, 1);
-	if (i + 1 != (int)rl->n_cmd)// si hay mas de 1 cmd y no es el 'ultimo cmd
-		dup2(rl->pipe[1], 1);
-	close(rl->pipe[1]);// cierra canal de lectura 
+	if (i != (int)rl->n_cmd -1)// si hay un cmd a ejecutar despues
+	{
+		close(rl->pipe[0]);// cierra lectura
+		dup2(rl->pipe[1], 1);// cambia la salida al pipe de escritura
+		close(rl->pipe[1]);// cierra escritura
+	}
 }
 
 void	red_pipe_parent(t_cmdtable *rl)
 {
-	close(rl->pipe[1]);// el padre cierra la escritura
-	dup2(rl->pipe[0], 0);// cambia la lectura para que sea la salida del hijo
-	close(rl->pipe[0]);// cierra la lectura
+	close(rl->pipe[1]);// cierra escritura
+	dup2(rl->pipe[0], 0);// <- EL PROBLEMA
+	close(rl->pipe[0]);// cierra lectura
 }
 
 void	manage_line(t_cmdtable *rl)
@@ -60,29 +62,30 @@ void	manage_line(t_cmdtable *rl)
 	rl->all_cmd = ft_split(rl->line, '|');
 	free(rl->line);
 	rl->n_cmd = cmd_counter(rl);
+	//check_in_out_file(rl);
 	i = -1;
-	while (i < (int)rl->n_cmd)
+	while (i < (int)rl->n_cmd -1)
 	{
 		i++;
-		if (pipe(rl->pipe) == -1)
-			perror("pipe");
+		if (i != (int)rl->n_cmd -1)// solo es necesario pipe si hay otro cmd que ejecutar despues
+		{
+			if (pipe(rl->pipe) == -1)
+				perror("pipe");
+		}
 		pid = fork();
 		if (!pid)
 		{
 			rl->cmd = ft_split(rl->all_cmd[i], ' ');
-			// free(rl->all_cmd[i]);
+			free(rl->all_cmd[i]);
 			red_pipe_child(rl, i);
-			exec_command(rl);// despues de execve el proceso muere x eso no se liberaria el cmd
-			break;
+			exec_command(rl);
+			free_dp(rl->cmd, 0);
 		}
-		else
-		{
+		if (i != (int)rl->n_cmd -1)
 			red_pipe_parent(rl);
-			wait(&status);
-			if (WEXITSTATUS(status) == 1)
-				exit(0);
-			//free_dp(rl->cmd, 0); si libera no ejecuta cmds, asi que me imagino que esta sobrescribiendo
-		}
+		wait(&status);
+		if (WEXITSTATUS(status) == 1)
+			exit(0);
 	}
 }
 
