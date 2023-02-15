@@ -34,23 +34,24 @@ void	exec_command(t_cmdtable *rl)
 
 void	red_pipe_child(t_cmdtable *rl, int i)
 {
-	if (i == 0 && rl->infile)// si es el 1er cmd y existe archivo de entrada
+	if (i == 0 && rl->infile)
 		dup2(rl->infile, 0);
-	if ((i == (int)rl->n_cmd -1) && rl->outfile)// si es el ultimo y existe archivo de salida
+	if ((i == (int)rl->n_cmd -1) && rl->outfile)
 		dup2(rl->outfile, 1);
-	if (i != (int)rl->n_cmd -1)// si hay un cmd a ejecutar despues
+	if (i != (int)rl->n_cmd -1)
 	{
-		close(rl->pipe[0]);// cierra lectura
-		dup2(rl->pipe[1], 1);// cambia la salida al pipe de escritura
-		close(rl->pipe[1]);// cierra escritura
+		close(rl->pipe[0]);
+		dup2(rl->pipe[1], 1);
+		close(rl->pipe[1]);
 	}
 }
 
 void	red_pipe_parent(t_cmdtable *rl)
 {
-	close(rl->pipe[1]);// cierra escritura
-	dup2(rl->pipe[0], 0);// <- EL PROBLEMA
-	close(rl->pipe[0]);// cierra lectura
+	close(rl->pipe[1]);
+	rl->fd_in = rl->pipe[0];
+	dup2(rl->fd_in, 0);
+	close(rl->fd_in);
 }
 
 void	manage_line(t_cmdtable *rl)
@@ -62,12 +63,16 @@ void	manage_line(t_cmdtable *rl)
 	rl->all_cmd = ft_split(rl->line, '|');
 	free(rl->line);
 	rl->n_cmd = cmd_counter(rl);
-	//check_in_out_file(rl);
+	if ((rl->std_in = dup(0)) == -1)
+		perror("dup");
+	rl->fd_in = dup(rl->std_in);
 	i = -1;
 	while (i < (int)rl->n_cmd -1)
 	{
 		i++;
-		if (i != (int)rl->n_cmd -1)// solo es necesario pipe si hay otro cmd que ejecutar despues
+		rl->cmd = ft_split(rl->all_cmd[i], ' ');
+		free(rl->all_cmd[i]);
+		if (i != (int)rl->n_cmd -1)
 		{
 			if (pipe(rl->pipe) == -1)
 				perror("pipe");
@@ -75,18 +80,18 @@ void	manage_line(t_cmdtable *rl)
 		pid = fork();
 		if (!pid)
 		{
-			rl->cmd = ft_split(rl->all_cmd[i], ' ');
-			free(rl->all_cmd[i]);
 			red_pipe_child(rl, i);
 			exec_command(rl);
-			free_dp(rl->cmd, 0);
 		}
 		if (i != (int)rl->n_cmd -1)
 			red_pipe_parent(rl);
+		free_dp(rl->cmd, 0);
 		wait(&status);
 		if (WEXITSTATUS(status) == 1)
 			exit(0);
 	}
+	dup2(rl->std_in, 0);
+	close(rl->std_in);
 }
 
 int	main(void)

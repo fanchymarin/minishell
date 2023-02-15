@@ -30,6 +30,8 @@ typedef struct s_cmdtable
 	int		pipe[2];
 	int		infile;
 	int		outfile;
+	int		std_in;
+	int		fd_in;
 }	t_cmdtable;
 
 typedef struct s_dbarray
