@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   execute_cmd.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: fmarin-p <fmarin-p@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/02/16 13:19:18 by fmarin-p          #+#    #+#             */
+/*   Updated: 2023/02/16 14:47:31 by fmarin-p         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 char	*ft_find_path(char *cmd)
@@ -19,12 +31,4 @@ char	*ft_find_path(char *cmd)
 	}
 	free(path);
 	return (0);
-}
-
-void	ft_execute_cmd(t_cmdtable *rl)
-{
-	extern char	**environ;
-
-	if (execve(ft_find_path(rl->cmd[0]), rl->cmd, environ) == -1)
-		printf("bash: %s: command not found\n", rl->cmd[0]);
 }

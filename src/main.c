@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fmarin-p <fmarin-p@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: fmarin-p <fmarin-p@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 14:36:43 by fmarin-p          #+#    #+#             */
-/*   Updated: 2023/02/09 19:07:03 by fmarin-p         ###   ########.fr       */
+/*   Updated: 2023/02/16 14:47:28 by fmarin-p         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,11 @@ void	exec_command(t_cmdtable *rl)
 	// else if (!ft_strncmp(rl->cmd[0], "#", 1))
 	// 	return ;
 	else
-		ft_execute_cmd(rl);
+		if (execve(ft_find_path(rl->cmd[0]), rl->cmd, environ) == -1)
+		{
+			printf("bash: %s: command not found\n", rl->cmd[0]);
+			exit(0);
+		}
 }
 
 void	red_pipe_child(t_cmdtable *rl, int i)
