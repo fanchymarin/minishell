@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: fmarin-p <fmarin-p@student.42madrid.com    +#+  +:+       +#+         #
+#    By: fmarin-p <fmarin-p@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/12 14:33:11 by fmarin-p          #+#    #+#              #
-#    Updated: 2023/02/09 18:01:04 by fmarin-p         ###   ########.fr        #
+#    Updated: 2023/02/16 21:06:19 by fmarin-p         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,7 @@ NAME = minishell
 
 CFLAGS = -c -g -Wall -Wextra -Werror -I$(INCDIR) -I$(LIBFTDIR)  
 
-SRCFILES = main.c cmd.c export_cmd.c utils.c execute_cmd.c check_files.c
+SRCFILES = main.c cmd.c export_cmd.c utils.c check_files.c pipes.c
 OBJFILES = $(SRCFILES:.c=.o)
 
 SRCOBJ = $(addprefix $(OBJDIR), $(OBJFILES))

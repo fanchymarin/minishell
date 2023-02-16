@@ -1,34 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   execute_cmd.c                                      :+:      :+:    :+:   */
+/*   ft_isblank.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fmarin-p <fmarin-p@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/02/16 13:19:18 by fmarin-p          #+#    #+#             */
-/*   Updated: 2023/02/16 14:47:31 by fmarin-p         ###   ########.fr       */
+/*   Created: 2023/02/16 23:05:48 by fmarin-p          #+#    #+#             */
+/*   Updated: 2023/02/16 23:09:22 by fmarin-p         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
-
-char	*ft_find_path(char *cmd)
+int	ft_isblank(int c)
 {
-	int		i;
-	char	**split_path;
-	char	*path;
-
-	if (!cmd)
-		return (0);
-	split_path = ft_split(getenv("PATH"), ':');
-	i = 0;
-	while (split_path[i])
-	{
-		path = ft_strjoin(ft_strjoin(split_path[i], "/"), cmd);
-		if (access(path, 0) == 0)
-			return (path);
-		i++;
-	}
-	free(path);
+	if (c == 11 || c == 13 || c == 32)
+		return (c);
 	return (0);
 }

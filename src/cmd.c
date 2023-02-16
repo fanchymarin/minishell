@@ -3,31 +3,29 @@
 /*                                                        :::      ::::::::   */
 /*   cmd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fmarin-p <fmarin-p@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: fmarin-p <fmarin-p@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/03 17:32:59 by fmarin-p          #+#    #+#             */
-/*   Updated: 2023/02/09 18:11:00 by fmarin-p         ###   ########.fr       */
+/*   Updated: 2023/02/16 23:56:53 by fmarin-p         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	pwd_cmd(void)
+void	pwd_cmd(void)
 {
 	char	abs_path[100000];
 
 	printf("%s\n", getcwd(abs_path, 100000));
-	return (0);
 }
 
-int	cd_cmd(char *dir)
+void	cd_cmd(char **cmd)
 {
-	if (chdir(dir))
+	if (chdir(cmd[1]) == -1)
 		perror("cd");
-	return (0);
 }
 
-int	echo_cmd(char **word)
+void	echo_cmd(char **word)
 {
 	int	i;
 
@@ -42,15 +40,13 @@ int	echo_cmd(char **word)
 	}
 	if (ft_strncmp(word[1], "-n\0", 3))
 		printf("\n");
-	return (0);
 }
 
-int	env_cmd(char **environ)
+void	env_cmd(char **environ)
 {
 	int	i;
 
 	i = 0;
 	while (environ[i])
 		printf("%s\n", environ[i++]);
-	return (0);
 }
