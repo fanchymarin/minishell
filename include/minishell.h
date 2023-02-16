@@ -55,7 +55,9 @@ char		**export_cmd(char **new_vars, char ***env_address);
 char		*ft_find_path(char *cmd);
 void		ft_execute_cmd(t_cmdtable *rl);
 
-void		check_in_out_file(t_cmdtable *rl);
+// check_files
+void		check_red_files(t_cmdtable *rl);
+
 size_t		cmd_counter(t_cmdtable *tty);
 
 

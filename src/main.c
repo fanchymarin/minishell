@@ -63,6 +63,7 @@ void	manage_line(t_cmdtable *rl)
 	rl->all_cmd = ft_split(rl->line, '|');
 	free(rl->line);
 	rl->n_cmd = cmd_counter(rl);
+	// check_red_files(rl);
 	if ((rl->std_in = dup(0)) == -1)
 		perror("dup");
 	rl->fd_in = dup(rl->std_in);
@@ -73,16 +74,11 @@ void	manage_line(t_cmdtable *rl)
 		rl->cmd = ft_split(rl->all_cmd[i], ' ');
 		free(rl->all_cmd[i]);
 		if (i != (int)rl->n_cmd -1)
-		{
 			if (pipe(rl->pipe) == -1)
 				perror("pipe");
-		}
 		pid = fork();
 		if (!pid)
-		{
-			red_pipe_child(rl, i);
-			exec_command(rl);
-		}
+			(red_pipe_child(rl, i), exec_command(rl));
 		if (i != (int)rl->n_cmd -1)
 			red_pipe_parent(rl);
 		free_dp(rl->cmd, 0);

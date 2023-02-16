@@ -14,7 +14,7 @@ NAME = minishell
 
 CFLAGS = -c -g -Wall -Wextra -Werror -I$(INCDIR) -I$(LIBFTDIR)  
 
-SRCFILES = main.c cmd.c export_cmd.c utils.c execute_cmd.c
+SRCFILES = main.c cmd.c export_cmd.c utils.c execute_cmd.c check_files.c
 OBJFILES = $(SRCFILES:.c=.o)
 
 SRCOBJ = $(addprefix $(OBJDIR), $(OBJFILES))

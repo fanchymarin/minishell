@@ -23,29 +23,6 @@ int	free_dp(char **dp, int status)
 	return (status);
 }
 
-void	check_in_out_file(t_cmdtable *rl)
-{
-	int	i;
-	int red;
-
-	i = 0;
-	red = 0;
-	while (rl->all_cmd[rl->n_cmd - 1][i])
-	{
-		if (rl->all_cmd[rl->n_cmd][i] == '<' || rl->all_cmd[rl->n_cmd][i] == '>')
-		{
-			if (rl->all_cmd[rl->n_cmd][i] == '<')
-				rl->infile = open(&rl->all_cmd[rl->n_cmd][i+1], O_RDONLY);
-			else
-				rl->outfile = open(&rl->all_cmd[rl->n_cmd][i+1], O_TRUNC | O_CREAT | O_WRONLY, 0644);
-			if (rl->outfile == -1 || rl->infile == -1)
-				perror("open");
-			(i++, red++);
-		}
-		i++;
-	}
-}
-
 size_t	cmd_counter(t_cmdtable *rl)
 {
 	int	i;
