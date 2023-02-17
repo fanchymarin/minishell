@@ -6,7 +6,7 @@
 /*   By: fmarin-p <fmarin-p@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 14:36:43 by fmarin-p          #+#    #+#             */
-/*   Updated: 2023/02/17 00:44:43 by fmarin-p         ###   ########.fr       */
+/*   Updated: 2023/02/17 09:55:25 by fmarin-p         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,8 @@ void	exec_command(t_cmdtable *rl, char **cmd)
 		env_cmd(environ);
 //	else if (!ft_strncmp(cmd[0], "export\0", 7))
 //		environ = export_cmd(cmd, rl->env_address);
+	else if (!ft_strncmp(cmd[0], "status\0", 7))
+		printf("status: %d\n", rl->status);
 	else
 	{
 		abs_path = ft_find_path(cmd[0]);

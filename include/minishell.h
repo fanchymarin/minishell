@@ -6,7 +6,7 @@
 /*   By: fmarin-p <fmarin-p@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 14:34:40 by fmarin-p          #+#    #+#             */
-/*   Updated: 2023/02/16 23:57:10 by fmarin-p         ###   ########.fr       */
+/*   Updated: 2023/02/17 09:56:03 by fmarin-p         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ typedef struct s_cmdtable
 	int		infile;
 	int		outfile;
 	int		std_in;
+	int		status;
 }	t_cmdtable;
 
 typedef struct s_dbarray
@@ -58,7 +59,7 @@ char		**export_cmd(char **new_vars, char ***env_address);
 
 //pipes
 void		red_pipe_child(t_cmdtable *rl, int i);
-void		red_pipe_parent(t_cmdtable *rl);
+void		parent_process(t_cmdtable *rl, int i);
 
 // check_files
 void		check_red_files(t_cmdtable *rl);

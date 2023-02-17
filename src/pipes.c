@@ -6,7 +6,7 @@
 /*   By: fmarin-p <fmarin-p@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/16 19:34:22 by fmarin-p          #+#    #+#             */
-/*   Updated: 2023/02/17 00:44:49 by fmarin-p         ###   ########.fr       */
+/*   Updated: 2023/02/17 09:53:57 by fmarin-p         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,18 +28,16 @@ void	red_pipe_child(t_cmdtable *rl, int i)
 
 void	parent_process(t_cmdtable *rl, int i)
 {
-	int	status;
-
 	if (i != rl->n_cmd - 1)
 	{
 		close(rl->pipe[1]);
 		dup2(rl->pipe[0], 0);
 		close(rl->pipe[0]);
 	}
-	wait(&status);
-	if (WEXITSTATUS(status) == 2)
+	wait(&rl->status);
+	if (WEXITSTATUS(rl->status) == 2)
 		cd_cmd(ft_split(rl->all_cmd[i], ' '));
 	free_struct(rl);
-	if (WEXITSTATUS(status) == 1)
+	if (WEXITSTATUS(rl->status) == 1)
 		exit(0);
 }
