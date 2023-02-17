@@ -6,7 +6,7 @@
 /*   By: fmarin-p <fmarin-p@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/03 15:55:15 by fmarin-p          #+#    #+#             */
-/*   Updated: 2023/02/16 23:31:04 by fmarin-p         ###   ########.fr       */
+/*   Updated: 2023/02/17 12:44:56 by fmarin-p         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void	free_struct(t_cmdtable *rl)
 	free(rl->line);
 }
 
-size_t	cmd_counter(t_cmdtable *rl)
+int	cmd_counter(t_cmdtable *rl)
 {
 	int	i;
 

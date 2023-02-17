@@ -6,7 +6,7 @@
 /*   By: fmarin-p <fmarin-p@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/03 17:32:59 by fmarin-p          #+#    #+#             */
-/*   Updated: 2023/02/16 23:56:53 by fmarin-p         ###   ########.fr       */
+/*   Updated: 2023/02/17 12:41:05 by fmarin-p         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,4 +49,11 @@ void	env_cmd(char **environ)
 	i = 0;
 	while (environ[i])
 		printf("%s\n", environ[i++]);
+}
+
+void	execve_cmd(char *abs_path, char **cmd)
+{
+	if (execve(abs_path, cmd, environ) == -1)
+		printf("bash: %s: command not found\n", cmd[0]);
+	free(abs_path);
 }
