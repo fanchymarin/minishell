@@ -6,12 +6,12 @@
 /*   By: fmarin-p <fmarin-p@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/17 13:40:54 by fmarin-p          #+#    #+#             */
-/*   Updated: 2023/02/17 19:09:11 by fmarin-p         ###   ########.fr       */
+/*   Updated: 2023/02/18 01:28:10 by fmarin-p         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-/*
+/* HACERLO CON LISTAS ENLAZADAS
 char	*expand_env(char *line)
 {
 	int		i;

@@ -6,7 +6,7 @@
 /*   By: fmarin-p <fmarin-p@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 14:36:43 by fmarin-p          #+#    #+#             */
-/*   Updated: 2023/02/17 19:07:59 by fmarin-p         ###   ########.fr       */
+/*   Updated: 2023/02/18 02:03:56 by fmarin-p         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ void	exec_command(t_cmdtable *rl, char **cmd)
 	int		status;
 
 	status = 0;
+
 	if (!ft_strncmp(cmd[0], "exit\0", 5))
 		status = 1;
 	else if (!ft_strncmp(cmd[0], "pwd\0", 4))
@@ -47,13 +48,16 @@ void	exec_command(t_cmdtable *rl, char **cmd)
 	else if (!ft_strncmp(cmd[0], "echo\0", 5))
 		echo_cmd(cmd);
 	else if (!ft_strncmp(cmd[0], "env\0", 4))
-		env_cmd(environ);
-//	else if (!ft_strncmp(cmd[0], "export\0", 7))
-//		environ = export_cmd(cmd, rl->env_address);
+		env_cmd(rl->env);
+	else if (!ft_strncmp(cmd[0], "export\0", 7))
+		status = 3;
+	else if (!ft_strncmp(cmd[0], "unset\0", 6))
+		rl->env = unset_cmd(rl->env, cmd[1]);
 	else
-		execve_cmd(ft_find_path(cmd[0]), cmd);
+		execve_cmd(rl->env, ft_find_path(cmd[0], rl->env), cmd);
 	free_dp(cmd);
-	free_struct(rl);
+	free_dp(rl->all_cmd);
+	free(rl->line);
 	exit(status);
 }
 
@@ -78,7 +82,8 @@ void	forks_n_pipes(t_cmdtable *rl)
 		else
 			parent_process(rl, i);
 	}
-	free_struct(rl);
+	free_dp(rl->all_cmd);
+	free(rl->line);
 	dup2(rl->std_in, 0);
 	close(rl->std_in);
 }
@@ -87,8 +92,6 @@ void	manage_line(t_cmdtable *rl)
 {
 	rl->all_cmd = expand_metachar(ft_split(rl->line, '|'));
 	rl->n_cmd = cmd_counter(rl);
-	rl->infile = 0;
-	rl->outfile = 1;
 	// check_red_files(rl);
 	forks_n_pipes(rl);
 }
@@ -97,6 +100,7 @@ int	main(void)
 {
 	t_cmdtable	rl;
 
+	rl = init_struct();
 	while (1)
 	{
 		rl.line = readline("minishell$ ");

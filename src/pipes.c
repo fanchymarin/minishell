@@ -6,7 +6,7 @@
 /*   By: fmarin-p <fmarin-p@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/17 13:44:44 by fmarin-p          #+#    #+#             */
-/*   Updated: 2023/02/17 13:44:45 by fmarin-p         ###   ########.fr       */
+/*   Updated: 2023/02/18 00:49:39 by fmarin-p         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,4 +39,6 @@ void	parent_process(t_cmdtable *rl, int i)
 		exit(WEXITSTATUS(rl->status));
 	else if (WEXITSTATUS(rl->status) == 2)
 		cd_cmd(ft_split(rl->all_cmd[i], ' '));
+	else if (WEXITSTATUS(rl->status) == 3)
+		rl->env = export_cmd(rl->env, ft_split(rl->all_cmd[i], ' '));
 }

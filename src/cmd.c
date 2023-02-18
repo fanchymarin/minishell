@@ -6,7 +6,7 @@
 /*   By: fmarin-p <fmarin-p@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/03 17:32:59 by fmarin-p          #+#    #+#             */
-/*   Updated: 2023/02/17 12:41:05 by fmarin-p         ###   ########.fr       */
+/*   Updated: 2023/02/18 01:39:08 by fmarin-p         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ void	cd_cmd(char **cmd)
 {
 	if (chdir(cmd[1]) == -1)
 		perror("cd");
+	free_dp(cmd);
 }
 
 void	echo_cmd(char **word)
@@ -42,18 +43,13 @@ void	echo_cmd(char **word)
 		printf("\n");
 }
 
-void	env_cmd(char **environ)
+void	execve_cmd(t_list **env, char *abs_path, char **cmd)
 {
-	int	i;
+	char	**array_env;
 
-	i = 0;
-	while (environ[i])
-		printf("%s\n", environ[i++]);
-}
-
-void	execve_cmd(char *abs_path, char **cmd)
-{
-	if (execve(abs_path, cmd, environ) == -1)
+	array_env = lstoarr(env);
+	if (execve(abs_path, cmd, 0) == -1)
 		printf("bash: %s: command not found\n", cmd[0]);
 	free(abs_path);
+	free(array_env);
 }

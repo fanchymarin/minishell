@@ -6,7 +6,7 @@
 /*   By: fmarin-p <fmarin-p@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/03 15:55:15 by fmarin-p          #+#    #+#             */
-/*   Updated: 2023/02/17 12:44:56 by fmarin-p         ###   ########.fr       */
+/*   Updated: 2023/02/18 01:32:36 by fmarin-p         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,10 +22,28 @@ void	free_dp(char **dp)
 	free(dp);
 }
 
-void	free_struct(t_cmdtable *rl)
+char	*ft_getenv(t_list **env, char *name, char *value)
 {
-	free_dp(rl->all_cmd);
-	free(rl->line);
+	char	*full_name;
+	char	**split_name;
+	t_list	*line;
+
+	full_name = ft_strjoin(name, "=");
+	line = *env;
+	while (line)
+	{
+		if (!ft_strncmp((char *)line->content, full_name, ft_strlen(full_name)))
+		{
+			free(full_name);
+			split_name = ft_split(line->content, '=');
+			ft_strlcpy(value, split_name[1], BUF_SIZE);
+			free_dp(split_name);
+			return (value);
+		}
+		line = line->next;
+	}
+	free(full_name);
+	return (0);
 }
 
 int	cmd_counter(t_cmdtable *rl)
@@ -38,18 +56,19 @@ int	cmd_counter(t_cmdtable *rl)
 	return (i);
 }
 
-char	*ft_find_path(char *cmd)
+char	*ft_find_path(char *cmd, t_list **env)
 {
 	int		i;
 	char	**split_path;
 	char	*path;
 	char	*slashed_cmd;
+	char	value_buf[BUF_SIZE];
 
 	if (!cmd)
 		return (0);
 	if (access(cmd, 0) == 0)
 		return (cmd);
-	split_path = ft_split(getenv("PATH"), ':');
+	split_path = ft_split(ft_getenv(env, "PATH", value_buf), ':');
 	i = 0;
 	while (split_path[i])
 	{
