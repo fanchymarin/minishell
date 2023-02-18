@@ -6,7 +6,7 @@
 /*   By: fmarin-p <fmarin-p@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/03 15:55:15 by fmarin-p          #+#    #+#             */
-/*   Updated: 2023/02/18 01:32:36 by fmarin-p         ###   ########.fr       */
+/*   Updated: 2023/02/18 13:37:39 by fmarin-p         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,10 +87,21 @@ char	*ft_find_path(char *cmd, t_list **env)
 int	check_blank_line(char *line)
 {
 	int	i;
+	int	quote_counter[2];
 
+	quote_counter[0] = 0;
+	quote_counter[1] = 0;
 	i = -1;
 	while (line[++i])
+	{
+		if (line[i] != DOUBLE_QUOTE)
+			quote_counter[0]++;
+		else if (line[i] != SIMPLE_QUOTE)
+			quote_counter[1]++;
 		if (!ft_isblank(line[i]))
 			return (1);
+	}
+	if (quote_counter[0] < 2 || quote_counter[1] < 2)
+		return (1);
 	return (0);
 }

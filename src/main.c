@@ -6,7 +6,7 @@
 /*   By: fmarin-p <fmarin-p@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 14:36:43 by fmarin-p          #+#    #+#             */
-/*   Updated: 2023/02/18 02:03:56 by fmarin-p         ###   ########.fr       */
+/*   Updated: 2023/02/18 15:27:04 by fmarin-p         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ char	*nested_shell(char *line, char *keyword)
 	char	*old_line;
 
 	appended_line = readline(">");
-	while (!ft_strnstr(appended_line, keyword, ft_strlen(appended_line)))
+	while (ft_strnstr(appended_line, keyword, ft_strlen(appended_line)))
 	{
 		new_line = readline(">");
 		old_line = appended_line;
@@ -40,19 +40,19 @@ void	exec_command(t_cmdtable *rl, char **cmd)
 	status = 0;
 
 	if (!ft_strncmp(cmd[0], "exit\0", 5))
-		status = 1;
+		status = 2;
 	else if (!ft_strncmp(cmd[0], "pwd\0", 4))
 		pwd_cmd();
 	else if (!ft_strncmp(cmd[0], "cd\0", 3))
-		status = 2;
+		status = 3;
 	else if (!ft_strncmp(cmd[0], "echo\0", 5))
 		echo_cmd(cmd);
 	else if (!ft_strncmp(cmd[0], "env\0", 4))
 		env_cmd(rl->env);
 	else if (!ft_strncmp(cmd[0], "export\0", 7))
-		status = 3;
+		status = 4;
 	else if (!ft_strncmp(cmd[0], "unset\0", 6))
-		rl->env = unset_cmd(rl->env, cmd[1]);
+		status = 5;
 	else
 		execve_cmd(rl->env, ft_find_path(cmd[0], rl->env), cmd);
 	free_dp(cmd);
@@ -90,7 +90,8 @@ void	forks_n_pipes(t_cmdtable *rl)
 
 void	manage_line(t_cmdtable *rl)
 {
-	rl->all_cmd = expand_metachar(ft_split(rl->line, '|'));
+	rl->line = metachar_checker(rl->line);
+	rl->all_cmd = expand_metachar(rl, ft_split(rl->line, '|'));
 	rl->n_cmd = cmd_counter(rl);
 	// check_red_files(rl);
 	forks_n_pipes(rl);
@@ -104,7 +105,6 @@ int	main(void)
 	while (1)
 	{
 		rl.line = readline("minishell$ ");
-		rl.line = metachar_checker(rl.line);
 		if (!*rl.line || !check_blank_line(rl.line))
 		{
 			free(rl.line);

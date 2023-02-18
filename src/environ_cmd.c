@@ -6,7 +6,7 @@
 /*   By: fmarin-p <fmarin-p@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/05 13:12:20 by fmarin-p          #+#    #+#             */
-/*   Updated: 2023/02/18 02:12:57 by fmarin-p         ###   ########.fr       */
+/*   Updated: 2023/02/18 14:23:15 by fmarin-p         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,29 +76,22 @@ void	env_cmd(t_list **env)
 		(printf("%s\n", (char *) line->content), line = line->next);
 }
 
-void	ft_lstdelnode(t_list *line, t_list **tmp)
-{
-	t_list	*prev_line;
-
-	prev_line = *tmp;
-	prev_line->next = line->next;
-	free(line->content);
-	free(line->next);
-	free(line);
-}
-
-t_list	**unset_cmd(t_list **env, char *name)
+t_list	**unset_cmd(t_list **env, char **name)
 {
 	char	*full_name;
 	t_list	*line;
 	t_list	*tmp;
 
-	full_name = ft_strjoin(name, "=");
+	full_name = ft_strjoin(name[1], "=");
+	free_dp(name);
 	line = *env;
 	while (line)
 	{
 		if (!ft_strncmp((char *)line->content, full_name, ft_strlen(full_name)))
-			ft_lstdelnode(line, &tmp); //UNSET
+		{
+			ft_lstdelnode(env, line, tmp);
+			break ;
+		}
 		tmp = line;
 		line = line->next;
 	}

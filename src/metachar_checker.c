@@ -6,71 +6,11 @@
 /*   By: fmarin-p <fmarin-p@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/17 13:40:54 by fmarin-p          #+#    #+#             */
-/*   Updated: 2023/02/18 01:28:10 by fmarin-p         ###   ########.fr       */
+/*   Updated: 2023/02/18 13:54:07 by fmarin-p         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-/* HACERLO CON LISTAS ENLAZADAS
-char	*expand_env(char *line)
-{
-	int		i;
-	int		j;
-	char	*var;
-
-	i = -1;
-	while (line[++i])
-	{
-		if (line[i] == DOLLAR)
-		{
-			j = i;
-			while (ft_isalnum(line[++i]))
-				;
-			var = ft_substr(line, j + 1, i);
-		}
-	}
-	return (line);
-}*/
-
-char	*restore_metachar(char *line)
-{
-	int	i;
-
-	i = -1;
-	while (line[++i])
-	{
-		if (line[i] == 17)
-			line[i] = PIPE;
-		else if (line[i] == 18)
-			line[i] = LESS_THAN;
-		else if (line[i] == 19)
-			line[i] = MORE_THAN;
-		else if (line[i] == 20)
-			line[i] = DOLLAR;
-	}
-	return (line);
-}
-
-char	**expand_metachar(char **rev_cmd)
-{
-	int	i;
-
-	i = -1;
-	while (rev_cmd[++i])
-	{
-//		rev_cmd[i] = expand_env(rev_cmd[i]);
-		rev_cmd[i] = restore_metachar(rev_cmd[i]);
-	}
-	return (rev_cmd);
-}
-
-int	quotes_closed(char *line, int i, char quote)
-{
-	while (line[++i])
-		if (line[i] == quote)
-			return (i);
-	return (-1);
-}
 
 char	*quotes_checker(char *line, int i, char quote)
 {
@@ -111,6 +51,7 @@ char	*metachar_checker(char *line)
 			line = quotes_checker(line, i, SIMPLE_QUOTE);
 		if (line[i] == DOUBLE_QUOTE || line[i] == SIMPLE_QUOTE)
 			break ;
+		//AÑADIR REDIRECCIONES
 	}
 	return (line);
 }

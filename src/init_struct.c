@@ -6,7 +6,7 @@
 /*   By: fmarin-p <fmarin-p@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/17 20:32:08 by fmarin-p          #+#    #+#             */
-/*   Updated: 2023/02/18 00:32:45 by fmarin-p         ###   ########.fr       */
+/*   Updated: 2023/02/18 11:39:58 by fmarin-p         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ t_list	**clone_env(void)
 	new_env = malloc(sizeof(t_list **));
 	*new_env = 0;
 	while (environ[++i])
-		ft_lstadd_back(new_env, ft_lstnew(environ[i]));
+		ft_lstadd_back(new_env, ft_lstnew(ft_strdup(environ[i])));
 	return (new_env);
 }
 

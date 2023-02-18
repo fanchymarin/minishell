@@ -6,7 +6,7 @@
 /*   By: fmarin-p <fmarin-p@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 14:34:40 by fmarin-p          #+#    #+#             */
-/*   Updated: 2023/02/18 02:04:14 by fmarin-p         ###   ########.fr       */
+/*   Updated: 2023/02/18 15:24:33 by fmarin-p         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,8 @@ char		*ft_find_path(char *cmd, t_list **env);
 int			check_blank_line(char *line);
 char		*nested_shell(char *line, char *keyword);
 char		*ft_getenv(t_list **env, char *name, char *value);
+void		ft_lstdelnode(t_list **head, t_list *node, t_list *tmp);
+int			quotes_closed(char *line, int i, char quote);
 
 // cmds
 void		pwd_cmd(void);
@@ -64,7 +66,7 @@ void		echo_cmd(char **word);
 void		env_cmd(t_list **environ);
 t_list		**export_cmd(t_list **env, char **new_vars);
 void		execve_cmd(t_list **env, char *abs_path, char **cmd);
-t_list		**unset_cmd(t_list **env, char *name);
+t_list		**unset_cmd(t_list **env, char **name);
 
 //pipes
 void		red_pipe_child(t_cmdtable *rl, int i);
@@ -73,7 +75,7 @@ void		parent_process(t_cmdtable *rl, int i);
 // check_files
 void		check_red_files(t_cmdtable *rl);
 char		*metachar_checker(char *line);
-char		**expand_metachar(char **rev_cmd);
+char		**expand_metachar(t_cmdtable *rl, char **rev_cmd);
 char		**lstoarr(t_list **head);
 
 #endif
