@@ -6,7 +6,7 @@
 /*   By: fmarin-p <fmarin-p@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/18 12:15:22 by fmarin-p          #+#    #+#             */
-/*   Updated: 2023/02/18 15:42:16 by fmarin-p         ###   ########.fr       */
+/*   Updated: 2023/02/19 09:30:05 by fmarin-p         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,9 +67,7 @@ char	*check_vars(t_cmdtable *rl, char *line)
 	*head = 0;
 	while (line[++i[0]])
 	{
-		if (line[i[0]] == DOLLAR)
-			expand_var(line, rl, head, i);
-		if (line[i[0]] == DOLLAR)
+		while (line[i[0]] == DOLLAR)
 			expand_var(line, rl, head, i);
 	}
 	ft_lstadd_back(head, ft_lstnew(ft_substr(line, i[1], i[0])));

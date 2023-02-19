@@ -6,7 +6,7 @@
 /*   By: fmarin-p <fmarin-p@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 14:36:43 by fmarin-p          #+#    #+#             */
-/*   Updated: 2023/02/18 15:27:04 by fmarin-p         ###   ########.fr       */
+/*   Updated: 2023/02/19 10:56:03 by fmarin-p         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,21 +38,20 @@ void	exec_command(t_cmdtable *rl, char **cmd)
 	int		status;
 
 	status = 0;
-
 	if (!ft_strncmp(cmd[0], "exit\0", 5))
-		status = 2;
+		status = 10;
 	else if (!ft_strncmp(cmd[0], "pwd\0", 4))
 		pwd_cmd();
 	else if (!ft_strncmp(cmd[0], "cd\0", 3))
-		status = 3;
+		status = 11;
 	else if (!ft_strncmp(cmd[0], "echo\0", 5))
 		echo_cmd(cmd);
 	else if (!ft_strncmp(cmd[0], "env\0", 4))
 		env_cmd(rl->env);
 	else if (!ft_strncmp(cmd[0], "export\0", 7))
-		status = 4;
+		status = 12;
 	else if (!ft_strncmp(cmd[0], "unset\0", 6))
-		status = 5;
+		status = 13;
 	else
 		execve_cmd(rl->env, ft_find_path(cmd[0], rl->env), cmd);
 	free_dp(cmd);

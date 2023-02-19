@@ -6,7 +6,7 @@
 /*   By: fmarin-p <fmarin-p@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/17 20:32:08 by fmarin-p          #+#    #+#             */
-/*   Updated: 2023/02/18 11:39:58 by fmarin-p         ###   ########.fr       */
+/*   Updated: 2023/02/19 10:46:56 by fmarin-p         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,12 +44,23 @@ t_list	**clone_env(void)
 	return (new_env);
 }
 
+void	signal_handler(int sig)
+{
+	if (sig != SIGINT)
+		return ;
+	rl_on_new_line();
+	rl_redisplay();
+}
+
 t_cmdtable	init_struct(void)
 {
-	t_cmdtable	rl;
+	t_cmdtable			rl;
+	struct sigaction	sig;
 
 	rl.infile = 0;
 	rl.outfile = 1;
 	rl.env = clone_env();
+	sig.sa_handler = &signal_handler;
+	sigaction(SIGINT, &sig, 0);
 	return (rl);
 }

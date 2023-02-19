@@ -6,7 +6,7 @@
 /*   By: fmarin-p <fmarin-p@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 14:34:40 by fmarin-p          #+#    #+#             */
-/*   Updated: 2023/02/18 15:24:33 by fmarin-p         ###   ########.fr       */
+/*   Updated: 2023/02/19 16:26:54 by fmarin-p         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,8 @@
 # include <unistd.h>
 # include <sys/wait.h>
 # include <fcntl.h>
+# include <signal.h>
+# include <sys/signal.h>
 
 typedef struct s_cmdtable
 {

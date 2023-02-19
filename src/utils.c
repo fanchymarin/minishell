@@ -6,7 +6,7 @@
 /*   By: fmarin-p <fmarin-p@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/03 15:55:15 by fmarin-p          #+#    #+#             */
-/*   Updated: 2023/02/18 13:37:39 by fmarin-p         ###   ########.fr       */
+/*   Updated: 2023/02/19 16:31:35 by fmarin-p         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,8 +69,10 @@ char	*ft_find_path(char *cmd, t_list **env)
 	if (access(cmd, 0) == 0)
 		return (cmd);
 	split_path = ft_split(ft_getenv(env, "PATH", value_buf), ':');
-	i = 0;
-	while (split_path[i])
+	if (!split_path)
+		return (0);
+	i = -1;
+	while (split_path[++i])
 	{
 		slashed_cmd = ft_strjoin(split_path[i], "/");
 		path = ft_strjoin(slashed_cmd, cmd);
@@ -78,7 +80,6 @@ char	*ft_find_path(char *cmd, t_list **env)
 		if (access(path, 0) == 0)
 			return (free_dp(split_path), path);
 		free(path);
-		i++;
 	}
 	free_dp(split_path);
 	return (0);
@@ -87,21 +88,14 @@ char	*ft_find_path(char *cmd, t_list **env)
 int	check_blank_line(char *line)
 {
 	int	i;
-	int	quote_counter[2];
 
-	quote_counter[0] = 0;
-	quote_counter[1] = 0;
+	if (!ft_strncmp(line, "\"\"\0", 3) || !ft_strncmp(line, "''\0", 3))
+		return (0);
 	i = -1;
 	while (line[++i])
 	{
-		if (line[i] != DOUBLE_QUOTE)
-			quote_counter[0]++;
-		else if (line[i] != SIMPLE_QUOTE)
-			quote_counter[1]++;
 		if (!ft_isblank(line[i]))
 			return (1);
 	}
-	if (quote_counter[0] < 2 || quote_counter[1] < 2)
-		return (1);
 	return (0);
 }
