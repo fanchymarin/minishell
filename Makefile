@@ -6,14 +6,16 @@
 #    By: fmarin-p <fmarin-p@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/12 14:33:11 by fmarin-p          #+#    #+#              #
-#    Updated: 2023/02/19 11:00:38 by fmarin-p         ###   ########.fr        #
+#    Updated: 2023/02/21 18:13:35 by fmarin-p         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = minishell
 
-CFLAGS = -c -g -Wall -Wextra -Werror -I$(INCDIR) -I$(LIBFTDIR)
+LDFLAGS := ${LDFLAGS}
+CPPFLAGS := ${CPPFLAGS}
 
+CFLAGS = -c -g -Wall -Wextra -Werror $(CPPFLAGS) -I$(INCDIR) -I$(LIBFTDIR) 
 SRCFILES = main.c init_struct.c cmd.c environ_cmd.c utils.c utils_2.c \
 			check_files.c pipes.c metachar_checker.c metachar_restore.c
 OBJFILES = $(SRCFILES:.c=.o)
@@ -29,7 +31,7 @@ all: $(NAME)
 
 $(NAME): $(SRCOBJ)
 	$(MAKE) bonus -C $(LIBFTDIR)
-	gcc $^ $(LIBFTDIR)libft.a -lreadline -o $@
+	gcc $^ $(LIBFTDIR)libft.a -lreadline $(LDFLAGS) -o $@
 
 $(OBJDIR)%.o: $(SRCDIR)%.c
 	mkdir -p obj

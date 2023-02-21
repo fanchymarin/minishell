@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: clcarrer <clcarrer@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fmarin-p <fmarin-p@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 14:36:43 by fmarin-p          #+#    #+#             */
-/*   Updated: 2023/02/21 16:32:28 by clcarrer         ###   ########.fr       */
+/*   Updated: 2023/02/21 20:35:14 by fmarin-p         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,35 +40,35 @@ char	*nested_shell(char *line, char *keyword)
 
 void	exec_command(t_cmdtable *rl, char **cmd)
 {
-	int		status;
+	int		exit_code;
 
-	status = 0;
+	exit_code = 0;
 	if (!ft_strncmp(cmd[0], "exit\0", 5))
-		status = 10;
+		exit_code = 10;
 	else if (!ft_strncmp(cmd[0], "pwd\0", 4))
 		pwd_cmd();
 	else if (!ft_strncmp(cmd[0], "cd\0", 3))
-		status = 11;
+		exit_code = 11;
 	else if (!ft_strncmp(cmd[0], "echo\0", 5))
 		echo_cmd(cmd);
 	else if (!ft_strncmp(cmd[0], "env\0", 4))
 		env_cmd(rl->env);
 	else if (!ft_strncmp(cmd[0], "export\0", 7))
-		status = 12;
+		exit_code = 12;
 	else if (!ft_strncmp(cmd[0], "unset\0", 6))
-		status = 13;
+		exit_code = 13;
 	else
 		execve_cmd(rl->env, ft_find_path(cmd[0], rl->env), cmd);
 	free_dp(cmd);
 	free_dp(rl->all_cmd);
 	free(rl->line);
-	exit(status);
+	exit(exit_code);
 }
 
 void	forks_n_pipes(t_cmdtable *rl)
 {
-	int	i;
-	int	pid;
+	int		i;
+	pid_t	pid;
 
 	rl->std_in = dup(0);
 	if (rl->std_in == -1)
@@ -108,6 +108,8 @@ int	main(void)
 	while (1)
 	{
 		rl.line = readline("minishell$ ");
+		if (!rl.line)
+			(ft_lstclear(rl.env, (*free)), exit(WEXITSTATUS(status)));
 		if (!*rl.line || !check_blank_line(rl.line))
 		{
 			free(rl.line);
