@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fmarin-p <fmarin-p@student.42.fr>          +#+  +:+       +#+        */
+/*   By: clcarrer <clcarrer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 14:36:43 by fmarin-p          #+#    #+#             */
-/*   Updated: 2023/02/19 10:56:03 by fmarin-p         ###   ########.fr       */
+/*   Updated: 2023/02/21 16:32:28 by clcarrer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,9 +27,14 @@ char	*nested_shell(char *line, char *keyword)
 		free(old_line);
 		free(new_line);
 	}
-	new_line = ft_strjoin(line, appended_line);
-	free(line);
-	free(appended_line);
+	if (line)
+	{
+		new_line = ft_strjoin(line, appended_line);
+		free(line);
+		free(appended_line);
+	}
+	else
+		new_line = appended_line;
 	return (new_line);
 }
 
@@ -92,7 +97,6 @@ void	manage_line(t_cmdtable *rl)
 	rl->line = metachar_checker(rl->line);
 	rl->all_cmd = expand_metachar(rl, ft_split(rl->line, '|'));
 	rl->n_cmd = cmd_counter(rl);
-	// check_red_files(rl);
 	forks_n_pipes(rl);
 }
 

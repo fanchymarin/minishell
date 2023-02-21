@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   metachar_restore.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fmarin-p <fmarin-p@student.42.fr>          +#+  +:+       +#+        */
+/*   By: clcarrer <clcarrer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/18 12:15:22 by fmarin-p          #+#    #+#             */
-/*   Updated: 2023/02/19 09:30:05 by fmarin-p         ###   ########.fr       */
+/*   Updated: 2023/02/21 15:15:27 by clcarrer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ char	*check_vars(t_cmdtable *rl, char *line)
 		while (line[i[0]] == DOLLAR)
 			expand_var(line, rl, head, i);
 	}
-	ft_lstadd_back(head, ft_lstnew(ft_substr(line, i[1], i[0])));
+	ft_lstadd_back(head, ft_lstnew(ft_substr(line, i[1], i[0] - i[1])));
 	return (append_str(head, line));
 }
 
