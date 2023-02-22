@@ -6,7 +6,7 @@
 /*   By: fmarin-p <fmarin-p@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 14:36:43 by fmarin-p          #+#    #+#             */
-/*   Updated: 2023/02/21 20:35:14 by fmarin-p         ###   ########.fr       */
+/*   Updated: 2023/02/22 18:17:41 by fmarin-p         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,19 +44,19 @@ void	exec_command(t_cmdtable *rl, char **cmd)
 
 	exit_code = 0;
 	if (!ft_strncmp(cmd[0], "exit\0", 5))
-		exit_code = 10;
+		exit_code = 200;
 	else if (!ft_strncmp(cmd[0], "pwd\0", 4))
 		pwd_cmd();
 	else if (!ft_strncmp(cmd[0], "cd\0", 3))
-		exit_code = 11;
+		exit_code = 201;
 	else if (!ft_strncmp(cmd[0], "echo\0", 5))
 		echo_cmd(cmd);
 	else if (!ft_strncmp(cmd[0], "env\0", 4))
 		env_cmd(rl->env);
 	else if (!ft_strncmp(cmd[0], "export\0", 7))
-		exit_code = 12;
+		exit_code = 202;
 	else if (!ft_strncmp(cmd[0], "unset\0", 6))
-		exit_code = 13;
+		exit_code = 203;
 	else
 		execve_cmd(rl->env, ft_find_path(cmd[0], rl->env), cmd);
 	free_dp(cmd);
@@ -109,7 +109,7 @@ int	main(void)
 	{
 		rl.line = readline("minishell$ ");
 		if (!rl.line)
-			(ft_lstclear(rl.env, (*free)), exit(WEXITSTATUS(status)));
+			(ft_lstclear(rl.env, (*free)), exit(WEXITSTATUS(rl.status)));
 		if (!*rl.line || !check_blank_line(rl.line))
 		{
 			free(rl.line);

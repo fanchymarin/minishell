@@ -6,7 +6,7 @@
 /*   By: fmarin-p <fmarin-p@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/17 20:32:08 by fmarin-p          #+#    #+#             */
-/*   Updated: 2023/02/21 20:12:28 by fmarin-p         ###   ########.fr       */
+/*   Updated: 2023/02/22 18:18:42 by fmarin-p         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,24 +46,26 @@ t_list	**clone_env(void)
 
 void	signal_handler(int sig)
 {
-	if (sig == SIGINT)
-	{
-		rl_replace_line("", 0);
-		rl_on_new_line();
-		printf("\n");
-		rl_redisplay();
-	}
+	if (sig != SIGINT)
+		return ;
+	rl_replace_line("", 0);
+	rl_on_new_line();
+	write(STDOUT_FILENO, "\n", 1);
+	rl_redisplay();
 }
 
 t_cmdtable	init_struct(void)
 {
 	t_cmdtable			rl;
-	struct sigaction	sig;
+	struct sigaction	sigint;
 
+	rl_catch_signals = 0;
 	rl.infile = 0;
 	rl.outfile = 1;
+	rl.status = 0;
 	rl.env = clone_env();
-	sig.sa_handler = &signal_handler;
-	sigaction(SIGINT, &sig, 0);
+	sigint.sa_handler = &signal_handler;
+	sigaction(SIGINT, &sigint, 0);
+	signal(SIGQUIT, SIG_IGN);
 	return (rl);
 }

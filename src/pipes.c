@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipes.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: clcarrer <clcarrer@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fmarin-p <fmarin-p@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/17 13:44:44 by fmarin-p          #+#    #+#             */
-/*   Updated: 2023/02/21 16:32:31 by clcarrer         ###   ########.fr       */
+/*   Updated: 2023/02/22 18:17:17 by fmarin-p         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,12 +35,12 @@ void	parent_process(t_cmdtable *rl, int i)
 		close(rl->pipe[0]);
 	}
 	wait(&rl->status);
-	if (WEXITSTATUS(rl->status) == 10)
+	if (WEXITSTATUS(rl->status) == 200)
 		(ft_lstclear(rl->env, (*free)), exit(WEXITSTATUS(rl->status)));
-	else if (WEXITSTATUS(rl->status) == 11)
+	else if (WEXITSTATUS(rl->status) == 201)
 		cd_cmd(ft_split(rl->all_cmd[i], ' '));
-	else if (WEXITSTATUS(rl->status) == 12)
+	else if (WEXITSTATUS(rl->status) == 202)
 		rl->env = export_cmd(rl->env, ft_split(rl->all_cmd[i], ' '));
-	else if (WEXITSTATUS(rl->status) == 13)
+	else if (WEXITSTATUS(rl->status) == 203)
 		rl->env = unset_cmd(rl->env, ft_split(rl->all_cmd[i], ' '));
 }
