@@ -6,7 +6,7 @@
 /*   By: clcarrer <clcarrer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/17 20:32:08 by fmarin-p          #+#    #+#             */
-/*   Updated: 2023/02/23 15:18:11 by clcarrer         ###   ########.fr       */
+/*   Updated: 2023/02/23 16:18:20 by clcarrer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,7 @@ t_cmdtable	init_struct(void)
 	rl_catch_signals = 0;
 	rl.here_doc = 0;
 	rl.infile = 0;
+	rl.outfile = 0;
 	rl.status = 0;
 	rl.env = clone_env();
 	sigint.sa_handler = &signal_handler;

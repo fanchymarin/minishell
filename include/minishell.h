@@ -6,7 +6,7 @@
 /*   By: clcarrer <clcarrer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 14:34:40 by fmarin-p          #+#    #+#             */
-/*   Updated: 2023/02/23 15:00:43 by clcarrer         ###   ########.fr       */
+/*   Updated: 2023/02/23 16:41:20 by clcarrer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@
 # define PIPE 124
 # define LESS_THAN 60
 # define MORE_THAN 62
+# define APPEND 68
+# define HERE_DOC 72
 # define DOLLAR 36
 # define BUF_SIZE 4096
 
