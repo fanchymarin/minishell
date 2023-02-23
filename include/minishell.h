@@ -6,7 +6,7 @@
 /*   By: clcarrer <clcarrer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 14:34:40 by fmarin-p          #+#    #+#             */
-/*   Updated: 2023/02/23 10:35:14 by clcarrer         ###   ########.fr       */
+/*   Updated: 2023/02/23 15:00:43 by clcarrer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,8 @@ typedef struct s_cmdtable
 	int		n_cmd;
 	int		pipe[2];
 	int		infile;
-	int		*outfile;
+	int		outfile;
+	int		here_doc;
 	int		std_in;
 	int		status;
 }	t_cmdtable;
@@ -75,7 +76,7 @@ void		red_pipe_child(t_cmdtable *rl, int i);
 void		parent_process(t_cmdtable *rl, int i);
 
 // check_files
-void		check_red_files(t_cmdtable *rl);
+void		check_red_files(t_cmdtable *rl, char *cmd_line);
 char		*metachar_checker(char *line);
 char		**expand_metachar(t_cmdtable *rl, char **rev_cmd);
 char		**lstoarr(t_list **head);

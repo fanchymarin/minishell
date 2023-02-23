@@ -6,7 +6,7 @@
 /*   By: clcarrer <clcarrer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/17 20:32:08 by fmarin-p          #+#    #+#             */
-/*   Updated: 2023/02/23 08:36:51 by clcarrer         ###   ########.fr       */
+/*   Updated: 2023/02/23 15:18:11 by clcarrer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ void	signal_handler(int sig)
 {
 	if (sig != SIGINT)
 		return ;
-	// rl_replace_line("", 0);
+	rl_replace_line("", 0);
 	rl_on_new_line();
 	write(STDOUT_FILENO, "\n", 1);
 	rl_redisplay();
@@ -59,7 +59,8 @@ t_cmdtable	init_struct(void)
 	t_cmdtable			rl;
 	struct sigaction	sigint;
 
-	// rl_catch_signals = 0;
+	rl_catch_signals = 0;
+	rl.here_doc = 0;
 	rl.infile = 0;
 	rl.status = 0;
 	rl.env = clone_env();

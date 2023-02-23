@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   metachar_checker.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fmarin-p <fmarin-p@student.42.fr>          +#+  +:+       +#+        */
+/*   By: clcarrer <clcarrer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/17 13:40:54 by fmarin-p          #+#    #+#             */
-/*   Updated: 2023/02/18 13:54:07 by fmarin-p         ###   ########.fr       */
+/*   Updated: 2023/02/23 14:22:21 by clcarrer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,9 +49,9 @@ char	*metachar_checker(char *line)
 			line = quotes_checker(line, i, DOUBLE_QUOTE);
 		else if (line[i] == SIMPLE_QUOTE)
 			line = quotes_checker(line, i, SIMPLE_QUOTE);
-		if (line[i] == DOUBLE_QUOTE || line[i] == SIMPLE_QUOTE)
-			break ;
-		//AÑADIR REDIRECCIONES
+		// if (line[i] == DOUBLE_QUOTE || line[i] == SIMPLE_QUOTE)
+		// 	break ;
+		// else if (line[i] == MORE_THAN)
 	}
 	return (line);
 }
