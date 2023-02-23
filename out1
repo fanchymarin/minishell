@@ -1,0 +1,7 @@
+Makefile
+include
+libft
+minishell
+obj
+out1
+src
