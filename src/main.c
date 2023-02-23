@@ -6,7 +6,7 @@
 /*   By: fmarin-p <fmarin-p@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 14:36:43 by fmarin-p          #+#    #+#             */
-/*   Updated: 2023/02/23 18:06:55 by fmarin-p         ###   ########.fr       */
+/*   Updated: 2023/02/23 18:08:30 by fmarin-p         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,9 +74,11 @@ void	forks_n_pipes(t_cmdtable *rl)
 				exec_command_child(rl, ft_split(rl->all_cmd[i], ' ')));
 		else
 			parent_process(rl, i);
+		rl->infile = 0;
+		rl->outfile = 0;
 	}
 	(free_dp(rl->all_cmd), free(rl->line));
-	(dup2(rl->std_in, 0), close(rl->std_in), rl->infile = 0, rl->outfile = 0);
+	(dup2(rl->std_in, 0), close(rl->std_in));
 }
 
 void	signal_handler(int sig)
@@ -106,7 +108,7 @@ int	main(void)
 			continue ;
 		}
 		add_history(rl.line);
-		rl.line = metachar_checker(rl.line);
+		rl.line = metachar_checker(&rl, rl.line);
 		rl.all_cmd = expand_metachar(&rl, ft_split(rl.line, '|'));
 		rl.n_cmd = cmd_counter(&rl);
 		forks_n_pipes(&rl);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   metachar_checker.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fmarin-p <fmarin-p@student.42.fr>          +#+  +:+       +#+        */
+/*   By: clcarrer <clcarrer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/17 13:40:54 by fmarin-p          #+#    #+#             */
-/*   Updated: 2023/02/23 16:01:59 by fmarin-p         ###   ########.fr       */
+/*   Updated: 2023/02/23 17:55:14 by clcarrer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,19 +38,25 @@ char	*quotes_checker(char *line, int i, char quote)
 	return (line);
 }
 
-char	*metachar_checker(char *line)
+char	*metachar_checker(t_cmdtable *rl, char *line)
 {
 	int	i;
+	int	in_red;
 
 	i = -1;
+	in_red = 0;
 	while (line[++i])
 	{
 		if (line[i] == DOUBLE_QUOTE)
 			line = quotes_checker(line, i, DOUBLE_QUOTE);
 		else if (line[i] == SIMPLE_QUOTE)
 			line = quotes_checker(line, i, SIMPLE_QUOTE);
-		if (line[i] == DOUBLE_QUOTE || line[i] == SIMPLE_QUOTE)
-			break ;
+		// if (line[i] == DOUBLE_QUOTE || line[i] == SIMPLE_QUOTE)
+		// 	break ;
+		else if (line[i] == LESS_THAN && line[i + 1] != LESS_THAN)
+			in_red = i;
 	}
+	if (in_red)
+		manage_line(rl, line, in_red);
 	return (line);
 }
