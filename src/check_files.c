@@ -6,7 +6,7 @@
 /*   By: clcarrer <clcarrer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/16 13:19:14 by fmarin-p          #+#    #+#             */
-/*   Updated: 2023/02/23 16:50:07 by clcarrer         ###   ########.fr       */
+/*   Updated: 2023/02/23 18:15:20 by clcarrer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,8 +56,7 @@ int	manage_line(t_cmdtable *rl, char *cmd_line, int i)
 		i++;
 	open_files(rl, ft_substr(cmd_line, j, i - j), red);
 	ft_memmove(&cmd_line[j], &cmd_line[i], ft_strlen(cmd_line) - i + 1);
-	i = i - (i - j);
-	return (i);
+	return (i = i - (i - j));
 }
 
 void	check_red_files(t_cmdtable *rl, char *cmd_line)
