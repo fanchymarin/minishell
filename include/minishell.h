@@ -6,7 +6,7 @@
 /*   By: clcarrer <clcarrer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 14:34:40 by fmarin-p          #+#    #+#             */
-/*   Updated: 2023/02/23 17:05:50 by clcarrer         ###   ########.fr       */
+/*   Updated: 2023/02/23 17:56:09 by clcarrer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,8 @@ void		parent_process(t_cmdtable *rl, int i);
 
 // check_files
 void		check_red_files(t_cmdtable *rl, char *cmd_line);
-char		*metachar_checker(char *line);
+int			manage_line(t_cmdtable *rl, char *cmd_line, int i);
+char		*metachar_checker(t_cmdtable *rl, char *line);
 char		**expand_metachar(t_cmdtable *rl, char **rev_cmd);
 char		**lstoarr(t_list **head);
 
