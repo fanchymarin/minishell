@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: clcarrer <clcarrer@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fmarin-p <fmarin-p@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 14:36:43 by fmarin-p          #+#    #+#             */
-/*   Updated: 2023/02/23 17:04:47 by clcarrer         ###   ########.fr       */
+/*   Updated: 2023/02/23 17:12:46 by fmarin-p         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ int	exec_command_parent(t_cmdtable *rl, char **cmd)
 
 	stat = 0;
 	if (!ft_strncmp(cmd[0], "exit\0", 5))
-		(ft_lstclear(rl->env, (*free)), exit(0));
+		(ft_lstclear(rl->env, (*free)), free_dp(cmd), exit(0));
 	else if (!ft_strncmp(cmd[0], "cd\0", 3))
 		(cd_cmd(cmd), stat++);
 	else if (!ft_strncmp(cmd[0], "export\0", 7))
@@ -44,9 +44,10 @@ int	exec_command_parent(t_cmdtable *rl, char **cmd)
 	}
 	else if (!ft_strncmp(cmd[0], "unset\0", 6))
 	{
-		rl->env = export_cmd(rl->env, cmd);
+		rl->env = unset_cmd(rl->env, cmd);
 		stat++;
 	}
+	free_dp(cmd);
 	return (stat);
 }
 
@@ -95,6 +96,7 @@ int	main(void)
 	rl = init_struct();
 	while (1)
 	{
+		system("leaks minishell");
 		signal(SIGINT, &signal_handler);
 		rl.line = readline("minishell$ ");
 		if (!rl.line)

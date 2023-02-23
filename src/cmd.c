@@ -6,7 +6,7 @@
 /*   By: fmarin-p <fmarin-p@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/03 17:32:59 by fmarin-p          #+#    #+#             */
-/*   Updated: 2023/02/22 17:47:05 by fmarin-p         ###   ########.fr       */
+/*   Updated: 2023/02/23 17:10:19 by fmarin-p         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,6 @@ void	cd_cmd(char **cmd)
 {
 	if (chdir(cmd[1]) == -1)
 		perror("cd");
-	free_dp(cmd);
 }
 
 void	echo_cmd(char **word)

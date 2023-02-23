@@ -6,7 +6,7 @@
 /*   By: fmarin-p <fmarin-p@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/05 13:12:20 by fmarin-p          #+#    #+#             */
-/*   Updated: 2023/02/19 11:06:36 by fmarin-p         ###   ########.fr       */
+/*   Updated: 2023/02/23 17:14:44 by fmarin-p         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,12 +59,12 @@ t_list	**export_cmd(t_list **env, char **new_vars)
 	int	i;
 
 	if (!check_syntax_n_size(env, &new_vars[1]))
-		return (free_dp(new_vars), env);
+		return (env);
 	i = 0;
 	while (new_vars[++i])
 		if (new_vars[i][0] != '?')
 			ft_lstadd_back(env, ft_lstnew(ft_strdup(new_vars[i])));
-	return (free_dp(new_vars), env);
+	return (env);
 }
 
 void	env_cmd(t_list **env)
@@ -83,7 +83,6 @@ t_list	**unset_cmd(t_list **env, char **name)
 	t_list	*tmp;
 
 	full_name = ft_strjoin(name[1], "=");
-	free_dp(name);
 	line = *env;
 	while (line)
 	{
