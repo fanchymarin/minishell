@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipes.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: clcarrer <clcarrer@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fmarin-p <fmarin-p@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/17 13:44:44 by fmarin-p          #+#    #+#             */
-/*   Updated: 2023/02/23 17:21:16 by clcarrer         ###   ########.fr       */
+/*   Updated: 2023/02/23 19:31:02 by fmarin-p         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,9 +31,41 @@ void	red_pipe_child(t_cmdtable *rl, int i)
 		close_pipe(rl, 1);
 }
 
-void	parent_process(t_cmdtable *rl, int i)
+void	exec_command_child(t_cmdtable *rl, char **cmd)
 {
-	if (i != rl->n_cmd - 1)
-		close_pipe(rl, 0);
-	wait(&rl->status);
+	if (!ft_strncmp(cmd[0], "pwd\0", 4))
+		pwd_cmd();
+	else if (!ft_strncmp(cmd[0], "echo\0", 5))
+		echo_cmd(cmd);
+	else if (!ft_strncmp(cmd[0], "env\0", 4))
+		env_cmd(rl->env);
+	else
+		execve_cmd(rl->env, ft_find_path(cmd[0], rl->env), cmd);
+	free_dp(cmd);
+	free_dp(rl->all_cmd);
+	free(rl->line);
+	exit(0);
+}
+
+void	diff_sig(int sig)
+{
+	if (sig != SIGINT)
+		return ;
+	write(STDOUT_FILENO, "\n", 1);
+}
+
+void	fork_process(t_cmdtable *rl, int i)
+{
+	pid_t	pid;
+
+	pid = fork();
+	if (!pid)
+		(red_pipe_child(rl, i),
+			exec_command_child(rl, ft_split(rl->all_cmd[i], ' ')));
+	else
+	{
+		if (i != rl->n_cmd - 1)
+			close_pipe(rl, 0);
+		(signal(SIGINT, &diff_sig), wait(&rl->status));
+	}
 }

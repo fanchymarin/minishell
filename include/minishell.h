@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: clcarrer <clcarrer@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fmarin-p <fmarin-p@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 14:34:40 by fmarin-p          #+#    #+#             */
-/*   Updated: 2023/02/23 17:56:09 by clcarrer         ###   ########.fr       */
+/*   Updated: 2023/02/23 19:29:53 by fmarin-p         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,12 +46,6 @@ typedef struct s_cmdtable
 	int		status;
 }	t_cmdtable;
 
-typedef struct s_dbarray
-{
-	int	lines;
-	int	new_lines;
-}	t_dbarray;
-
 // utils
 t_cmdtable	init_struct(void);
 void		free_dp(char **dp);
@@ -74,7 +68,7 @@ t_list		**unset_cmd(t_list **env, char **name);
 
 //pipes
 void		red_pipe_child(t_cmdtable *rl, int i);
-void		parent_process(t_cmdtable *rl, int i);
+void		fork_process(t_cmdtable *rl, int i);
 
 // check_files
 void		check_red_files(t_cmdtable *rl, char *cmd_line);

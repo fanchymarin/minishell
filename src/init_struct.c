@@ -6,7 +6,7 @@
 /*   By: fmarin-p <fmarin-p@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/17 20:32:08 by fmarin-p          #+#    #+#             */
-/*   Updated: 2023/02/23 18:08:59 by fmarin-p         ###   ########.fr       */
+/*   Updated: 2023/02/23 19:29:06 by fmarin-p         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,13 +46,12 @@ t_list	**clone_env(void)
 
 t_cmdtable	init_struct(void)
 {
-	t_cmdtable			rl;
+	t_cmdtable	rl;
 
 	rl_catch_signals = 0;
 	rl.here_doc = 0;
 	rl.infile = 0;
 	rl.outfile = 0;
-	rl.status = 0;
 	rl.env = clone_env();
 	signal(SIGQUIT, SIG_IGN);
 	return (rl);

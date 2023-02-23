@@ -6,27 +6,11 @@
 /*   By: fmarin-p <fmarin-p@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 14:36:43 by fmarin-p          #+#    #+#             */
-/*   Updated: 2023/02/23 18:08:30 by fmarin-p         ###   ########.fr       */
+/*   Updated: 2023/02/23 19:29:24 by fmarin-p         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-void	exec_command_child(t_cmdtable *rl, char **cmd)
-{
-	if (!ft_strncmp(cmd[0], "pwd\0", 4))
-		pwd_cmd();
-	else if (!ft_strncmp(cmd[0], "echo\0", 5))
-		echo_cmd(cmd);
-	else if (!ft_strncmp(cmd[0], "env\0", 4))
-		env_cmd(rl->env);
-	else
-		execve_cmd(rl->env, ft_find_path(cmd[0], rl->env), cmd);
-	free_dp(cmd);
-	free_dp(rl->all_cmd);
-	free(rl->line);
-	exit(0);
-}
 
 int	exec_command_parent(t_cmdtable *rl, char **cmd)
 {
@@ -51,10 +35,19 @@ int	exec_command_parent(t_cmdtable *rl, char **cmd)
 	return (stat);
 }
 
+void	signal_handler(int sig)
+{
+	if (sig != SIGINT)
+		return ;
+	rl_replace_line("", 0);
+	rl_on_new_line();
+	write(STDOUT_FILENO, "\n", 1);
+	rl_redisplay();
+}
+
 void	forks_n_pipes(t_cmdtable *rl)
 {
 	int		i;
-	pid_t	pid;
 
 	rl->std_in = dup(0);
 	if (rl->std_in == -1)
@@ -68,27 +61,12 @@ void	forks_n_pipes(t_cmdtable *rl)
 				perror("pipe");
 		if (exec_command_parent(rl, ft_split(rl->all_cmd[i], ' ')))
 			continue ;
-		pid = fork();
-		if (!pid)
-			(red_pipe_child(rl, i),
-				exec_command_child(rl, ft_split(rl->all_cmd[i], ' ')));
-		else
-			parent_process(rl, i);
+		fork_process(rl, i);
 		rl->infile = 0;
 		rl->outfile = 0;
 	}
 	(free_dp(rl->all_cmd), free(rl->line));
 	(dup2(rl->std_in, 0), close(rl->std_in));
-}
-
-void	signal_handler(int sig)
-{
-	if (sig != SIGINT)
-		return ;
-	rl_replace_line("", 0);
-	rl_on_new_line();
-	write(STDOUT_FILENO, "\n", 1);
-	rl_redisplay();
 }
 
 int	main(void)
@@ -101,7 +79,7 @@ int	main(void)
 		signal(SIGINT, &signal_handler);
 		rl.line = readline("minishell$ ");
 		if (!rl.line)
-			(ft_lstclear(rl.env, (*free)), exit(WEXITSTATUS(rl.status)));
+			(ft_lstclear(rl.env, (*free)), exit(0));
 		if (!*rl.line || !check_blank_line(rl.line))
 		{
 			free(rl.line);
