@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fmarin-p <fmarin-p@student.42.fr>          +#+  +:+       +#+        */
+/*   By: clcarrer <clcarrer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 14:36:43 by fmarin-p          #+#    #+#             */
-/*   Updated: 2023/02/22 18:17:41 by fmarin-p         ###   ########.fr       */
+/*   Updated: 2023/02/23 10:54:14 by clcarrer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,10 +86,9 @@ void	forks_n_pipes(t_cmdtable *rl)
 		else
 			parent_process(rl, i);
 	}
-	free_dp(rl->all_cmd);
-	free(rl->line);
-	dup2(rl->std_in, 0);
-	close(rl->std_in);
+	(free_dp(rl->all_cmd), free(rl->line), free(rl->outfile));
+	(dup2(rl->std_in, 0), close(rl->std_in));
+	rl->infile = 0;
 }
 
 void	manage_line(t_cmdtable *rl)
@@ -97,6 +96,7 @@ void	manage_line(t_cmdtable *rl)
 	rl->line = metachar_checker(rl->line);
 	rl->all_cmd = expand_metachar(rl, ft_split(rl->line, '|'));
 	rl->n_cmd = cmd_counter(rl);
+	check_red_files(rl);
 	forks_n_pipes(rl);
 }
 
