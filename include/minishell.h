@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: clcarrer <clcarrer@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fmarin-p <fmarin-p@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 14:34:40 by fmarin-p          #+#    #+#             */
-/*   Updated: 2023/02/23 15:00:43 by clcarrer         ###   ########.fr       */
+/*   Updated: 2023/02/23 16:43:28 by fmarin-p         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,6 @@ int			quotes_closed(char *line, int i, char quote);
 // cmds
 void		pwd_cmd(void);
 void		cd_cmd(char **cmd);
-void		exit_cmd(t_cmdtable *rl, char **cmd);
 void		echo_cmd(char **word);
 void		env_cmd(t_list **environ);
 t_list		**export_cmd(t_list **env, char **new_vars);
