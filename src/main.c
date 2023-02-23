@@ -6,7 +6,7 @@
 /*   By: fmarin-p <fmarin-p@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 14:36:43 by fmarin-p          #+#    #+#             */
-/*   Updated: 2023/02/23 17:12:46 by fmarin-p         ###   ########.fr       */
+/*   Updated: 2023/02/23 18:06:55 by fmarin-p         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,6 @@ int	main(void)
 	rl = init_struct();
 	while (1)
 	{
-		system("leaks minishell");
 		signal(SIGINT, &signal_handler);
 		rl.line = readline("minishell$ ");
 		if (!rl.line)

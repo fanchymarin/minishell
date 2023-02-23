@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_files.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: clcarrer <clcarrer@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fmarin-p <fmarin-p@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/16 13:19:14 by fmarin-p          #+#    #+#             */
-/*   Updated: 2023/02/23 16:50:07 by clcarrer         ###   ########.fr       */
+/*   Updated: 2023/02/23 17:29:16 by fmarin-p         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ int	manage_line(t_cmdtable *rl, char *cmd_line, int i)
 {
 	char	red;
 	int		j;
+	char	*name;
 
 	j = i++;
 	red = cmd_line[i - 1];
@@ -54,7 +55,9 @@ int	manage_line(t_cmdtable *rl, char *cmd_line, int i)
 	while (!ft_isblank(cmd_line[i]) && cmd_line[i]
 		&& (cmd_line[i] != MORE_THAN && cmd_line[i] != LESS_THAN))
 		i++;
-	open_files(rl, ft_substr(cmd_line, j, i - j), red);
+	name = ft_substr(cmd_line, j, i - j);
+	open_files(rl, name, red);
+	free(name);
 	ft_memmove(&cmd_line[j], &cmd_line[i], ft_strlen(cmd_line) - i + 1);
 	i = i - (i - j);
 	return (i);
