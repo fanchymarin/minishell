@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_files.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fmarin-p <fmarin-p@student.42.fr>          +#+  +:+       +#+        */
+/*   By: clcarrer <clcarrer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/16 13:19:14 by fmarin-p          #+#    #+#             */
-/*   Updated: 2023/02/23 17:29:16 by fmarin-p         ###   ########.fr       */
+/*   Updated: 2023/02/23 18:18:06 by clcarrer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,8 +59,7 @@ int	manage_line(t_cmdtable *rl, char *cmd_line, int i)
 	open_files(rl, name, red);
 	free(name);
 	ft_memmove(&cmd_line[j], &cmd_line[i], ft_strlen(cmd_line) - i + 1);
-	i = i - (i - j);
-	return (i);
+	return (i = i - (i - j));
 }
 
 void	check_red_files(t_cmdtable *rl, char *cmd_line)
