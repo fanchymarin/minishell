@@ -6,7 +6,7 @@
 /*   By: fmarin-p <fmarin-p@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/17 13:44:44 by fmarin-p          #+#    #+#             */
-/*   Updated: 2023/02/23 19:31:02 by fmarin-p         ###   ########.fr       */
+/*   Updated: 2023/02/24 11:50:40 by fmarin-p         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,13 +47,6 @@ void	exec_command_child(t_cmdtable *rl, char **cmd)
 	exit(0);
 }
 
-void	diff_sig(int sig)
-{
-	if (sig != SIGINT)
-		return ;
-	write(STDOUT_FILENO, "\n", 1);
-}
-
 void	fork_process(t_cmdtable *rl, int i)
 {
 	pid_t	pid;
@@ -66,6 +59,8 @@ void	fork_process(t_cmdtable *rl, int i)
 	{
 		if (i != rl->n_cmd - 1)
 			close_pipe(rl, 0);
-		(signal(SIGINT, &diff_sig), wait(&rl->status));
+		(signal(SIGINT, SIG_IGN), wait(&rl->status));
+		if (WTERMSIG(rl->status) == SIGINT)
+			write(STDOUT_FILENO, "\n", 1);
 	}
 }

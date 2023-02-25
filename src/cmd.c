@@ -6,7 +6,7 @@
 /*   By: fmarin-p <fmarin-p@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/03 17:32:59 by fmarin-p          #+#    #+#             */
-/*   Updated: 2023/02/23 17:10:19 by fmarin-p         ###   ########.fr       */
+/*   Updated: 2023/02/24 12:05:06 by fmarin-p         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,5 +50,5 @@ void	execve_cmd(t_list **env, char *abs_path, char **cmd)
 	if (execve(abs_path, cmd, 0) == -1)
 		printf("bash: %s: command not found\n", cmd[0]);
 	free(abs_path);
-	free(array_env);
+	free_dp(array_env);
 }
