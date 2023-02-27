@@ -9,8 +9,8 @@ void	reading_doc(t_cmdtable *rl, char *keyword)
 		appended_line = readline(">");
 		if (ft_strnstr(appended_line, keyword, ft_strlen(appended_line)))
 			break;
-		write(rl->aux_file, appended_line, ft_strlen(appended_line));
-		write(rl->aux_file, "\n", 1);
+		write(rl->pipe[1], appended_line, ft_strlen(appended_line));
+		write(rl->pipe[1], "\n", 1);
 		free(appended_line);
 	}
 	free(appended_line);
@@ -20,13 +20,14 @@ void	here_doc(t_cmdtable *rl, char *keyword)
 {
 	pid_t	pid;
 
-	rl->aux_file = open("aux", O_APPEND | O_CREAT | O_RDWR, 0644);
+	if (pipe(rl->pipe) == -1)
+		perror("pipe");
 	pid = fork();
 	if (!pid)
 	{
-		reading_doc(rl, keyword);
+		(close(rl->pipe[0]), reading_doc(rl, keyword));
 		exit(0);
 	}
 	else
-		wait(NULL);
+		(close_pipe(rl, 0), wait(NULL));
 }

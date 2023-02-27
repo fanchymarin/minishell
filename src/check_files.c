@@ -48,28 +48,6 @@ char	class_redirection(char *cmd_line, int i)
 	return (red);
 }
 
-// void	first_input(t_cmdtable *rl, char *cmd_line, int i)
-// {
-// 	char	red;
-// 	int		j;
-// 	char	*name;
-
-// 	i++;
-// 	red = class_redirection(cmd_line, i);
-// 	if (red == APPEND || red == HERE_DOC)
-// 		i++;
-// 	while (ft_isblank(cmd_line[i]))
-// 		i++;
-// 	j = i;
-// 	while (!ft_isblank(cmd_line[i]) && cmd_line[i] && cmd_line[i] != LESS_THAN)
-// 		i++;
-// 	name = ft_substr(cmd_line, j, i - j);
-// 	printf("red -> %c\n", red);
-// 	printf("name -> %s\n", name);
-// 	open_files(rl, name, red);
-// 	free(name);
-// }
-
 int	manage_line(t_cmdtable *rl, char *cmd_line, int i)
 {
 	char	red;

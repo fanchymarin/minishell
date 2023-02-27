@@ -49,7 +49,6 @@ t_cmdtable	init_struct(void)
 	t_cmdtable	rl;
 
 	rl_catch_signals = 0;
-	rl.aux_file = 0;
 	rl.infile = 0;
 	rl.outfile = 0;
 	rl.env = clone_env();

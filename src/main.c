@@ -64,8 +64,6 @@ void	forks_n_pipes(t_cmdtable *rl)
 		fork_process(rl, i);
 		rl->infile = 0;
 		rl->outfile = 0;
-		if (rl->aux_file)
-			(rm_aux_file(rl), rl->aux_file = 0);
 	}
 	(free_dp(rl->all_cmd), free(rl->line));
 	(dup2(rl->std_in, 0), close(rl->std_in));
