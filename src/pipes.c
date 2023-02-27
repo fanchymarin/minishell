@@ -21,8 +21,11 @@ void	close_pipe(t_cmdtable *rl, int fd)
 
 void	red_pipe_child(t_cmdtable *rl, int i)
 {
-	// if (rl->here_doc != 0)
-	// 	(dup2(rl->here_doc, 0), close(rl->here_doc));
+	if (rl->aux_file)
+	{
+		rl->aux_file = open("aux", O_RDONLY);
+		(dup2(rl->aux_file, 0), close(rl->aux_file));
+	}
 	if (rl->infile)
 		(dup2(rl->infile, 0), close(rl->infile));
 	if (rl->outfile)

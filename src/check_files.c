@@ -20,6 +20,8 @@ void	open_files(t_cmdtable *rl, char *file_name, char red)
 			close(rl->infile);
 		if (red == LESS_THAN)
 			rl->infile = open(file_name, O_RDONLY);
+		else
+			here_doc(rl, file_name);
 	}
 	if (red == MORE_THAN || red == APPEND)
 	{
@@ -34,6 +36,40 @@ void	open_files(t_cmdtable *rl, char *file_name, char red)
 		perror(file_name);
 }
 
+char	class_redirection(char *cmd_line, int i)
+{
+	char	red;
+
+	red = cmd_line[i - 1];
+	if (cmd_line[i] == MORE_THAN)
+		red = APPEND;
+	else if (cmd_line[i] == LESS_THAN)
+		red = HERE_DOC;
+	return (red);
+}
+
+// void	first_input(t_cmdtable *rl, char *cmd_line, int i)
+// {
+// 	char	red;
+// 	int		j;
+// 	char	*name;
+
+// 	i++;
+// 	red = class_redirection(cmd_line, i);
+// 	if (red == APPEND || red == HERE_DOC)
+// 		i++;
+// 	while (ft_isblank(cmd_line[i]))
+// 		i++;
+// 	j = i;
+// 	while (!ft_isblank(cmd_line[i]) && cmd_line[i] && cmd_line[i] != LESS_THAN)
+// 		i++;
+// 	name = ft_substr(cmd_line, j, i - j);
+// 	printf("red -> %c\n", red);
+// 	printf("name -> %s\n", name);
+// 	open_files(rl, name, red);
+// 	free(name);
+// }
+
 int	manage_line(t_cmdtable *rl, char *cmd_line, int i)
 {
 	char	red;
@@ -41,11 +77,7 @@ int	manage_line(t_cmdtable *rl, char *cmd_line, int i)
 	char	*name;
 
 	j = i++;
-	red = cmd_line[i - 1];
-	if (cmd_line[i] == MORE_THAN)
-		red = APPEND;
-	else if (cmd_line[i] == LESS_THAN)
-		red = HERE_DOC;
+	red = class_redirection(cmd_line, i);
 	if (red == APPEND || red == HERE_DOC)
 		i++;
 	while (ft_isblank(cmd_line[i]))

@@ -53,8 +53,12 @@ char	*metachar_checker(t_cmdtable *rl, char *line)
 			line = quotes_checker(line, i, SIMPLE_QUOTE);
 		// if (line[i] == DOUBLE_QUOTE || line[i] == SIMPLE_QUOTE)
 		// 	break ;
-		else if (line[i] == LESS_THAN && line[i + 1] != LESS_THAN)
+		else if (line[i] == LESS_THAN)
+		{
 			in_red = i;
+			if (line[i - 1] == LESS_THAN)
+				in_red--;
+		}
 	}
 	if (in_red)
 		manage_line(rl, line, in_red);

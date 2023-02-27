@@ -12,6 +12,24 @@
 
 #include "minishell.h"
 
+void	rm_aux_file(t_cmdtable *rl)
+{
+	pid_t	pid;
+	char	*cmd[3];
+
+	cmd[0] = "rm";
+	cmd[1] = "aux";
+	cmd[2] = "\0";
+	pid = fork(); 
+	if (!pid)
+	{
+		execve_cmd(rl->env, ft_find_path(cmd[0], rl->env), cmd);
+		exit(0);
+	}
+	else
+		wait(NULL);
+}
+
 char	*nested_shell(char *line, char *keyword)
 {
 	char	*appended_line;

@@ -41,7 +41,7 @@ typedef struct s_cmdtable
 	int		pipe[2];
 	int		infile;
 	int		outfile;
-	int		here_doc;
+	int		aux_file;
 	int		std_in;
 	int		status;
 }	t_cmdtable;
@@ -76,5 +76,8 @@ int			manage_line(t_cmdtable *rl, char *cmd_line, int i);
 char		*metachar_checker(t_cmdtable *rl, char *line);
 char		**expand_metachar(t_cmdtable *rl, char **rev_cmd);
 char		**lstoarr(t_list **head);
+
+void    	here_doc(t_cmdtable *rl, char *keyword);
+void		rm_aux_file(t_cmdtable *rl);
 
 #endif

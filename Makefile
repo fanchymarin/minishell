@@ -17,7 +17,7 @@ CPPFLAGS := ${CPPFLAGS}
 
 CFLAGS = -c -g -Wall -Wextra -Werror $(CPPFLAGS) -I$(INCDIR) -I$(LIBFTDIR) 
 SRCFILES = main.c init_struct.c cmd.c environ_cmd.c utils.c utils_2.c \
-			check_files.c pipes.c metachar_checker.c metachar_restore.c
+			check_files.c pipes.c metachar_checker.c metachar_restore.c here_doc.c
 OBJFILES = $(SRCFILES:.c=.o)
 
 SRCOBJ = $(addprefix $(OBJDIR), $(OBJFILES))
