@@ -14,6 +14,7 @@ void	reading_doc(t_cmdtable *rl, char *keyword)
 		free(appended_line);
 	}
 	free(appended_line);
+	exit(0);
 }
 
 void	here_doc(t_cmdtable *rl, char *keyword)
@@ -23,11 +24,10 @@ void	here_doc(t_cmdtable *rl, char *keyword)
 	if (pipe(rl->pipe) == -1)
 		perror("pipe");
 	pid = fork();
+	if (pid == -1)
+		perror("fork");
 	if (!pid)
-	{
 		(close(rl->pipe[0]), reading_doc(rl, keyword));
-		exit(0);
-	}
 	else
 		(close_pipe(rl, 0), wait(NULL));
 }
