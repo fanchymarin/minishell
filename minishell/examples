@@ -1,0 +1,6 @@
+ls >out
+wc<out >out1
+sort -r >out2 | wc <out>>out1
+cat <out | sed 's/o/i/g' | sort >out2
+cat <<stop |  sed 's/o/i/g' >out
+sort -r << stop | sed 's/a/u/g' >>out
