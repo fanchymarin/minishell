@@ -41,6 +41,7 @@ typedef struct s_cmdtable
 	int		pipe[2];
 	int		infile;
 	int		outfile;
+	int		fd_tmp;
 	int		std_in;
 	int		status;
 }	t_cmdtable;
@@ -78,5 +79,6 @@ char		**lstoarr(t_list **head);
 
 void    	here_doc(t_cmdtable *rl, char *keyword);
 void		close_pipe(t_cmdtable *rl, int fd);
+void		close_fd(t_cmdtable *rl);
 
 #endif
