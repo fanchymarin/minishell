@@ -6,7 +6,7 @@
 /*   By: fmarin-p <fmarin-p@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 14:34:40 by fmarin-p          #+#    #+#             */
-/*   Updated: 2023/02/23 19:29:53 by fmarin-p         ###   ########.fr       */
+/*   Updated: 2023/02/28 14:25:52 by fmarin-p         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ void		fork_process(t_cmdtable *rl, int i);
 // check_files
 void		check_red_files(t_cmdtable *rl, char *cmd_line);
 int			manage_line(t_cmdtable *rl, char *cmd_line, int i);
-char		*metachar_checker(t_cmdtable *rl, char *line);
+char		*metachar_checker(char *line);
 char		**expand_metachar(t_cmdtable *rl, char **rev_cmd);
 char		**lstoarr(t_list **head);
 

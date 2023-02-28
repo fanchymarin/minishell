@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_files.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: clcarrer <clcarrer@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fmarin-p <fmarin-p@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/16 13:19:14 by fmarin-p          #+#    #+#             */
-/*   Updated: 2023/02/23 18:18:06 by clcarrer         ###   ########.fr       */
+/*   Updated: 2023/02/28 15:15:40 by fmarin-p         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void	open_files(t_cmdtable *rl, char *file_name, char red)
 		else
 			rl->outfile = open(file_name, O_APPEND | O_CREAT | O_WRONLY, 0644);
 	}
-	if (rl->outfile == -1)
+	if (rl->outfile == -1 || rl->infile == -1)
 		perror(file_name);
 }
 
