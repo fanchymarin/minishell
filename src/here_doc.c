@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   here_doc.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fmarin-p <fmarin-p@student.42.fr>          +#+  +:+       +#+        */
+/*   By: clcarrer <clcarrer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/28 14:27:23 by fmarin-p          #+#    #+#             */
-/*   Updated: 2023/02/28 16:25:08 by fmarin-p         ###   ########.fr       */
+/*   Updated: 2023/03/01 17:18:17 by clcarrer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,11 +19,11 @@ void	reading_doc(t_cmdtable *rl, char *keyword)
 	signal(SIGINT, SIG_DFL);
 	while (1)
 	{
-		appended_line = readline("> ");
+		write(1, "> ", 3);
+		appended_line = get_next_line(1);
 		if (!ft_strncmp(appended_line, keyword, ft_strlen(keyword) + 1))
 			break ;
 		write(rl->fd_tmp, appended_line, ft_strlen(appended_line));
-		write(rl->fd_tmp, "\n", 1);
 		free(appended_line);
 	}
 	free(appended_line);

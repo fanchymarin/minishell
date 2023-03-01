@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fmarin-p <fmarin-p@student.42.fr>          +#+  +:+       +#+        */
+/*   By: clcarrer <clcarrer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 14:34:40 by fmarin-p          #+#    #+#             */
-/*   Updated: 2023/03/01 14:58:57 by fmarin-p         ###   ########.fr       */
+/*   Updated: 2023/03/01 17:17:40 by clcarrer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,5 +83,6 @@ char		*restore_metachar(char *line, int control);
 void		here_doc(t_cmdtable *rl, char *keyword);
 void		close_pipe(t_cmdtable *rl, int fd);
 void		close_fd(t_cmdtable *rl);
+char		*get_next_line(int fd);
 
 #endif
