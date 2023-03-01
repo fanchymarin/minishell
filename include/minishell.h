@@ -6,7 +6,7 @@
 /*   By: fmarin-p <fmarin-p@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 14:34:40 by fmarin-p          #+#    #+#             */
-/*   Updated: 2023/02/28 14:25:52 by fmarin-p         ###   ########.fr       */
+/*   Updated: 2023/03/01 14:58:57 by fmarin-p         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,13 +48,14 @@ typedef struct s_cmdtable
 // utils
 t_cmdtable	init_struct(void);
 void		free_dp(char **dp);
-int			cmd_counter(t_cmdtable *rl);
+int			cmd_counter(char **all_cmd);
 char		*ft_find_path(char *cmd, t_list **env);
 int			check_blank_line(char *line);
 char		*nested_shell(char *line, char *keyword);
 char		*ft_getenv(t_list **env, char *name, char *value);
 void		ft_lstdelnode(t_list **head, t_list *node, t_list *tmp);
 int			quotes_closed(char *line, int i, char quote);
+char		*append_str(t_list **head);
 
 // cmds
 void		pwd_cmd(void);
@@ -72,11 +73,13 @@ void		fork_process(t_cmdtable *rl, int i);
 // check_files
 void		check_red_files(t_cmdtable *rl, char *cmd_line);
 int			manage_line(t_cmdtable *rl, char *cmd_line, int i);
-char		*metachar_checker(char *line);
+char		*quotes_checker(char *line);
+char		**struct_quotes(char *old_cmd);
 char		**expand_metachar(t_cmdtable *rl, char **rev_cmd);
 char		**lstoarr(t_list **head);
+char		*restore_metachar(char *line, int control);
 
-void    	here_doc(t_cmdtable *rl, char *keyword);
+void		here_doc(t_cmdtable *rl, char *keyword);
 void		close_pipe(t_cmdtable *rl, int fd);
 
 #endif

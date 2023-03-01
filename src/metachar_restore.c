@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   metachar_restore.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: clcarrer <clcarrer@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fmarin-p <fmarin-p@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/18 12:15:22 by fmarin-p          #+#    #+#             */
-/*   Updated: 2023/02/21 15:15:27 by clcarrer         ###   ########.fr       */
+/*   Updated: 2023/03/01 15:03:12 by fmarin-p         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	*append_str(t_list **head, char *old_line)
+char	*append_str(t_list **head)
 {
 	t_list	*line;
 	char	*full_line;
@@ -28,13 +28,12 @@ char	*append_str(t_list **head, char *old_line)
 		full_line = appended_line;
 		line = line->next;
 	}
-	free(old_line);
 	ft_lstclear(head, (*free));
 	free(head);
 	return (full_line);
 }
 
-void	expand_var(char *line, t_cmdtable *rl, t_list **head, int i[0])
+void	expand_vars(char *line, t_cmdtable *rl, t_list **head, int *i)
 {
 	char	value[BUF_SIZE];
 	char	*name;
@@ -68,27 +67,37 @@ char	*check_vars(t_cmdtable *rl, char *line)
 	while (line[++i[0]])
 	{
 		while (line[i[0]] == DOLLAR)
-			expand_var(line, rl, head, i);
+			expand_vars(line, rl, head, i);
 	}
 	ft_lstadd_back(head, ft_lstnew(ft_substr(line, i[1], i[0] - i[1])));
-	return (append_str(head, line));
+	return (free(line), append_str(head));
 }
 
-char	*restore_metachar(char *line)
+char	*restore_metachar(char *line, int control)
 {
 	int	i;
 
 	i = -1;
 	while (line[++i])
 	{
-		if (line[i] == 17)
-			line[i] = PIPE;
-		else if (line[i] == 18)
-			line[i] = LESS_THAN;
-		else if (line[i] == 19)
-			line[i] = MORE_THAN;
-		else if (line[i] == 20)
-			line[i] = DOLLAR;
+		if (!control)
+		{
+			if (line[i] == -1)
+				line[i] = PIPE;
+			else if (line[i] == -2)
+				line[i] = LESS_THAN;
+			else if (line[i] == -3)
+				line[i] = MORE_THAN;
+			else if (line[i] == -4)
+				line[i] = DOLLAR;
+		}
+		else
+		{
+			if (line[i] == -5)
+				line[i] = SIMPLE_QUOTE;
+			else if (line[i] == -6)
+				line[i] = DOUBLE_QUOTE;
+		}
 	}
 	return (line);
 }
@@ -101,7 +110,7 @@ char	**expand_metachar(t_cmdtable *rl, char **rev_cmd)
 	while (rev_cmd[++i])
 	{
 		rev_cmd[i] = check_vars(rl, rev_cmd[i]);
-		rev_cmd[i] = restore_metachar(rev_cmd[i]);
+		rev_cmd[i] = restore_metachar(rev_cmd[i], 0);
 	}
 	return (rev_cmd);
 }

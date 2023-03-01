@@ -6,7 +6,7 @@
 /*   By: fmarin-p <fmarin-p@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/17 13:44:44 by fmarin-p          #+#    #+#             */
-/*   Updated: 2023/02/24 11:50:40 by fmarin-p         ###   ########.fr       */
+/*   Updated: 2023/02/28 23:53:03 by fmarin-p         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ void	fork_process(t_cmdtable *rl, int i)
 	pid = fork();
 	if (!pid)
 		(red_pipe_child(rl, i),
-			exec_command_child(rl, ft_split(rl->all_cmd[i], ' ')));
+			exec_command_child(rl, struct_quotes(rl->all_cmd[i])));
 	else
 	{
 		if (i != rl->n_cmd - 1)

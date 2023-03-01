@@ -6,7 +6,7 @@
 #    By: fmarin-p <fmarin-p@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/12 14:33:11 by fmarin-p          #+#    #+#              #
-#    Updated: 2023/02/24 12:02:11 by fmarin-p         ###   ########.fr        #
+#    Updated: 2023/02/28 16:17:28 by fmarin-p         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,7 +31,7 @@ all: $(NAME)
 
 $(NAME): $(SRCOBJ)
 	$(MAKE) bonus -C $(LIBFTDIR)
-	gcc $^ $(LIBFTDIR)libft.a -lreadline -fsanitize=address -fsanitize=leak $(LDFLAGS) -o $@
+	gcc $^ $(LIBFTDIR)libft.a -lreadline -fsanitize=address -fsanitize=leak $(LDFLAGS)-o $@
 
 $(OBJDIR)%.o: $(SRCDIR)%.c
 	mkdir -p obj

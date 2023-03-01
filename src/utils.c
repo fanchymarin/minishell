@@ -6,7 +6,7 @@
 /*   By: fmarin-p <fmarin-p@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/03 15:55:15 by fmarin-p          #+#    #+#             */
-/*   Updated: 2023/02/19 16:31:35 by fmarin-p         ###   ########.fr       */
+/*   Updated: 2023/02/28 18:37:58 by fmarin-p         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,12 +46,12 @@ char	*ft_getenv(t_list **env, char *name, char *value)
 	return (0);
 }
 
-int	cmd_counter(t_cmdtable *rl)
+int	cmd_counter(char **all_cmd)
 {
 	int	i;
 
 	i = 0;
-	while (rl->all_cmd[i])
+	while (all_cmd[i])
 		i++;
 	return (i);
 }
