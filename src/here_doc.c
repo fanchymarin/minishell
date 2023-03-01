@@ -6,13 +6,36 @@
 /*   By: fmarin-p <fmarin-p@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/28 14:27:23 by fmarin-p          #+#    #+#             */
-/*   Updated: 2023/03/01 19:04:42 by fmarin-p         ###   ########.fr       */
+/*   Updated: 2023/03/01 21:09:08 by fmarin-p         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	reading_doc(int fd_tmp, char *keyword, int control)
+void	close_fd(t_cmdtable *rl)
+{
+	pid_t	pid;
+	char	**cmd;
+
+	rl->infile = 0;
+	rl->outfile = 0;
+	if (rl->fd_tmp)
+	{
+		(close(rl->fd_tmp), rl->fd_tmp = 0);
+		cmd = ft_split("rm -f .tmp", ' ');
+		pid = fork();
+		if (pid == -1)
+			perror("fork");
+		else if (!pid)
+		{
+			execve_cmd(rl->env, ft_find_path(cmd[0], rl->env), cmd);
+			exit(0);
+		}
+		free_dp(cmd);
+	}
+}
+
+void	reading_doc(int fd_tmp, char *keyword)
 {
 	char	*appended_line;
 
@@ -42,7 +65,7 @@ void	here_doc(t_cmdtable *rl, char *keyword)
 	if (pid == -1)
 		perror("fork");
 	if (!pid)
-		reading_doc(rl->fd_tmp, keyword, 0);
+		reading_doc(rl->fd_tmp, keyword);
 	(signal(SIGINT, SIG_IGN), wait(&rl->status));
 	if (WTERMSIG(rl->status) == SIGINT)
 		(write(STDOUT_FILENO, "\n", 1), close_fd(rl));

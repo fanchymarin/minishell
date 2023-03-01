@@ -6,7 +6,7 @@
 /*   By: fmarin-p <fmarin-p@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/17 20:32:08 by fmarin-p          #+#    #+#             */
-/*   Updated: 2023/02/28 17:09:15 by fmarin-p         ###   ########.fr       */
+/*   Updated: 2023/03/01 21:26:04 by fmarin-p         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,4 +56,3 @@ t_cmdtable	init_struct(void)
 	signal(SIGQUIT, SIG_IGN);
 	return (rl);
 }
-

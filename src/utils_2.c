@@ -6,7 +6,7 @@
 /*   By: fmarin-p <fmarin-p@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/18 13:19:20 by fmarin-p          #+#    #+#             */
-/*   Updated: 2023/03/01 18:59:38 by fmarin-p         ###   ########.fr       */
+/*   Updated: 2023/03/01 21:23:40 by fmarin-p         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ char	*nested_shell(char *line, char *keyword)
 	if (pid == -1)
 		perror("fork");
 	else if (!pid)
-		reading_doc(fd_tmp, keyword, 1);
+		reading_doc(fd_tmp, keyword);
 	(signal(SIGINT, SIG_IGN), wait(&status));
 	if (WTERMSIG(status) == SIGINT)
 		return (write(STDOUT_FILENO, "\n", 1), NULL);
@@ -64,56 +64,11 @@ void	ft_lstdelnode(t_list **head, t_list *node, t_list *tmp)
 		free(head);
 }
 
-int	quotes_closed(char *line, int i, char quote)
-{
-	int	quotes_counter;
-	int	last_quote;
-
-	quotes_counter = 0;
-	last_quote = 0;
-	while (line[i])
-	{
-		if (line[i] == quote)
-		{
-			last_quote = i;
-			quotes_counter++;
-		}
-		i++;
-	}
-	if (quotes_counter % 2 == 0)
-		return (last_quote);
-	return (-1);
-}
-
-void	close_fd(t_cmdtable *rl)
-{
-	pid_t	pid;
-	char	**cmd;
-
-	rl->infile = 0;
-	rl->outfile = 0;
-	if (rl->fd_tmp)
-	{
-		(close(rl->fd_tmp), rl->fd_tmp = 0);
-		cmd = ft_split("rm -f .tmp", ' ');
-		pid = fork();
-		if (pid == -1)
-			perror("fork");
-		else if (!pid)
-		{
-			execve_cmd(rl->env, ft_find_path(cmd[0], rl->env), cmd);
-			exit(0);
-		}
-		free_dp(cmd);
-	}
-}
-
 char	*get_next_line(int fd)
 {
 	char	*line;
 	char	c;
 	int		i;
-	int		n_read;
 
 	line = malloc(sizeof(char) * BUF_SIZE);
 	if (!line)
@@ -121,7 +76,7 @@ char	*get_next_line(int fd)
 	i = 0;
 	while (1)
 	{
-		n_read = read(fd, &c, 1);
+		read(fd, &c, 1);
 		line[i++] = c;
 		if (c == '\n')
 			break ;

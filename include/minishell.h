@@ -6,7 +6,7 @@
 /*   By: fmarin-p <fmarin-p@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 14:34:40 by fmarin-p          #+#    #+#             */
-/*   Updated: 2023/03/01 19:00:12 by fmarin-p         ###   ########.fr       */
+/*   Updated: 2023/03/01 21:23:44 by fmarin-p         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,7 @@ char		*append_str(t_list **head);
 char		*restore_pipes(char *line);
 char		*restore_vars(char *line);
 char		*restore_quotes(char *line);
+char		*hide_quoted_metachars(int i, int j, char *line, int quote);
 
 // cmds
 void		pwd_cmd(void);
@@ -87,7 +88,7 @@ char		**expand_metachar(t_cmdtable *rl, char **rev_cmd);
 char		**lstoarr(t_list **head);
 char		*restore_metachar(char *line, int control);
 
-void		reading_doc(int fd_tmp, char *keyword, int control);
+void		reading_doc(int fd_tmp, char *keyword);
 void		here_doc(t_cmdtable *rl, char *keyword);
 void		close_pipe(t_cmdtable *rl, int fd);
 void		close_fd(t_cmdtable *rl);
