@@ -22,12 +22,12 @@ void	reading_doc(t_cmdtable *rl, char *keyword)
 		appended_line = readline("> ");
 		if (!ft_strncmp(appended_line, keyword, ft_strlen(keyword) + 1))
 			break ;
-		write(rl->pipe[1], appended_line, ft_strlen(appended_line));
-		write(rl->pipe[1], "\n", 1);
+		write(rl->fd_tmp, appended_line, ft_strlen(appended_line));
+		write(rl->fd_tmp, "\n", 1);
 		free(appended_line);
 	}
-	close(rl->pipe[1]);
 	free(appended_line);
+	close(rl->fd_tmp);
 	exit(0);
 }
 
@@ -35,15 +35,15 @@ void	here_doc(t_cmdtable *rl, char *keyword)
 {
 	pid_t	pid;
 
-	if (pipe(rl->pipe) == -1)
-		perror("pipe");
+	rl->fd_tmp = open(".tmp", O_TRUNC | O_CREAT | O_RDWR, 0644);
+	if (rl->fd_tmp == -1)
+		perror("open");
 	pid = fork();
 	if (pid == -1)
 		perror("fork");
 	if (!pid)
-		(close(rl->pipe[0]), reading_doc(rl, keyword));
-	close_pipe(rl, 0);
+		reading_doc(rl, keyword);
 	(signal(SIGINT, SIG_IGN), wait(&rl->status));
 	if (WTERMSIG(rl->status) == SIGINT)
-		write(STDOUT_FILENO, "\n", 1);
+		(write(STDOUT_FILENO, "\n", 1), close_fd(rl));
 }

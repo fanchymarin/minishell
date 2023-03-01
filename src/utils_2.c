@@ -63,3 +63,26 @@ int	quotes_closed(char *line, int i, char quote)
 		return (last_quote);
 	return (-1);
 }
+
+void	close_fd(t_cmdtable *rl)
+{
+	pid_t	pid;
+	char	**cmd;
+
+	rl->infile = 0;
+	rl->outfile = 0;
+	if (rl->fd_tmp)
+	{
+		(close(rl->fd_tmp), rl->fd_tmp = 0);
+		cmd = ft_split("rm -f .tmp", ' ');
+		pid = fork();
+		if (pid == -1)
+			perror("fork");
+		else if (!pid)
+		{
+			execve_cmd(rl->env, ft_find_path(cmd[0], rl->env), cmd);
+			exit(0);
+		}
+		free_dp(cmd);
+	}
+}
