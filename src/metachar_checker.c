@@ -6,30 +6,23 @@
 /*   By: fmarin-p <fmarin-p@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/17 13:40:54 by fmarin-p          #+#    #+#             */
-/*   Updated: 2023/03/01 15:08:31 by fmarin-p         ###   ########.fr       */
+/*   Updated: 2023/03/01 18:41:48 by fmarin-p         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	theres_quote(char *str, char quote)
+int	theres_quote(char *str)
 {
 	int	i;
 
 	i = -1;
 	while (str[++i])
 	{
-		if (!quote)
-		{	
-			if (str[i] == SIMPLE_QUOTE)
-				return (SIMPLE_QUOTE);
-			else if (str[i] == DOUBLE_QUOTE)
-				return (DOUBLE_QUOTE);
-		}
-		else
-			if (str[i] == quote)
-				return (ft_memmove(&str[i], &str[i + 1], ft_strlen(str) - i),
-					quote);
+		if (str[i] == SIMPLE_QUOTE)
+			return (SIMPLE_QUOTE);
+		else if (str[i] == DOUBLE_QUOTE)
+			return (DOUBLE_QUOTE);
 	}
 	return (0);
 }
@@ -40,14 +33,32 @@ char	*append_quoted(char **cmd, int *i, int quote)
 
 	head = malloc(sizeof(t_list *));
 	*head = 0;
+	ft_memmove(ft_strchr(cmd[*i], quote), ft_strchr(cmd[*i],
+			quote) + 1, ft_strlen(ft_strchr(cmd[*i], quote)));
 	ft_lstadd_back(head, ft_lstnew(ft_strdup(cmd[(*i)++])));
 	ft_lstadd_back(head, ft_lstnew(ft_strdup(" ")));
-	while (theres_quote(cmd[*i], quote) != quote && cmd[*i])
+	while (cmd[*i] && !ft_strchr(cmd[*i], quote))
 		(ft_lstadd_back(head, ft_lstnew(ft_strdup(cmd[(*i)++]))),
 			ft_lstadd_back(head, ft_lstnew(ft_strdup(" "))));
-	theres_quote(cmd[*i], quote);
+	ft_memmove(ft_strchr(cmd[*i], quote), ft_strchr(cmd[*i],
+			quote) + 1, ft_strlen(ft_strchr(cmd[*i], quote)));
 	ft_lstadd_back(head, ft_lstnew(ft_strdup(cmd[(*i)++])));
 	return (append_str(head));
+}
+
+char	**remove_quotes(char **cmd, char *line, int quote)
+{
+	char	*quote_loc;
+	int		i;
+
+	quote_loc = ft_strchr(line, quote);
+	ft_memmove(quote_loc, quote_loc + 1, ft_strlen(quote_loc));
+	quote_loc = ft_strchr(line, quote);
+	ft_memmove(quote_loc, quote_loc + 1, ft_strlen(quote_loc));
+	i = 0;
+	while (cmd[i])
+		restore_quotes(cmd[i++]);
+	return (cmd);
 }
 
 char	**struct_quotes(char *old_cmd)
@@ -55,27 +66,29 @@ char	**struct_quotes(char *old_cmd)
 	char	**cmd;
 	char	**new_cmd;
 	int		quote;
-	int		i;
-	int		j;
+	int		i[2];
 
 	cmd = ft_split(old_cmd, ' ');
-	quote = theres_quote(old_cmd, 0);
+	quote = theres_quote(old_cmd);
 	if (!quote)
 		return (cmd);
 	new_cmd = ft_calloc(sizeof(char *), cmd_counter(cmd));
-	i = 0;
-	j = 0;
-	while (cmd[i])
+	i[0] = 0;
+	i[1] = 0;
+	while (cmd[i[0]])
 	{
-		if (theres_quote(cmd[i], quote) == quote)
+		if (ft_strchr(cmd[i[0]], quote))
 		{
-			new_cmd[j++] = restore_metachar(append_quoted(cmd, &i, quote), 1);
+			if (ft_strchr(cmd[i[0]], quote) != ft_strrchr(cmd[i[0]], quote))
+				return (free_dp(new_cmd), remove_quotes(cmd, cmd[i[0]], quote));
+			else
+				new_cmd[i[1]++] = restore_quotes(
+						append_quoted(cmd, &i[0], quote));
 			continue ;
 		}
-		new_cmd[j++] = ft_strdup(cmd[i++]);
+		new_cmd[i[1]++] = ft_strdup(cmd[i[0]++]);
 	}
-	free_dp(cmd);
-	return (new_cmd);
+	return (free_dp(cmd), new_cmd);
 }
 
 char	*manage_quotes(char *line, int i, char quote)
@@ -86,6 +99,8 @@ char	*manage_quotes(char *line, int i, char quote)
 	while (j == -1)
 	{
 		line = nested_shell(line, &quote);
+		if (!line)
+			return (NULL);
 		j = quotes_closed(line, i, quote);
 	}
 	while (++i < j)
@@ -117,6 +132,8 @@ char	*quotes_checker(char *line)
 			line = manage_quotes(line, i, DOUBLE_QUOTE);
 		else if (line[i] == SIMPLE_QUOTE)
 			line = manage_quotes(line, i, SIMPLE_QUOTE);
+		if (!line)
+			return (NULL);
 		if (line[i] == DOUBLE_QUOTE || line[i] == SIMPLE_QUOTE)
 			break ;
 	}

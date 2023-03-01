@@ -6,7 +6,7 @@
 /*   By: fmarin-p <fmarin-p@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 14:36:43 by fmarin-p          #+#    #+#             */
-/*   Updated: 2023/03/01 13:06:39 by fmarin-p         ###   ########.fr       */
+/*   Updated: 2023/03/01 18:30:10 by fmarin-p         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,7 @@ int	exec_command_parent(t_cmdtable *rl, char **cmd)
 		rl->env = unset_cmd(rl->env, cmd);
 		stat++;
 	}
-	free_dp(cmd);
-	return (stat);
+	return (free_dp(cmd), stat);
 }
 
 void	signal_handler(int sig)
@@ -58,6 +57,7 @@ void	forks_n_pipes(t_cmdtable *rl)
 	while (++i < rl->n_cmd)
 	{
 		check_red_files(rl, rl->all_cmd[i]);
+		restore_pipes(rl->all_cmd[i]);
 		if (exec_command_parent(rl, struct_quotes(rl->all_cmd[i])))
 			continue ;
 		if (i != rl->n_cmd - 1)
@@ -88,6 +88,8 @@ int	main(void)
 		}
 		add_history(rl.line);
 		rl.line = quotes_checker(rl.line);
+		if (!rl.line)
+			continue ;
 		rl.all_cmd = expand_metachar(&rl, ft_split(rl.line, '|'));
 		rl.n_cmd = cmd_counter(rl.all_cmd);
 		forks_n_pipes(&rl);

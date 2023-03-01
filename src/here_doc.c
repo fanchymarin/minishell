@@ -6,13 +6,13 @@
 /*   By: fmarin-p <fmarin-p@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/28 14:27:23 by fmarin-p          #+#    #+#             */
-/*   Updated: 2023/02/28 16:25:08 by fmarin-p         ###   ########.fr       */
+/*   Updated: 2023/03/01 15:59:50 by fmarin-p         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	reading_doc(t_cmdtable *rl, char *keyword)
+void	reading_doc(int fd_tmp, char *keyword, int control)
 {
 	char	*appended_line;
 
@@ -20,14 +20,15 @@ void	reading_doc(t_cmdtable *rl, char *keyword)
 	while (1)
 	{
 		appended_line = readline("> ");
-		if (!ft_strncmp(appended_line, keyword, ft_strlen(keyword) + 1))
+		if ((!ft_strncmp(appended_line, keyword, ft_strlen(keyword) + 1)
+				&& !control) || (ft_strchr(appended_line, *keyword) && control))
 			break ;
-		write(rl->fd_tmp, appended_line, ft_strlen(appended_line));
-		write(rl->fd_tmp, "\n", 1);
+		write(fd_tmp, appended_line, ft_strlen(appended_line));
+		write(fd_tmp, "\n", 1);
 		free(appended_line);
 	}
 	free(appended_line);
-	close(rl->fd_tmp);
+	close(fd_tmp);
 	exit(0);
 }
 
@@ -42,7 +43,7 @@ void	here_doc(t_cmdtable *rl, char *keyword)
 	if (pid == -1)
 		perror("fork");
 	if (!pid)
-		reading_doc(rl, keyword);
+		reading_doc(rl->fd_tmp, keyword, 0);
 	(signal(SIGINT, SIG_IGN), wait(&rl->status));
 	if (WTERMSIG(rl->status) == SIGINT)
 		(write(STDOUT_FILENO, "\n", 1), close_fd(rl));

@@ -6,7 +6,7 @@
 /*   By: fmarin-p <fmarin-p@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 14:34:40 by fmarin-p          #+#    #+#             */
-/*   Updated: 2023/03/01 14:58:57 by fmarin-p         ###   ########.fr       */
+/*   Updated: 2023/03/01 16:51:29 by fmarin-p         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,8 @@
 # include <fcntl.h>
 # include <signal.h>
 # include <sys/signal.h>
+# include <sys/types.h>
+# include <sys/stat.h>
 
 typedef struct s_cmdtable
 {
@@ -58,6 +60,11 @@ void		ft_lstdelnode(t_list **head, t_list *node, t_list *tmp);
 int			quotes_closed(char *line, int i, char quote);
 char		*append_str(t_list **head);
 
+// restore metachars
+char		*restore_pipes(char *line);
+char		*restore_vars(char *line);
+char		*restore_quotes(char *line);
+
 // cmds
 void		pwd_cmd(void);
 void		cd_cmd(char **cmd);
@@ -80,6 +87,7 @@ char		**expand_metachar(t_cmdtable *rl, char **rev_cmd);
 char		**lstoarr(t_list **head);
 char		*restore_metachar(char *line, int control);
 
+void		reading_doc(int fd_tmp, char *keyword, int control);
 void		here_doc(t_cmdtable *rl, char *keyword);
 void		close_pipe(t_cmdtable *rl, int fd);
 void		close_fd(t_cmdtable *rl);

@@ -56,3 +56,4 @@ t_cmdtable	init_struct(void)
 	signal(SIGQUIT, SIG_IGN);
 	return (rl);
 }
+

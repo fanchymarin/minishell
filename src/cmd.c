@@ -6,7 +6,7 @@
 /*   By: fmarin-p <fmarin-p@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/03 17:32:59 by fmarin-p          #+#    #+#             */
-/*   Updated: 2023/02/28 15:09:29 by fmarin-p         ###   ########.fr       */
+/*   Updated: 2023/03/01 18:57:13 by fmarin-p         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,9 +34,13 @@ void	echo_cmd(char **word)
 		i++;
 	while (word[i])
 	{
-		printf("%s", word[i]);
-		if (word[i++ + 1])
-			printf(" ");
+		if (ft_strncmp(word[i], "-n\0", 3))
+		{
+			printf("%s", word[i]);
+			if (word[i + 1])
+				printf(" ");
+		}
+		i++;
 	}
 	if (ft_strncmp(word[1], "-n\0", 3))
 		printf("\n");
