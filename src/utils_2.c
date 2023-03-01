@@ -6,7 +6,7 @@
 /*   By: fmarin-p <fmarin-p@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/18 13:19:20 by fmarin-p          #+#    #+#             */
-/*   Updated: 2023/03/01 16:00:38 by fmarin-p         ###   ########.fr       */
+/*   Updated: 2023/03/01 18:59:38 by fmarin-p         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,4 +106,26 @@ void	close_fd(t_cmdtable *rl)
 		}
 		free_dp(cmd);
 	}
+}
+
+char	*get_next_line(int fd)
+{
+	char	*line;
+	char	c;
+	int		i;
+	int		n_read;
+
+	line = malloc(sizeof(char) * BUF_SIZE);
+	if (!line)
+		return (0);
+	i = 0;
+	while (1)
+	{
+		n_read = read(fd, &c, 1);
+		line[i++] = c;
+		if (c == '\n')
+			break ;
+	}
+	line[i] = '\0';
+	return (line);
 }

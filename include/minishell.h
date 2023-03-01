@@ -6,7 +6,7 @@
 /*   By: fmarin-p <fmarin-p@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 14:34:40 by fmarin-p          #+#    #+#             */
-/*   Updated: 2023/03/01 16:51:29 by fmarin-p         ###   ########.fr       */
+/*   Updated: 2023/03/01 19:00:12 by fmarin-p         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,5 +91,6 @@ void		reading_doc(int fd_tmp, char *keyword, int control);
 void		here_doc(t_cmdtable *rl, char *keyword);
 void		close_pipe(t_cmdtable *rl, int fd);
 void		close_fd(t_cmdtable *rl);
+char		*get_next_line(int fd);
 
 #endif
