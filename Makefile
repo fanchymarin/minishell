@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: fmarin-p <fmarin-p@student.42.fr>          +#+  +:+       +#+         #
+#    By: clcarrer <clcarrer@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/12 14:33:11 by fmarin-p          #+#    #+#              #
-#    Updated: 2023/03/01 21:12:10 by fmarin-p         ###   ########.fr        #
+#    Updated: 2023/03/02 15:11:55 by clcarrer         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -32,7 +32,7 @@ all: $(NAME)
 
 $(NAME): $(SRCOBJ)
 	$(MAKE) bonus -C $(LIBFTDIR)
-	gcc $^ $(LIBFTDIR)libft.a -lreadline -fsanitize=address -fsanitize=leak $(LDFLAGS)-o $@
+	gcc $^ $(LIBFTDIR)libft.a -lreadline -fsanitize=address $(LDFLAGS) -o $@
 
 $(OBJDIR)%.o: $(SRCDIR)%.c
 	mkdir -p obj
