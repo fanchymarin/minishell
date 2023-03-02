@@ -51,7 +51,6 @@ t_cmdtable	init_struct(void)
 	rl_catch_signals = 0;
 	rl.infile = 0;
 	rl.outfile = 0;
-	rl.fd_tmp = 0;
 	rl.env = clone_env();
 	signal(SIGQUIT, SIG_IGN);
 	return (rl);

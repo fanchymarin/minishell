@@ -43,7 +43,6 @@ typedef struct s_cmdtable
 	int		pipe[2];
 	int		infile;
 	int		outfile;
-	int		fd_tmp;
 	int		std_in;
 	int		status;
 }	t_cmdtable;
