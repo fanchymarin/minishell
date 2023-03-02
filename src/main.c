@@ -6,7 +6,7 @@
 /*   By: clcarrer <clcarrer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 14:36:43 by fmarin-p          #+#    #+#             */
-/*   Updated: 2023/03/02 20:09:01 by clcarrer         ###   ########.fr       */
+/*   Updated: 2023/03/02 20:21:46 by clcarrer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,8 +68,7 @@ void	forks_n_pipes(t_cmdtable *rl)
 		if (i != rl->n_cmd - 1)
 			if (pipe(rl->pipe) == -1)
 				perror("pipe");
-		fork_process(rl, i);
-		close_fd(rl);
+		(fork_process(rl, i), rl->infile = 0, rl->outfile = 0);
 	}
 	(free_dp(rl->all_cmd), free(rl->line));
 	(dup2(rl->std_in, 0), close(rl->std_in));

@@ -6,17 +6,50 @@
 /*   By: clcarrer <clcarrer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/18 13:19:20 by fmarin-p          #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2023/03/02 20:14:00 by clcarrer         ###   ########.fr       */
+=======
+/*   Updated: 2023/03/02 19:21:26 by fmarin-p         ###   ########.fr       */
+>>>>>>> cbabaad63c903930d84012d87a87c865a0520c8d
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+char	*append_from_input(char *old_line, int *pipe)
+{
+	struct stat	pipe_inf;
+	char		*new_line;
+	char		*appended_line;
+
+	if (fstat(pipe[0], &pipe_inf) == -1)
+		perror("fstat");
+	new_line = ft_calloc(sizeof(char),
+			ft_strlen(old_line) + pipe_inf.st_size + 1);
+	if (read(pipe[0], new_line, pipe_inf.st_size) == -1)
+		perror("read");
+	appended_line = ft_strjoin(old_line, new_line);
+	(close(pipe[0]), close(pipe[1]));
+	return (free(new_line), free(old_line), appended_line);
+}
+
 char	*nested_shell(char *line, char *keyword)
 {
-	(void) line;
-	(void) keyword;
-	return (NULL);
+	pid_t	pid;
+	int		qpipe[2];
+	int		status;
+
+	pipe(qpipe);
+	pid = fork();
+	if (pid == -1)
+		perror("fork");
+	else if (!pid)
+		(close(qpipe[0]), reading_doc(qpipe[1], keyword, 0));
+	(close(qpipe[1]), signal(SIGINT, SIG_IGN), wait(&status));
+	if (WTERMSIG(status) == SIGINT)
+		return (close(qpipe[0]), close(qpipe[1]), write(STDOUT_FILENO, "\n", 1),
+			NULL);
+	return (append_from_input(line, qpipe));
 }
 
 void	ft_lstdelnode(t_list **head, t_list *node, t_list *tmp)
