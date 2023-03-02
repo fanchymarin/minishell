@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fmarin-p <fmarin-p@student.42.fr>          +#+  +:+       +#+        */
+/*   By: clcarrer <clcarrer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 14:34:40 by fmarin-p          #+#    #+#             */
-/*   Updated: 2023/03/02 15:34:07 by fmarin-p         ###   ########.fr       */
+/*   Updated: 2023/03/02 20:07:03 by clcarrer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ void		red_pipe_child(t_cmdtable *rl, int i);
 void		fork_process(t_cmdtable *rl, int i);
 
 // check_files
-void		check_red_files(t_cmdtable *rl, char *cmd_line);
+int			check_red_files(t_cmdtable *rl, char *cmd_line);
 int			manage_line(t_cmdtable *rl, char *cmd_line, int i);
 char		*quotes_checker(char *line);
 char		**struct_quotes(char *old_cmd);
@@ -92,5 +92,6 @@ void		reading_doc(int fd_tmp, char *keyword);
 void		here_doc(t_cmdtable *rl, char *keyword);
 void		close_pipe(t_cmdtable *rl, int fd);
 void		close_fd(t_cmdtable *rl);
+void		error_msg(char c);
 
 #endif

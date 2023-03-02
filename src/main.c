@@ -6,7 +6,7 @@
 /*   By: clcarrer <clcarrer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 14:36:43 by fmarin-p          #+#    #+#             */
-/*   Updated: 2023/03/02 16:21:26 by clcarrer         ###   ########.fr       */
+/*   Updated: 2023/03/02 20:09:01 by clcarrer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,8 @@ int	exec_command_parent(t_cmdtable *rl, char **cmd)
 	int	stat;
 
 	stat = 0;
-	if (!cmd[0])
-		return (printf("minishell: syntax error"), free_dp(cmd), 2);
+	if (!cmd[0] && rl->n_cmd > 1)
+		return (error_msg(PIPE), free_dp(cmd), 2);
 	if (!ft_strncmp(cmd[0], "exit\0", 5))
 		(ft_lstclear(rl->env, (*free)), free_dp(cmd), exit(0));
 	else if (!ft_strncmp(cmd[0], "cd\0", 3))
@@ -57,7 +57,8 @@ void	forks_n_pipes(t_cmdtable *rl)
 	i = -1;
 	while (++i < rl->n_cmd)
 	{
-		check_red_files(rl, rl->all_cmd[i]);
+		if (!check_red_files(rl, rl->all_cmd[i]))
+			break ;
 		restore_pipes(rl->all_cmd[i]);
 		stat = exec_command_parent(rl, struct_quotes(rl->all_cmd[i]));
 		if (stat == 1)
