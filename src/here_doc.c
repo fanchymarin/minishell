@@ -6,19 +6,11 @@
 /*   By: fmarin-p <fmarin-p@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/28 14:27:23 by fmarin-p          #+#    #+#             */
-/*   Updated: 2023/03/02 19:07:30 by fmarin-p         ###   ########.fr       */
+/*   Updated: 2023/03/02 19:33:53 by fmarin-p         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-void	close_fd(t_cmdtable *rl)
-{
-	rl->infile = 0;
-	rl->outfile = 0;
-	close(rl->pipe[0]);
-	close(rl->pipe[1]);
-}
 
 void	reading_doc(int pipe, char *keyword, int control)
 {
@@ -55,5 +47,5 @@ void	here_doc(t_cmdtable *rl, char *keyword)
 		(close(rl->pipe[0]), reading_doc(rl->pipe[1], keyword, 1));
 	(redirect_pipe(rl->pipe, 0), signal(SIGINT, SIG_IGN), wait(&rl->status));
 	if (WTERMSIG(rl->status) == SIGINT)
-		(write(STDOUT_FILENO, "\n", 1), close_fd(rl));
+		write(STDOUT_FILENO, "\n", 1);
 }

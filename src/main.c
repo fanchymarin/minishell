@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: clcarrer <clcarrer@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fmarin-p <fmarin-p@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 14:36:43 by fmarin-p          #+#    #+#             */
-/*   Updated: 2023/03/02 16:21:26 by clcarrer         ###   ########.fr       */
+/*   Updated: 2023/03/02 19:33:18 by fmarin-p         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,8 +67,7 @@ void	forks_n_pipes(t_cmdtable *rl)
 		if (i != rl->n_cmd - 1)
 			if (pipe(rl->pipe) == -1)
 				perror("pipe");
-		fork_process(rl, i);
-		close_fd(rl);
+		(fork_process(rl, i), rl->infile = 0, rl->outfile = 0);
 	}
 	(free_dp(rl->all_cmd), free(rl->line));
 	(dup2(rl->std_in, 0), close(rl->std_in));

@@ -6,7 +6,7 @@
 /*   By: fmarin-p <fmarin-p@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/03 17:32:59 by fmarin-p          #+#    #+#             */
-/*   Updated: 2023/03/02 16:20:00 by fmarin-p         ###   ########.fr       */
+/*   Updated: 2023/03/02 19:40:08 by fmarin-p         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ void	execve_cmd(t_list **env, char *abs_path, char **cmd)
 	char	**array_env;
 
 	array_env = lstoarr(env);
-	if (execve(abs_path, cmd, array_env) == -1)
+	if (!abs_path || execve(abs_path, cmd, array_env) == -1)
 		printf("minishell: %s: command not found\n", cmd[0]);
 	free(abs_path);
 	free_dp(array_env);
