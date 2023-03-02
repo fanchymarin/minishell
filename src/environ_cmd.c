@@ -6,7 +6,7 @@
 /*   By: fmarin-p <fmarin-p@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/05 13:12:20 by fmarin-p          #+#    #+#             */
-/*   Updated: 2023/03/01 21:24:04 by fmarin-p         ###   ########.fr       */
+/*   Updated: 2023/03/02 16:26:49 by fmarin-p         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ t_list	**export_cmd(t_list **env, char **new_vars)
 {
 	int	i;
 
-	if (!check_syntax_n_size(env, &new_vars[1]))
+	if (!new_vars[1] || !check_syntax_n_size(env, &new_vars[1]))
 		return (env);
 	i = 0;
 	while (new_vars[++i])
@@ -82,6 +82,8 @@ t_list	**unset_cmd(t_list **env, char **name)
 	t_list	*line;
 	t_list	*tmp;
 
+	if (!name[1])
+		return (printf("unset: not enough arguments\n"), env);
 	full_name = ft_strjoin(name[1], "=");
 	line = *env;
 	while (line)
