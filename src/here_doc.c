@@ -6,7 +6,7 @@
 /*   By: fmarin-p <fmarin-p@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/28 14:27:23 by fmarin-p          #+#    #+#             */
-/*   Updated: 2023/03/01 21:09:08 by fmarin-p         ###   ########.fr       */
+/*   Updated: 2023/03/02 16:30:22 by fmarin-p         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,9 +49,7 @@ void	here_doc(t_cmdtable *rl, char *keyword)
 		perror("fork");
 	else if (!pid)
 		(close(rl->pipe[0]), reading_doc(rl->pipe[1], keyword));
-	else
-		(close_pipe(rl, 0), wait(&rl->status));
-	(signal(SIGINT, SIG_IGN), wait(&rl->status));
+	(close_pipe(rl, 0), signal(SIGINT, SIG_IGN), wait(&rl->status));
 	if (WTERMSIG(rl->status) == SIGINT)
 		(write(STDOUT_FILENO, "\n", 1), close_fd(rl));
 }

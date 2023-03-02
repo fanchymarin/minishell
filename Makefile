@@ -3,14 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: clcarrer <clcarrer@student.42.fr>          +#+  +:+       +#+         #
+#    By: fmarin-p <fmarin-p@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/12 14:33:11 by fmarin-p          #+#    #+#              #
-<<<<<<< HEAD
-#    Updated: 2023/03/02 15:11:55 by clcarrer         ###   ########.fr        #
-=======
-#    Updated: 2023/03/02 15:39:12 by fmarin-p         ###   ########.fr        #
->>>>>>> b3b7f6dc7e71d3d75a95325244452da1425aca68
+#    Updated: 2023/03/02 16:53:37 by fmarin-p         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -37,12 +33,8 @@ all: $(NAME)
 
 $(NAME): $(SRCOBJ)
 	$(MAKE) bonus -C $(LIBFTDIR)
-<<<<<<< HEAD
-	gcc $^ $(LIBFTDIR)libft.a -lreadline -fsanitize=address $(LDFLAGS) -o $@
-=======
 	$(MAKE) bonus -C $(GNLDIR)
 	gcc $^ $(LIBFTDIR)libft.a $(GNLDIR)get_next_line.a -lreadline -fsanitize=address $(LDFLAGS) -o $@
->>>>>>> b3b7f6dc7e71d3d75a95325244452da1425aca68
 
 $(OBJDIR)%.o: $(SRCDIR)%.c
 	mkdir -p obj
