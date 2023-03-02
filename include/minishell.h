@@ -6,7 +6,7 @@
 /*   By: fmarin-p <fmarin-p@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 14:34:40 by fmarin-p          #+#    #+#             */
-/*   Updated: 2023/03/01 21:23:44 by fmarin-p         ###   ########.fr       */
+/*   Updated: 2023/03/02 15:34:07 by fmarin-p         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@
 # define BUF_SIZE 4096
 
 # include "libft.h"
+# include "get_next_line.h"
 # include <stdio.h>
 # include <readline/readline.h>
 # include <readline/history.h>
@@ -91,6 +92,5 @@ void		reading_doc(int fd_tmp, char *keyword);
 void		here_doc(t_cmdtable *rl, char *keyword);
 void		close_pipe(t_cmdtable *rl, int fd);
 void		close_fd(t_cmdtable *rl);
-char		*get_next_line(int fd);
 
 #endif
