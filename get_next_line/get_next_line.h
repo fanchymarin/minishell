@@ -6,7 +6,7 @@
 /*   By: fmarin-p <fmarin-p@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/06 17:24:27 by fmarin-p          #+#    #+#             */
-/*   Updated: 2023/03/02 15:32:28 by fmarin-p         ###   ########.fr       */
+/*   Updated: 2023/03/03 10:24:24 by fmarin-p         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 # include <unistd.h>
 # include <stdlib.h>
-# define BUFFER_SIZE 1
+# define BUFFER_SIZE 4092
 
 char	*get_next_line(int fd);
 char	*ft_strchr(const char *s, int c);

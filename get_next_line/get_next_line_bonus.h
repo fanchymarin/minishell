@@ -6,7 +6,7 @@
 /*   By: fmarin-p <fmarin-p@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/20 17:15:48 by fmarin-p          #+#    #+#             */
-/*   Updated: 2023/03/02 15:33:04 by fmarin-p         ###   ########.fr       */
+/*   Updated: 2023/03/03 10:21:49 by fmarin-p         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 # include <unistd.h>
 # include <stdlib.h>
-# define BUFFER_SIZE 1
+# define BUFFER_SIZE 4092
 
 typedef struct s_list
 {
@@ -26,10 +26,10 @@ typedef struct s_list
 }	t_list;
 
 char	*get_next_line(int fd);
-char	*ft_strchr(const char *s, int c);
-char	*ft_strjoin(char const *s1, char const *s2);
+char	*ft_strchr_gnl(const char *s, int c);
+char	*ft_strjoin_gnl(char const *s1, char const *s2);
 char	*ft_concat_str(char *buf, char *memory);
-size_t	ft_strlen(const char *str);
+size_t	ft_strlen_gnl(const char *str);
 int		free_list(t_list **head, t_list *node, t_list *tmp);
 int		storage_memory(int fd, t_list **head, char *memory);
 

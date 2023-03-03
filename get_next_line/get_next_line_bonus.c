@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fmarin-p <fmarin-p@student.42madrid>       +#+  +:+       +#+        */
+/*   By: fmarin-p <fmarin-p@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/23 13:21:39 by fmarin-p          #+#    #+#             */
-/*   Updated: 2022/04/23 17:32:56 by fmarin-p         ###   ########.fr       */
+/*   Updated: 2023/03/03 10:22:44 by fmarin-p         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ char	*save_rest(char *memory)
 		free(memory);
 		return (0);
 	}
-	buf = malloc((ft_strlen(memory) - i + 1) * sizeof(char));
+	buf = malloc((ft_strlen_gnl(memory) - i + 1) * sizeof(char));
 	++i;
 	i2 = 0;
 	while (memory[i])
@@ -80,8 +80,8 @@ char	*read_fd(int fd, char *memory)
 			return (0);
 		}
 		buf[readb] = 0;
-		memory = ft_strjoin(memory, buf);
-		if (ft_strchr(buf, '\n'))
+		memory = ft_strjoin_gnl(memory, buf);
+		if (ft_strchr_gnl(buf, '\n'))
 			break ;
 	}
 	free(buf);
