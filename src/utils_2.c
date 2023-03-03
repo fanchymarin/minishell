@@ -6,7 +6,7 @@
 /*   By: fmarin-p <fmarin-p@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/18 13:19:20 by fmarin-p          #+#    #+#             */
-/*   Updated: 2023/03/02 21:00:59 by fmarin-p         ###   ########.fr       */
+/*   Updated: 2023/03/03 08:13:21 by fmarin-p         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,4 +74,13 @@ void	error_msg(char c)
 		c = '>';
 		printf("minishell: syntax error near unexpected token `%c%c'\n", c, c);
 	}
+}
+
+void	print_dp(char **dp)
+{
+	int	i;
+
+	i = -1;
+	while (dp[++i])
+		printf("dp[%d]:_%s_\n", i, dp[i]);
 }

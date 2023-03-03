@@ -6,7 +6,7 @@
 /*   By: fmarin-p <fmarin-p@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/01 21:10:26 by fmarin-p          #+#    #+#             */
-/*   Updated: 2023/03/01 21:17:54 by fmarin-p         ###   ########.fr       */
+/*   Updated: 2023/03/03 08:17:46 by fmarin-p         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ char	**struct_quotes(char *old_cmd)
 	quote = theres_quote(old_cmd);
 	if (!quote)
 		return (cmd);
-	new_cmd = ft_calloc(sizeof(char *), cmd_counter(cmd));
+	new_cmd = ft_calloc(sizeof(char *), cmd_counter(cmd) + 1);
 	i[0] = 0;
 	i[1] = 0;
 	while (cmd[i[0]])
