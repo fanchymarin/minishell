@@ -6,7 +6,7 @@
 /*   By: fmarin-p <fmarin-p@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/01 16:49:00 by fmarin-p          #+#    #+#             */
-/*   Updated: 2023/03/01 21:25:30 by fmarin-p         ###   ########.fr       */
+/*   Updated: 2023/03/03 08:46:31 by fmarin-p         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ void	expand_vars(char *line, t_cmdtable *rl, t_list **head, int *i)
 			i[0]++);
 	else
 	{
-		while (ft_isalnum(line[i[0]]))
+		while (!ft_isblank(line[i[0]]) && line[i[0]])
 			i[0]++;
 		name = ft_substr(line, i[1] + 1, i[0] - i[1] - 1);
 		if (ft_getenv(rl->env, name, value))

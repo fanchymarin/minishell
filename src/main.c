@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: clcarrer <clcarrer@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fmarin-p <fmarin-p@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 14:36:43 by fmarin-p          #+#    #+#             */
-/*   Updated: 2023/03/02 20:21:46 by clcarrer         ###   ########.fr       */
+/*   Updated: 2023/03/03 08:52:16 by fmarin-p         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@ int	exec_command_parent(t_cmdtable *rl, char **cmd)
 	stat = 0;
 	if (!cmd[0] && rl->n_cmd > 1)
 		return (error_msg(PIPE), free_dp(cmd), 2);
+	if (!cmd[0])
+		return (free_dp(cmd), 1);
 	if (!ft_strncmp(cmd[0], "exit\0", 5))
 		(ft_lstclear(rl->env, (*free)), free_dp(cmd), exit(0));
 	else if (!ft_strncmp(cmd[0], "cd\0", 3))
