@@ -6,7 +6,7 @@
 /*   By: fmarin-p <fmarin-p@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 14:34:40 by fmarin-p          #+#    #+#             */
-/*   Updated: 2023/03/03 08:13:40 by fmarin-p         ###   ########.fr       */
+/*   Updated: 2023/03/03 09:40:26 by fmarin-p         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,6 +93,7 @@ void		here_doc(t_cmdtable *rl, char *keyword);
 void		redirect_pipe(int *pipe, int fd);
 void		close_fd(t_cmdtable *rl);
 void		error_msg(char c);
+int			err(int code, char *name);
 
 // debug
 void		print_dp(char **dp);
