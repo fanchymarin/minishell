@@ -6,7 +6,7 @@
 /*   By: fmarin-p <fmarin-p@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/05 13:12:20 by fmarin-p          #+#    #+#             */
-/*   Updated: 2023/03/02 16:26:49 by fmarin-p         ###   ########.fr       */
+/*   Updated: 2023/03/04 19:11:54 by fmarin-p         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,15 +36,16 @@ int	check_syntax_n_size(t_list **env, char **new_vars)
 	new_lines = 0;
 	while (new_vars[++i])
 	{
-		if (!ft_isalpha(new_vars[i][0]) || !ft_strchr(new_vars[i], '=')
-			|| ft_strchr(new_vars[i], '=') != ft_strrchr(new_vars[i], '='))
+		split_var = ft_split(new_vars[i], '=');
+		if (split_var[2])
+			split_var = restore_equals(split_var);
+		if (!*split_var[0] || !*split_var[1] || !ft_isalpha(split_var[0][0]))
 		{
 			printf("minishell: export: '%s': is not a valid identifier\n",
 				new_vars[i]);
-			*new_vars[i] = '?';
+			(free_dp(split_var), *new_vars[i] = '?');
 			continue ;
 		}
-		split_var = ft_split(new_vars[i], '=');
 		if (ft_getenv(env, split_var[0], value_buf))
 			(replace_var(env, new_vars[i], ft_strjoin(split_var[0], "=")));
 		else
