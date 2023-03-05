@@ -6,7 +6,7 @@
 /*   By: fmarin-p <fmarin-p@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/17 20:32:08 by fmarin-p          #+#    #+#             */
-/*   Updated: 2023/03/01 21:26:04 by fmarin-p         ###   ########.fr       */
+/*   Updated: 2023/03/05 18:03:15 by fmarin-p         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,9 @@ t_list	**clone_env(void)
 t_cmdtable	init_struct(void)
 {
 	t_cmdtable	rl;
+	extern FILE	*stderr;
 
+	rl_outstream = stderr;
 	rl_catch_signals = 0;
 	rl.infile = 0;
 	rl.outfile = 0;

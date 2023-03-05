@@ -6,7 +6,7 @@
 /*   By: fmarin-p <fmarin-p@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 14:34:40 by fmarin-p          #+#    #+#             */
-/*   Updated: 2023/03/04 19:00:12 by fmarin-p         ###   ########.fr       */
+/*   Updated: 2023/03/05 18:55:11 by fmarin-p         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,8 @@ char		*ft_getenv(t_list **env, char *name, char *value);
 void		ft_lstdelnode(t_list **head, t_list *node, t_list *tmp);
 int			quotes_closed(char *line, int i, char quote);
 char		*append_str(t_list **head);
-char		**restore_equals(char **var);
+int			check_syntax(t_list **env, char **new_vars);
+void		replace_var(t_list **env, char *rep_var, char *var_name);
 
 // restore metachars
 char		*restore_pipes(char *line);

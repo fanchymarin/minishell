@@ -6,7 +6,7 @@
 /*   By: fmarin-p <fmarin-p@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/18 13:19:20 by fmarin-p          #+#    #+#             */
-/*   Updated: 2023/03/04 19:01:00 by fmarin-p         ###   ########.fr       */
+/*   Updated: 2023/03/05 18:48:24 by fmarin-p         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,19 +54,4 @@ void	print_dp(char **dp)
 	i = -1;
 	while (dp[++i])
 		printf("dp[%d]:_%s_\n", i, dp[i]);
-}
-
-char	**restore_equals(char **var)
-{
-	int		i;
-	char	*old_value;
-
-	i = 1;
-	while (var[++i])
-	{
-		old_value = var[1];
-		var[1] = ft_strjoin(var[1], var[i]);
-		free(old_value);
-	}
-	return (var);
 }

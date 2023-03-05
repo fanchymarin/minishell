@@ -6,7 +6,7 @@
 #    By: fmarin-p <fmarin-p@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/12 14:33:11 by fmarin-p          #+#    #+#              #
-#    Updated: 2023/03/02 19:26:40 by fmarin-p         ###   ########.fr        #
+#    Updated: 2023/03/05 18:53:33 by fmarin-p         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,7 +18,7 @@ CPPFLAGS := ${CPPFLAGS}
 CFLAGS = -c -g -Wall -Wextra -Werror $(CPPFLAGS) -I$(INCDIR) -I$(LIBFTDIR) -I$(GNLDIR)
 SRCFILES = main.c init_struct.c cmd.c environ_cmd.c utils.c utils_2.c \
 			check_files.c pipes.c metachar_checker.c metachar_restore.c \
-			vars_expansion.c here_doc.c manage_quotes.c
+			vars_expansion.c here_doc.c manage_quotes.c check_syntax_export.c 
 OBJFILES = $(SRCFILES:.c=.o)
 
 SRCOBJ = $(addprefix $(OBJDIR), $(OBJFILES))

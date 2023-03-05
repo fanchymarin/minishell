@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_files.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: clcarrer <clcarrer@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fmarin-p <fmarin-p@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/16 13:19:14 by fmarin-p          #+#    #+#             */
-/*   Updated: 2023/03/02 20:17:40 by clcarrer         ###   ########.fr       */
+/*   Updated: 2023/03/05 18:32:15 by fmarin-p         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,4 +92,33 @@ int	check_red_files(t_cmdtable *rl, char *cmd_line)
 		i++;
 	}
 	return (1);
+}
+
+char	*ft_find_path(char *cmd, t_list **env)
+{
+	int		i;
+	char	**split_path;
+	char	*path;
+	char	*slashed_cmd;
+	char	value_buf[BUF_SIZE];
+
+	if (!cmd)
+		return (0);
+	if (!access(cmd, 0) && ft_strchr(cmd, '/'))
+		return (cmd);
+	split_path = ft_split(ft_getenv(env, "PATH", value_buf), ':');
+	if (!split_path)
+		return (0);
+	i = -1;
+	while (split_path[++i])
+	{
+		slashed_cmd = ft_strjoin(split_path[i], "/");
+		path = ft_strjoin(slashed_cmd, cmd);
+		free(slashed_cmd);
+		if (access(path, 0) == 0)
+			return (free_dp(split_path), path);
+		free(path);
+	}
+	free_dp(split_path);
+	return (0);
 }
