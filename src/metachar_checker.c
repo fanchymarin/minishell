@@ -55,7 +55,9 @@ char	*quotes_checker(char *line)
 	i = -1;
 	while (line[++i])
 	{
-		if (line[i] == DOUBLE_QUOTE)
+		if (line[0] == PIPE || (line[i] == PIPE && line[i + 1] == PIPE))
+			return (error_msg(PIPE), NULL);
+		else if (line[i] == DOUBLE_QUOTE)
 			line = manage_quotes(line, i, DOUBLE_QUOTE);
 		else if (line[i] == SIMPLE_QUOTE)
 			line = manage_quotes(line, i, SIMPLE_QUOTE);
@@ -63,6 +65,8 @@ char	*quotes_checker(char *line)
 			return (NULL);
 		if (line[i] == DOUBLE_QUOTE || line[i] == SIMPLE_QUOTE)
 			break ;
+		// if (line[i + 1] == '\0' && line[i] == PIPE)
+		// 	line = next_cmd(line);
 	}
 	return (line);
 }

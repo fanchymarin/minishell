@@ -36,15 +36,9 @@ void	error_msg(char c)
 	if (c == LESS_THAN || c == MORE_THAN || c == PIPE)
 		printf("minishell: syntax error near unexpected token `%c'\n", c);
 	else if (c == HERE_DOC)
-	{
-		c = '<';
-		printf("minishell: syntax error near unexpected token `%c%c'\n", c, c);
-	}
+		printf("minishell: syntax error near unexpected token `heredoc'\n");
 	else if (c == APPEND)
-	{
-		c = '>';
-		printf("minishell: syntax error near unexpected token `%c%c'\n", c, c);
-	}
+		printf("minishell: syntax error near unexpected token `newline'\n");
 }
 
 void	print_dp(char **dp)

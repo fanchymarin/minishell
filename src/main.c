@@ -17,11 +17,9 @@ int	exec_command_parent(t_cmdtable *rl, char **cmd)
 	int	stat;
 
 	stat = 0;
-	if (!cmd[0] && rl->n_cmd > 1)
+	if (!cmd[0] || !*cmd)
 		return (error_msg(PIPE), free_dp(cmd), 2);
-	if (!cmd[0])
-		return (free_dp(cmd), 1);
-	if (!ft_strncmp(cmd[0], "exit\0", 5))
+	else if (!ft_strncmp(cmd[0], "exit\0", 5))
 		(ft_lstclear(rl->env, (*free)), free_dp(cmd), exit(0));
 	else if (!ft_strncmp(cmd[0], "cd\0", 3))
 		(cd_cmd(cmd), stat++);
@@ -42,7 +40,7 @@ void	signal_handler(int sig)
 {
 	if (sig != SIGINT)
 		return ;
-	rl_replace_line("", 0);
+	// rl_replace_line("", 0);
 	rl_on_new_line();
 	write(STDOUT_FILENO, "\n", 1);
 	rl_redisplay();
@@ -57,6 +55,8 @@ void	forks_n_pipes(t_cmdtable *rl)
 	if (rl->std_in == -1)
 		perror("dup");
 	i = -1;
+	if (rl->n_cmd <= 0)
+		error_msg(PIPE);
 	while (++i < rl->n_cmd)
 	{
 		if (!check_red_files(rl, rl->all_cmd[i]))
