@@ -99,5 +99,6 @@ int			err(int code, char *name);
 
 // debug
 void		print_dp(char **dp);
+char		*manage_pipe(char *line, int *i);
 
 #endif

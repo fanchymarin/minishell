@@ -12,6 +12,17 @@
 
 #include "minishell.h"
 
+char	*manage_pipe(char *line, int *i)
+{
+	(*i)++;
+	while (ft_isblank(line[*i]) && line[*i])
+		(*i)++;
+	if (!line[*i])
+		line = nested_shell(line, "|");
+	(*i)--;
+	return (line);
+}
+
 int	err(int code, char *name)
 {
 	if (code == -1)
