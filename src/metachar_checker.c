@@ -65,8 +65,8 @@ char	*quotes_checker(char *line)
 			return (NULL);
 		if (line[i] == DOUBLE_QUOTE || line[i] == SIMPLE_QUOTE)
 			break ;
-		// if (line[i + 1] == '\0' && line[i] == PIPE)
-		// 	line = next_cmd(line);
+		if (line[i] == PIPE && (line[i + 1] == '\0' || (line[i + 1] == ' ' && line[i + 2] == '\0')))
+			line = nested_shell(line, "|");
 	}
 	return (line);
 }

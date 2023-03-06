@@ -19,9 +19,9 @@ void	reading_doc(int write_pipe, char *keyword, int control)
 	signal(SIGINT, SIG_DFL);
 	while (1)
 	{
-		if (!control)
+		if (!control && !ft_strncmp(keyword, "|\n", 2))
 			ft_putstr_fd("quote", STDOUT_FILENO);
-		else
+		else if (control)
 			ft_putstr_fd("heredoc", STDOUT_FILENO);
 		ft_putstr_fd("> ", STDOUT_FILENO);
 		appended_line = get_next_line(STDIN_FILENO);
@@ -30,7 +30,8 @@ void	reading_doc(int write_pipe, char *keyword, int control)
 		if (!control)
 			ft_memset(&appended_line[ft_strlen(appended_line) - 1], 0, 1);
 		ft_putstr_fd(appended_line, write_pipe);
-		if (!control && ft_strchr(appended_line, *keyword))
+		if (!control && (ft_strchr(appended_line, *keyword) ||
+			ft_strncmp(keyword, "|\n", 2)))
 			break ;
 		free(appended_line);
 	}
