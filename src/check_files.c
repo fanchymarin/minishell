@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_files.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fmarin-p <fmarin-p@student.42.fr>          +#+  +:+       +#+        */
+/*   By: clcarrer <clcarrer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/16 13:19:14 by fmarin-p          #+#    #+#             */
-/*   Updated: 2023/03/05 18:32:15 by fmarin-p         ###   ########.fr       */
+/*   Updated: 2023/03/07 15:16:21 by clcarrer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,8 @@ int	open_files(t_cmdtable *rl, char *file_name, char red)
 			rl->outfile = open(file_name, O_APPEND | O_CREAT | O_WRONLY, 0644);
 	}
 	if (rl->outfile == -1 || rl->infile == -1)
-		return (printf("minishell: %s: No such file or directory\n", file_name), -1);
+		return (printf("minishell: %s: No such file or directory\n", file_name),
+			-1);
 	else if (!*file_name)
 		error_msg(red);
 	return (0);

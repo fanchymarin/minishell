@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fmarin-p <fmarin-p@student.42.fr>          +#+  +:+       +#+        */
+/*   By: clcarrer <clcarrer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 14:36:43 by fmarin-p          #+#    #+#             */
-/*   Updated: 2023/03/05 18:45:32 by fmarin-p         ###   ########.fr       */
+/*   Updated: 2023/03/07 15:02:59 by clcarrer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,8 @@ int	exec_command_parent(t_cmdtable *rl, char **cmd)
 	int	stat;
 
 	stat = 0;
-	if (!cmd[0] || !*cmd)
-		return (error_msg(PIPE), free_dp(cmd), 2);
+	if (!cmd[0])
+		return (free_dp(cmd), 1);
 	else if (!ft_strncmp(cmd[0], "exit\0", 5))
 		(ft_lstclear(rl->env, (*free)), free_dp(cmd), exit(0));
 	else if (!ft_strncmp(cmd[0], "cd\0", 3))
@@ -40,7 +40,7 @@ void	signal_handler(int sig)
 {
 	if (sig != SIGINT)
 		return ;
-	// rl_replace_line("", 0);
+	rl_replace_line("", 0);
 	rl_on_new_line();
 	write(STDOUT_FILENO, "\n", 1);
 	rl_redisplay();
@@ -65,8 +65,6 @@ void	forks_n_pipes(t_cmdtable *rl)
 		stat = exec_command_parent(rl, struct_quotes(rl->all_cmd[i]));
 		if (stat == 1)
 			continue ;
-		else if (stat == 2)
-			break ;
 		if (i != rl->n_cmd - 1)
 			err(pipe(rl->pipe), "pipe");
 		(fork_process(rl, i), rl->infile = 0, rl->outfile = 0);
