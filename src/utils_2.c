@@ -6,7 +6,7 @@
 /*   By: fmarin-p <fmarin-p@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/18 13:19:20 by fmarin-p          #+#    #+#             */
-/*   Updated: 2023/03/05 18:48:24 by fmarin-p         ###   ########.fr       */
+/*   Updated: 2023/03/07 15:41:17 by fmarin-p         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,12 @@ void	ft_lstdelnode(t_list **head, t_list *node, t_list *tmp)
 void	error_msg(char c)
 {
 	if (c == LESS_THAN || c == MORE_THAN || c == PIPE)
-		printf("minishell: syntax error near unexpected token `%c'\n", c);
+	{
+		ft_putstr_fd("minishell: syntax error near unexpected token `", STDERR_FILENO);
+		ft_putchar_fd(c, STDERR_FILENO);
+		ft_putstr_fd("'\n", STDERR_FILENO);
+	//	printf("minishell: syntax error near unexpected token `%c'\n", c);
+	}
 	else if (c == HERE_DOC)
 		printf("minishell: syntax error near unexpected token `heredoc'\n");
 	else if (c == APPEND)
