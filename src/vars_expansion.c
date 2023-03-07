@@ -6,7 +6,7 @@
 /*   By: fmarin-p <fmarin-p@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/01 16:49:00 by fmarin-p          #+#    #+#             */
-/*   Updated: 2023/03/07 19:11:33 by fmarin-p         ###   ########.fr       */
+/*   Updated: 2023/03/07 19:19:19 by fmarin-p         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ void	expand_vars(char *line, t_cmdtable *rl, t_list **head, int *i)
 		(ft_lstadd_back(head, ft_lstnew(ft_itoa(WEXITSTATUS(rl->status)))),
 			i[0]++);
 	else if (!ft_isalnum(line[i[0]]))
-		(ft_lstadd_back(head, ft_lstnew(ft_strdup("$ "))), i[0]++);
+		ft_lstadd_back(head, ft_lstnew(ft_strdup("$")));
 	else
 	{
 		while ((ft_isalnum(line[i[0]]) || line[i[0]] == '_') && line[i[0]])
