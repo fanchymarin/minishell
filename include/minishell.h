@@ -6,7 +6,7 @@
 /*   By: fmarin-p <fmarin-p@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 14:34:40 by fmarin-p          #+#    #+#             */
-/*   Updated: 2023/03/05 18:55:11 by fmarin-p         ###   ########.fr       */
+/*   Updated: 2023/03/07 16:51:50 by fmarin-p         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@
 
 # include "libft.h"
 # include "get_next_line.h"
+# include "ft_printf.h"
 # include <stdio.h>
 # include <readline/readline.h>
 # include <readline/history.h>
