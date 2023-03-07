@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   here_doc.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: clcarrer <clcarrer@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fmarin-p <fmarin-p@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/28 14:27:23 by fmarin-p          #+#    #+#             */
-/*   Updated: 2023/03/07 16:17:27 by clcarrer         ###   ########.fr       */
+/*   Updated: 2023/03/07 18:13:55 by fmarin-p         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,8 +46,8 @@ void	here_doc(t_cmdtable *rl, char *keyword)
 
 	if (i > 0)
 		dup2(rl->std_in, 0);
-	err(pipe(rl->pipe), "pipe");
-	if (!err(fork(), "fork"))
+	check_perror(pipe(rl->pipe), "pipe");
+	if (!check_perror(fork(), "fork"))
 		(close(rl->pipe[0]), reading_doc(rl->pipe[1], keyword, 1));
 	(redirect_pipe(rl->pipe, 0), signal(SIGINT, SIG_IGN), wait(&rl->status));
 	if (WTERMSIG(rl->status) == SIGINT)
@@ -61,9 +61,9 @@ char	*append_from_input(char *old_line, int read_pipe)
 	char		*appended_line;
 
 	new_line = ft_calloc(sizeof(char), BUF_SIZE);
-	err(read(read_pipe, new_line, BUF_SIZE), "read");
+	check_perror(read(read_pipe, new_line, BUF_SIZE), "read");
 	appended_line = ft_strjoin(old_line, new_line);
-	err(close(read_pipe), "close");
+	check_perror(close(read_pipe), "close");
 	return (free(new_line), free(old_line), appended_line);
 }
 
@@ -72,10 +72,10 @@ char	*nested_shell(char *line, char *keyword)
 	int		qpipe[2];
 	int		status;
 
-	err(pipe(qpipe), "pipe");
-	if (!err(fork(), "fork"))
-		(err(close(qpipe[0]), "close"), reading_doc(qpipe[1], keyword, 0));
-	(err(close(qpipe[1]), "close"), signal(SIGINT, SIG_IGN), wait(&status));
+	check_perror(pipe(qpipe), "pipe");
+	if (!check_perror(fork(), "fork"))
+		(check_perror(close(qpipe[0]), "close"), reading_doc(qpipe[1], keyword, 0));
+	(check_perror(close(qpipe[1]), "close"), signal(SIGINT, SIG_IGN), wait(&status));
 	if (WTERMSIG(status) == SIGINT)
 		return (close(qpipe[0]), write(STDOUT_FILENO, "\n", 1),
 			NULL);

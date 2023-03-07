@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: clcarrer <clcarrer@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fmarin-p <fmarin-p@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/03 15:55:15 by fmarin-p          #+#    #+#             */
-/*   Updated: 2023/03/07 16:10:33 by clcarrer         ###   ########.fr       */
+/*   Updated: 2023/03/07 18:43:31 by fmarin-p         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,5 +70,3 @@ int	check_blank_line(char *line)
 	}
 	return (0);
 }
-
-// void	red_msg_stderror(char *msg, )

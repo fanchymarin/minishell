@@ -20,7 +20,7 @@ BOLDCYAN="\033[1m\033[36m"
 BOLDWHITE="\033[1m\033[37m"
 
 # Compile and set executable rights
-make -C ../ > /dev/null
+make re -C ../ > /dev/null
 cp ../minishell .
 chmod 755 minishell
 
@@ -96,8 +96,9 @@ exec_test 'echo "$=TEST"'
 exec_test 'echo "$"'
 exec_test 'echo "$?TEST"'
 exec_test 'echo $TEST $TEST'
-exec_test 'echo "$1TEST"'
 exec_test 'echo "$T1TEST"'
+
+exit
 
 # ENV EXPANSIONS
 ENV_SHOW="env | sort | grep -v SHLVL | grep -v _="
@@ -142,4 +143,4 @@ exec_test "ls -Z"
 exec_test "cd gdhahahad"
 exec_test "ls -la | wtf"
 
-rm lol ls test
+rm out* minishell

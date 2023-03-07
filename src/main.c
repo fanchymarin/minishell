@@ -6,7 +6,7 @@
 /*   By: fmarin-p <fmarin-p@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 14:36:43 by fmarin-p          #+#    #+#             */
-/*   Updated: 2023/03/07 17:14:33 by fmarin-p         ###   ########.fr       */
+/*   Updated: 2023/03/07 19:06:58 by fmarin-p         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,11 +62,12 @@ void	forks_n_pipes(t_cmdtable *rl)
 		if (!check_red_files(rl, rl->all_cmd[i]))
 			break ;
 		restore_pipes(rl->all_cmd[i]);
-		stat = exec_command_parent(rl, struct_quotes(rl->all_cmd[i]));
+		stat = exec_command_parent(rl, restore_spaces(
+					ft_split(rl->all_cmd[i], ' ')));
 		if (stat == 1)
 			continue ;
 		if (i != rl->n_cmd - 1)
-			err(pipe(rl->pipe), "pipe");
+			check_perror(pipe(rl->pipe), "pipe");
 		(fork_process(rl, i), rl->infile = 0, rl->outfile = 0);
 	}
 	(free_dp(rl->all_cmd), free(rl->line));

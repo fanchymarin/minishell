@@ -6,7 +6,7 @@
 /*   By: fmarin-p <fmarin-p@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/17 13:44:44 by fmarin-p          #+#    #+#             */
-/*   Updated: 2023/03/03 08:05:14 by fmarin-p         ###   ########.fr       */
+/*   Updated: 2023/03/07 18:34:20 by fmarin-p         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ void	exec_command_child(t_cmdtable *rl, char **cmd)
 	if (!ft_strncmp(cmd[0], "pwd\0", 4))
 		pwd_cmd();
 	else if (!ft_strncmp(cmd[0], "echo\0", 5))
-		echo_cmd(cmd);
+		echo_cmd(restore_spaces(cmd));
 	else if (!ft_strncmp(cmd[0], "env\0", 4))
 		env_cmd(rl->env);
 	else
@@ -49,10 +49,10 @@ void	fork_process(t_cmdtable *rl, int i)
 {
 	pid_t	pid;
 
-	pid = fork();
+	pid = check_perror(fork(), "fork");
 	if (!pid)
-		(red_pipe_child(rl, i),
-			exec_command_child(rl, struct_quotes(rl->all_cmd[i])));
+		(red_pipe_child(rl, i), exec_command_child(rl,
+				restore_spaces(ft_split(rl->all_cmd[i], ' '))));
 	else
 	{
 		if (i != rl->n_cmd - 1)

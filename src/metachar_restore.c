@@ -6,11 +6,27 @@
 /*   By: fmarin-p <fmarin-p@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/18 12:15:22 by fmarin-p          #+#    #+#             */
-/*   Updated: 2023/03/01 21:25:48 by fmarin-p         ###   ########.fr       */
+/*   Updated: 2023/03/07 18:26:07 by fmarin-p         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+char	**restore_spaces(char **cmd)
+{
+	int	i;
+	int	j;
+
+	i = -1;
+	while (cmd[++i])
+	{
+		j = -1;
+		while (cmd[i][++j])
+			if (cmd[i][j] == -7)
+				cmd[i][j] = SPACE;
+	}
+	return (cmd);
+}
 
 char	*restore_quotes(char *line)
 {
@@ -59,6 +75,9 @@ char	*restore_pipes(char *line)
 
 char	*hide_quoted_metachars(int i, int j, char *line, int quote)
 {
+	ft_memmove(&line[i], &line[i + 1], ft_strlen(&line[i + 1]) + 1);
+	i--;
+	j--;
 	while (++i < j)
 	{
 		if (line[i] == PIPE)
@@ -73,6 +92,9 @@ char	*hide_quoted_metachars(int i, int j, char *line, int quote)
 			line[i] = -5;
 		else if (line[i] == DOUBLE_QUOTE)
 			line[i] = -6;
+		else if (line[i] == SPACE)
+			line[i] = -7;
 	}
+	ft_memmove(&line[j], &line[j + 1], ft_strlen(&line[j + 1]) + 1);
 	return (line);
 }

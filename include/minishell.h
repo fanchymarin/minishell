@@ -6,7 +6,7 @@
 /*   By: fmarin-p <fmarin-p@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 14:34:40 by fmarin-p          #+#    #+#             */
-/*   Updated: 2023/03/07 16:51:50 by fmarin-p         ###   ########.fr       */
+/*   Updated: 2023/03/07 18:14:55 by fmarin-p         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 # define PIPE 124
 # define LESS_THAN 60
 # define MORE_THAN 62
+# define SPACE 32
 # define APPEND 68
 # define HERE_DOC 72
 # define DOLLAR 36
@@ -67,6 +68,7 @@ void		replace_var(t_list **env, char *rep_var, char *var_name);
 char		*restore_pipes(char *line);
 char		*restore_vars(char *line);
 char		*restore_quotes(char *line);
+char		**restore_spaces(char **line);
 char		*hide_quoted_metachars(int i, int j, char *line, int quote);
 
 // cmds
@@ -96,7 +98,7 @@ void		here_doc(t_cmdtable *rl, char *keyword);
 void		redirect_pipe(int *pipe, int fd);
 void		close_fd(t_cmdtable *rl);
 void		error_msg(char c);
-int			err(int code, char *name);
+int			check_perror(int code, char *name);
 
 // debug
 void		print_dp(char **dp);

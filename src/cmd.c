@@ -6,7 +6,7 @@
 /*   By: fmarin-p <fmarin-p@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/03 17:32:59 by fmarin-p          #+#    #+#             */
-/*   Updated: 2023/03/03 09:43:34 by fmarin-p         ###   ########.fr       */
+/*   Updated: 2023/03/07 18:16:21 by fmarin-p         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,9 +22,9 @@ void	pwd_cmd(void)
 void	cd_cmd(char **cmd)
 {
 	if (!cmd[1])
-		err(chdir(getenv("HOME")), "cd");
+		check_perror(chdir(getenv("HOME")), "cd");
 	else
-		err(chdir(cmd[1]), "cd");
+		check_perror(chdir(cmd[1]), "cd");
 }
 
 void	echo_cmd(char **word)
