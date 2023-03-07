@@ -6,7 +6,7 @@
 #    By: fmarin-p <fmarin-p@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/04/01 14:15:33 by fmarin-p          #+#    #+#              #
-#    Updated: 2023/03/07 16:51:05 by fmarin-p         ###   ########.fr        #
+#    Updated: 2023/03/07 17:13:06 by fmarin-p         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -28,8 +28,7 @@ CFLAGS = -Wall -Wextra -Werror -I
 all: $(NAME)
 
 $(NAME): $(SRCOBJ)
-	@$(MAKE) -C libft
-	@cp libft/libft.a .
+	@cp ../libft/libft.a .
 	@mv libft.a $(NAME)
 	@ar rcs $(NAME) $(SRCOBJ)
 
@@ -38,11 +37,9 @@ $(OBJDIR)%.o: $(SRCDIR)%.c
 	@gcc -c $(CFLAGS) $(HDRDIR) $< -o $@
 
 clean:
-	@$(MAKE) clean -C libft
 	@rm -rf $(OBJDIR)
 
 fclean: clean
-	@$(MAKE) fclean -C libft
 	@rm -f $(NAME)
 
 re: fclean all
