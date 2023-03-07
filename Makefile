@@ -6,7 +6,7 @@
 #    By: fmarin-p <fmarin-p@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/12 14:33:11 by fmarin-p          #+#    #+#              #
-#    Updated: 2023/03/05 18:53:33 by fmarin-p         ###   ########.fr        #
+#    Updated: 2023/03/07 16:52:58 by fmarin-p         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,7 +15,7 @@ NAME = minishell
 LDFLAGS := ${LDFLAGS}
 CPPFLAGS := ${CPPFLAGS}
 
-CFLAGS = -c -g -Wall -Wextra -Werror $(CPPFLAGS) -I$(INCDIR) -I$(LIBFTDIR) -I$(GNLDIR)
+CFLAGS = -c -g -Wall -Wextra -Werror $(CPPFLAGS) -I$(INCDIR) -I$(LIBFTDIR) -I$(GNLDIR) -I$(PRINTFDIR)/include/
 SRCFILES = main.c init_struct.c cmd.c environ_cmd.c utils.c utils_2.c \
 			check_files.c pipes.c metachar_checker.c metachar_restore.c \
 			vars_expansion.c here_doc.c manage_quotes.c check_syntax_export.c 
@@ -28,13 +28,15 @@ INCDIR = include/
 OBJDIR = obj/
 LIBFTDIR = libft/
 GNLDIR = get_next_line/
+PRINTFDIR = ft_printf/
 
 all: $(NAME)
 
 $(NAME): $(SRCOBJ)
 	$(MAKE) bonus -C $(LIBFTDIR)
 	$(MAKE) bonus -C $(GNLDIR)
-	gcc $^ $(LIBFTDIR)libft.a $(GNLDIR)get_next_line.a -lreadline $(LDFLAGS) -o $@
+	$(MAKE) -C $(PRINTFDIR)
+	gcc $^ $(LIBFTDIR)libft.a $(GNLDIR)get_next_line.a $(PRINTFDIR)libftprintf.a -lreadline $(LDFLAGS) -o $@
 
 $(OBJDIR)%.o: $(SRCDIR)%.c
 	mkdir -p obj
@@ -43,11 +45,13 @@ $(OBJDIR)%.o: $(SRCDIR)%.c
 clean:
 	$(MAKE) clean -C $(LIBFTDIR)
 	$(MAKE) clean -C $(GNLDIR)
+	$(MAKE) clean -C $(PRINTFDIR)
 	rm -rf $(OBJDIR)
 
 fclean: clean
 	$(MAKE) fclean -C $(LIBFTDIR)
 	$(MAKE) fclean -C $(GNLDIR)
+	$(MAKE) fclean -C $(PRINTFDIR)
 	rm -rf $(NAME)
 
 re: fclean all
