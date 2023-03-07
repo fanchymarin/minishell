@@ -61,14 +61,12 @@ char	*quotes_checker(char *line)
 			line = manage_quotes(line, i, DOUBLE_QUOTE);
 		else if (line[i] == SIMPLE_QUOTE)
 			line = manage_quotes(line, i, SIMPLE_QUOTE);
-		if (!line)
-			return (NULL);
 		if (line[i] == DOUBLE_QUOTE || line[i] == SIMPLE_QUOTE)
 			break ;
 		if (line[i] == PIPE)
-		{
 			line = manage_pipe(line, &i);
-		}
+		if (!line)
+			return (NULL);
 	}
 	return (line);
 }

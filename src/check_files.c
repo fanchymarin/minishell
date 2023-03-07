@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-void	open_files(t_cmdtable *rl, char *file_name, char red)
+int	open_files(t_cmdtable *rl, char *file_name, char red)
 {
 	if ((red == LESS_THAN || red == HERE_DOC) && *file_name)
 	{
@@ -33,9 +33,10 @@ void	open_files(t_cmdtable *rl, char *file_name, char red)
 			rl->outfile = open(file_name, O_APPEND | O_CREAT | O_WRONLY, 0644);
 	}
 	if (rl->outfile == -1 || rl->infile == -1)
-		printf("minishell: %s: No such file or directory\n", file_name);
+		return (printf("minishell: %s: No such file or directory\n", file_name), -1);
 	else if (!*file_name)
 		error_msg(red);
+	return (0);
 }
 
 char	class_redirection(char *cmd_line, int i)
@@ -70,7 +71,8 @@ int	manage_line(t_cmdtable *rl, char *cmd_line, int i)
 	if (i == j)
 		return (error_msg(red), -1);
 	name = ft_substr(cmd_line, j, i - j);
-	open_files(rl, name, red);
+	if (open_files(rl, name, red) == -1)
+		return (free(name), -1);
 	free(name);
 	ft_memmove(&cmd_line[j], &cmd_line[i], ft_strlen(cmd_line) - i + 1);
 	return (i = i - (i - j));

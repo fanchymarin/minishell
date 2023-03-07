@@ -49,8 +49,8 @@ t_cmdtable	init_struct(void)
 	t_cmdtable	rl;
 	extern FILE	*stderr;
 
-	rl_outstream = stderr;
-	rl_catch_signals = 0;
+	// rl_outstream = stderr;
+	// rl_catch_signals = 0;
 	rl.infile = 0;
 	rl.outfile = 0;
 	rl.env = clone_env();

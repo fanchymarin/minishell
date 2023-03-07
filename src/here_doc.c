@@ -25,7 +25,7 @@ void	reading_doc(int write_pipe, char *keyword, int control)
 			ft_putstr_fd("heredoc", STDOUT_FILENO);
 		ft_putstr_fd("> ", STDOUT_FILENO);
 		appended_line = get_next_line(STDIN_FILENO);
-		if (control &&!ft_strncmp(appended_line, keyword, ft_strlen(keyword)))
+		if (control && !ft_strncmp(appended_line, keyword, ft_strlen(appended_line + 1)))
 			break ;
 		if (!control)
 			ft_memset(&appended_line[ft_strlen(appended_line) - 1], 0, 1);
@@ -42,12 +42,17 @@ void	reading_doc(int write_pipe, char *keyword, int control)
 
 void	here_doc(t_cmdtable *rl, char *keyword)
 {
+	static int	i;
+
+	if (i > 0)
+		dup2(rl->std_in, 0);
 	err(pipe(rl->pipe), "pipe");
 	if (!err(fork(), "fork"))
 		(close(rl->pipe[0]), reading_doc(rl->pipe[1], keyword, 1));
 	(redirect_pipe(rl->pipe, 0), signal(SIGINT, SIG_IGN), wait(&rl->status));
 	if (WTERMSIG(rl->status) == SIGINT)
 		write(STDOUT_FILENO, "\n", 1);
+	i++;
 }
 
 char	*append_from_input(char *old_line, int read_pipe)

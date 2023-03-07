@@ -1,5 +1,54 @@
+    #pipes_n_red
+cat <out
 ls >out
+/bin/ls
+ls | ls | ls | ls | ls | ls
 wc<out >out1
-sort -r >out2 | wc <out>>out1
-cat <out | sed 's/o/i/g' | sort >out2
-cat <<stop |  sed 's/o/i/g' >out
+sort -r >out2<out | wc <out2>>out1
+cat <out | sed 's/o/i/g' | sort >>out2
+cat <out2     |
+    grep e|
+    sort      >out1
+
+    #quotes
+'ls' -a | wc
+'/bin/ls' -a
+'ls -a'
+"ls" -la | wc
+"ls |  wc"
+"ls" -la | "wc" -> FALLO
+
+    #here_doc
+wc <<stop
+wc <<hola | wc <<adios 
+cat <<stop |    sed 's/o/i/g' >heredoc
+cat <<stop | 
+    sort  >>heredoc
+
+    #echo
+echo esto es un mensaje
+echo "esto' |||""'$ no son metacaracteres"
+echo "esto es 
+    un texto" '----' "
+    interumpido"
+echo "toda esta linea
+    la debe imprimir" >>echo_file
+echo "1 2 3 4 5 6 7 8 9" | wc
+
+    #syntax_error
+<>
+><
+wc <<stop >
+wc << >out
+ls >> 
+>>>>
+<<<<>>>>>
+|
+||
+| |
+|||| | | | >out
+|ls |
+|   ls
+ls     | ls     ||
+ls ||||| | ls |
+ls |     |

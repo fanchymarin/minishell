@@ -16,7 +16,11 @@ char	*manage_pipe(char *line, int *i)
 {
 	(*i)++;
 	while (ft_isblank(line[*i]) && line[*i])
+	{
 		(*i)++;
+		if (line[*i] && line[*i] == PIPE)
+			return (error_msg(PIPE), NULL);
+	}
 	if (!line[*i])
 		line = nested_shell(line, "|");
 	(*i)--;
