@@ -6,7 +6,7 @@
 /*   By: fmarin-p <fmarin-p@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/17 20:32:08 by fmarin-p          #+#    #+#             */
-/*   Updated: 2023/03/07 18:40:20 by fmarin-p         ###   ########.fr       */
+/*   Updated: 2023/03/08 13:10:23 by fmarin-p         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ t_cmdtable	init_struct(void)
 	extern FILE	*stderr;
 
 	rl_outstream = stderr;
-	// rl_catch_signals = 0;
+	rl_catch_signals = 0;
 	rl.infile = 0;
 	rl.outfile = 0;
 	rl.status = 0;

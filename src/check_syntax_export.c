@@ -6,7 +6,7 @@
 /*   By: fmarin-p <fmarin-p@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/05 18:47:54 by fmarin-p          #+#    #+#             */
-/*   Updated: 2023/03/05 19:10:58 by fmarin-p         ###   ########.fr       */
+/*   Updated: 2023/03/08 14:16:26 by fmarin-p         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ int	more_checks(char **new_vars, int i, char **split_var)
 		split_var = restore_equals(split_var);
 	if (!split_var[0] || !split_var[1] || check_name_syntax(split_var[0]))
 	{
-		printf("minishell: export: '%s': is not a valid identifier\n",
+		ft_printf("minishell: export: '%s': is not a valid identifier\n",
 			new_vars[i]);
 		(free_dp(split_var), *new_vars[i] = '?');
 		return (1);

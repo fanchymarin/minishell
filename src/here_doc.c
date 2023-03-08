@@ -6,7 +6,7 @@
 /*   By: fmarin-p <fmarin-p@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/28 14:27:23 by fmarin-p          #+#    #+#             */
-/*   Updated: 2023/03/07 18:13:55 by fmarin-p         ###   ########.fr       */
+/*   Updated: 2023/03/08 13:32:32 by fmarin-p         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,8 +74,10 @@ char	*nested_shell(char *line, char *keyword)
 
 	check_perror(pipe(qpipe), "pipe");
 	if (!check_perror(fork(), "fork"))
-		(check_perror(close(qpipe[0]), "close"), reading_doc(qpipe[1], keyword, 0));
-	(check_perror(close(qpipe[1]), "close"), signal(SIGINT, SIG_IGN), wait(&status));
+		(check_perror(close(qpipe[0]), "close"),
+			reading_doc(qpipe[1], keyword, 0));
+	(check_perror(close(qpipe[1]), "close"), signal(SIGINT, SIG_IGN),
+		wait(&status));
 	if (WTERMSIG(status) == SIGINT)
 		return (close(qpipe[0]), write(STDOUT_FILENO, "\n", 1),
 			NULL);

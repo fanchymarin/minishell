@@ -6,7 +6,7 @@
 /*   By: fmarin-p <fmarin-p@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/01 16:49:00 by fmarin-p          #+#    #+#             */
-/*   Updated: 2023/03/07 19:19:19 by fmarin-p         ###   ########.fr       */
+/*   Updated: 2023/03/08 14:36:13 by fmarin-p         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ char	*check_vars(t_cmdtable *rl, char *line)
 	t_list	**head;
 	int		i[2];
 
-	i[0] = -1;
+	i[0] = 0;
 	i[1] = 0;
 	head = malloc(sizeof(t_list **));
 	*head = 0;
@@ -70,6 +70,8 @@ char	*check_vars(t_cmdtable *rl, char *line)
 	{
 		while (line[i[0]] == DOLLAR)
 			expand_vars(line, rl, head, i);
+		if (!line[i[0]])
+			break ;
 	}
 	ft_lstadd_back(head, ft_lstnew(ft_substr(line, i[1], i[0] - i[1])));
 	return (free(line), append_str(head));

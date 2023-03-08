@@ -6,7 +6,7 @@
 /*   By: fmarin-p <fmarin-p@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/17 13:40:54 by fmarin-p          #+#    #+#             */
-/*   Updated: 2023/03/07 18:20:56 by fmarin-p         ###   ########.fr       */
+/*   Updated: 2023/03/08 14:31:14 by fmarin-p         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	quotes_closed(char *line, int i, char quote)
 {
-	while (line[i++])
+	while (line[++i])
 	{
 		if (line[i] == quote)
 			return (i);
@@ -45,7 +45,7 @@ char	*quotes_checker(char *line)
 	while (line[++i])
 	{
 		if (line[0] == PIPE || (line[i] == PIPE && line[i + 1] == PIPE))
-			return (error_msg(PIPE), NULL);
+			return (free(line), error_msg(PIPE), NULL);
 		else if (line[i] == DOUBLE_QUOTE)
 			line = manage_quotes(line, i, DOUBLE_QUOTE);
 		else if (line[i] == SIMPLE_QUOTE)

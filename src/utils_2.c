@@ -6,7 +6,7 @@
 /*   By: fmarin-p <fmarin-p@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/18 13:19:20 by fmarin-p          #+#    #+#             */
-/*   Updated: 2023/03/07 18:13:55 by fmarin-p         ###   ########.fr       */
+/*   Updated: 2023/03/08 14:11:48 by fmarin-p         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ char	*manage_pipe(char *line, int *i)
 	{
 		(*i)++;
 		if (line[*i] && line[*i] == PIPE)
-			return (error_msg(PIPE), NULL);
+			return (free(line), error_msg(PIPE), NULL);
 	}
 	if (!line[*i])
 		line = nested_shell(line, "|");

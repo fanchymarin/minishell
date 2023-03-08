@@ -6,7 +6,7 @@
 /*   By: fmarin-p <fmarin-p@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/18 12:15:22 by fmarin-p          #+#    #+#             */
-/*   Updated: 2023/03/07 18:26:07 by fmarin-p         ###   ########.fr       */
+/*   Updated: 2023/03/08 13:21:05 by fmarin-p         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,12 +69,6 @@ char	*restore_pipes(char *line)
 			line[i] = LESS_THAN;
 		else if (line[i] == -3)
 			line[i] = MORE_THAN;
-		else if (line[i] == -4)
-			line[i] = DOLLAR;
-		else if (line[i] == -5)
-			line[i] = SIMPLE_QUOTE;
-		else if (line[i] == -6)
-			line[i] = DOUBLE_QUOTE;
 	}
 	return (line);
 }

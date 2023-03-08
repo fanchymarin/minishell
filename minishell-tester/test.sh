@@ -57,7 +57,7 @@ exec_test 'echo test tout'
 exec_test 'echo test      tout'
 exec_test 'echo ""this"" ""and this""'
 exec_test 'echo "this" "and this" >out'
-exec_test 'cat>out'
+exec_test 'cat<out'
 exec_test 'echo -n test tout'
 exec_test 'echo -n -n -n test tout'
 exec_test 'echo "1 2 3 4 5 6 7 8 9" | wc'
@@ -86,7 +86,7 @@ exec_test 'echo test | cat -e | cat -e | cat -e | cat -e | cat -e | cat -e | cat
 exec_test 'ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls'
 echo
 echo
-printf "$BOLDMAGENTA	ENV EXPANSIONS + ESCAPE\n"
+printf "$BOLDMAGENTA	ENV EXPANSIONS\n"
 exec_test 'echo $TEST'
 exec_test 'echo "$TEST"'
 exec_test "echo '$TEST'"
@@ -145,26 +145,35 @@ exec_test '<'
 exec_test '|||| | | | >out'
 exec_test 'ls     | ls     ||'
 exec_test '|ls |'
-rm out* minishell
-exit
 echo
 echo
 printf "$BOLDMAGENTA	ENV EXPANSIONS\n"
 ENV_SHOW="env | sort | grep -v SHLVL | grep -v _="
 exec_test 'export ='
 exec_test 'export 1TEST= '
-exec_test '$ENV_SHOW'
-exec_test 'export TEST ;'
-exec_test 'export ""="" ; ' $ENV_SHOW
-exec_test 'export TES=T="" ;' $ENV_SHOW
-exec_test 'export TE+S=T="" ;' $ENV_SHOW
-exec_test 'export TEST=LOL ; echo $TEST ;' $ENV_SHOW
-exec_test 'export TEST=LOL ; echo $TEST$TEST$TEST=lol$TEST'
-exec_test 'export TEST=LOL; export TEST+=LOL ; echo $TEST ;' $ENV_SHOW
 exec_test $ENV_SHOW
-exec_test 'export TEST="ls       -l     - a" ; echo $TEST ; $LS ; ' $ENV_SHOW
+exec_test 'export TEST'
+exec_test $ENV_SHOW
+exec_test 'export ""=""'
+exec_test $ENV_SHOW
+exec_test 'export TES=T=""'
+exec_test $ENV_SHOW
+exec_test 'export TE+S=T=""'
+exec_test $ENV_SHOW
+exec_test 'export TEST=LOL'
+exec_test 'echo $TEST'
+exec_test $ENV_SHOW
+exec_test 'export TEST=LOL'
+exec_test 'echo $TEST$TEST$TEST=lol$TEST'
+exec_test 'export TEST=LOL; export TEST+=LOL'
+exec_test 'echo $TEST'
+exec_test $ENV_SHOW
+exec_test 'export TEST="ls       -l     - a"'
+exec_test 'echo $TEST'
+exec_test '$LS'
+exec_test $ENV_SHOW
 
 # # MULTI TESTS
 # exec_test 'echo testing multi ; echo "test 1 ; | and 2" ; cat tests/lorem.txt | grep Lorem'
 
-rm out* minishell
+rm -rf out* minishell
