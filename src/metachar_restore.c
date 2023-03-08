@@ -69,6 +69,12 @@ char	*restore_pipes(char *line)
 			line[i] = LESS_THAN;
 		else if (line[i] == -3)
 			line[i] = MORE_THAN;
+		else if (line[i] == -4)
+			line[i] = DOLLAR;
+		else if (line[i] == -5)
+			line[i] = SIMPLE_QUOTE;
+		else if (line[i] == -6)
+			line[i] = DOUBLE_QUOTE;
 	}
 	return (line);
 }
