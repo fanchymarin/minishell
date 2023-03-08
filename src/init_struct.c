@@ -50,7 +50,7 @@ t_cmdtable	init_struct(void)
 	extern FILE	*stderr;
 
 	rl_outstream = stderr;
-	rl_catch_signals = 0;
+	// rl_catch_signals = 0;
 	rl.infile = 0;
 	rl.outfile = 0;
 	rl.status = 0;
