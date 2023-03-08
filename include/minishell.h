@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: clcarrer <clcarrer@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fmarin-p <fmarin-p@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 14:34:40 by fmarin-p          #+#    #+#             */
-/*   Updated: 2023/03/08 15:45:33 by clcarrer         ###   ########.fr       */
+/*   Updated: 2023/03/08 18:06:01 by fmarin-p         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ char		*restore_pipes(char *line);
 char		*restore_vars(char *line);
 char		*restore_quotes(char *line);
 char		**restore_spaces(char **line);
-char		*hide_quoted_metachars(int i, int j, char *line, int quote);
+char		*hide_quoted_metachars(int *i, int j, char *line, int quote);
 
 // cmds
 void		pwd_cmd(void);
