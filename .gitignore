@@ -5,3 +5,4 @@
 minishell
 obj
 *.dSYM
+minishell-tester/
