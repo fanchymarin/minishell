@@ -6,3 +6,4 @@ minishell
 obj
 *.dSYM
 minishell-tester/
+.DS_Store
