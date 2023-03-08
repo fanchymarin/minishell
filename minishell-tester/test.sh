@@ -55,6 +55,9 @@ echo
 printf "$BOLDMAGENTA	ECHO TESTS\n"
 exec_test 'echo test tout'
 exec_test 'echo test      tout'
+exec_test 'echo ""this"" ""and this""'
+exec_test 'echo "this" "and this" >out'
+exec_test 'cat>out'
 exec_test 'echo -n test tout'
 exec_test 'echo -n -n -n test tout'
 exec_test 'echo "1 2 3 4 5 6 7 8 9" | wc'
@@ -68,7 +71,6 @@ exec_test 'cd /Users'
 exec_test 'pwd'
 exec_test 'mkdir test_dir' 
 exec_test 'rm -rf test_dir'
-exec_test 'cat <out'
 exec_test 'ls >out'
 exec_test '/bin/ls'
 echo
@@ -76,6 +78,7 @@ echo
 printf "$BOLDMAGENTA	PIPES\n"
 exec_test 'sort -r >out2<out | wc <out>>out1'
 exec_test 'cat <out | sed 's/o/i/g' | sort >>out2'
+exec_test 'cat out2'
 exec_test 'cat out | grep a | cat -e'
 exec_test 'echo test | cat -e | cat -e | cat -e | cat -e | cat -e | cat -e | cat -e | cat -e | cat -e | cat -e| cat -e| cat -e| cat -e| cat -e| cat -e| cat -e| cat -e| cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e|cat -e'
 exec_test 'ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls|ls'
@@ -91,7 +94,7 @@ exec_test 'echo "   $TEST lol $TEST"'
 exec_test 'echo $TEST$TEST$TEST'
 exec_test 'echo $TEST$TEST=lol$TEST""lol'
 exec_test 'echo    $TEST lol $TEST'
-exec_test 'echo test "" test "" test'
+exec_test 'echo "test "" test" " test      "'
 exec_test 'echo "$=TEST"'
 exec_test 'echo "$"'
 exec_test 'echo "$?TEST"'
@@ -107,14 +110,15 @@ exec_test "ls -la | wtf"
 echo
 echo
 printf "$BOLDMAGENTA	REDIRECTIONS\n"
+exec_test 'cat <sdfasdfsafdas'
 exec_test 'wc<out >out1'
-exec_test 'echo hola > red '
-exec_test 'echo test > red >> red >> red'
-exec_test '> lol echo test lol'
-exec_test '>lol echo > test>lol>test>>lol>test mdr >lol test >test' 
-exec_test 'cat test'
-exec_test 'cat < lol'
-exec_test 'cat < lol > ls'
+exec_test 'echo hola > out '
+exec_test 'echo out > out1 >> out1 >> out1'
+exec_test '> out1 echo test'
+exec_test '>out1 echo > out2>out>out2>>out2>out4' 
+exec_test 'cat out4'
+exec_test 'cat < out1'
+exec_test 'cat < out > out4'
 echo
 echo
 printf "$BOLDMAGENTA	QUOTES\n"
@@ -124,6 +128,10 @@ exec_test ''ls -a''
 exec_test '"ls" -la | wc'
 exec_test '"ls |  wc"'
 exec_test '"ls" -la | "wc"'
+exec_test '"ls -a" | "wc"'
+exec_test '"cat | ls | wc"'
+exec_test '"cat" out | "wc"'
+exec_test "'ls | sort'"
 echo
 echo
 printf "$BOLDMAGENTA	SYNTAX ERROR\n"
@@ -135,6 +143,7 @@ exec_test '<'
 exec_test '|||| | | | >out'
 exec_test 'ls     | ls     ||'
 exec_test '|ls |'
+rm out* minishell
 exit
 echo
 echo

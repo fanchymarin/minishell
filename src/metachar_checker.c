@@ -14,22 +14,11 @@
 
 int	quotes_closed(char *line, int i, char quote)
 {
-	int	quotes_counter;
-	int	last_quote;
-
-	quotes_counter = 0;
-	last_quote = 0;
-	while (line[i])
+	while (line[i++])
 	{
 		if (line[i] == quote)
-		{
-			last_quote = i;
-			quotes_counter++;
-		}
-		i++;
+			return (i);
 	}
-	if (quotes_counter % 2 == 0)
-		return (last_quote);
 	return (-1);
 }
 

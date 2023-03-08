@@ -56,7 +56,7 @@ void	execve_cmd(t_list **env, char *abs_path, char **cmd)
 
 	array_env = lstoarr(env);
 	if (!abs_path || execve(abs_path, cmd, array_env) == -1)
-		ft_printf("minishell: %s: ft_printfnot found\n", cmd[0]);
+		ft_printf("minishell: %s: command not found\n", cmd[0]);
 	free(abs_path);
 	free_dp(array_env);
 }

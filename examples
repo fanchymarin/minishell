@@ -16,7 +16,7 @@ cat <out2     |
 'ls -a'
 "ls" -la | wc
 "ls |  wc"
-"ls" -la | "wc" -> FALLO
+"ls" -la | "wc"
 
     #here_doc
 wc <<stop
