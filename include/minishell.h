@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fmarin-p <fmarin-p@student.42.fr>          +#+  +:+       +#+        */
+/*   By: clcarrer <clcarrer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 14:34:40 by fmarin-p          #+#    #+#             */
-/*   Updated: 2023/03/07 18:14:55 by fmarin-p         ###   ########.fr       */
+/*   Updated: 2023/03/08 15:45:33 by clcarrer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,7 @@ t_list		**unset_cmd(t_list **env, char **name);
 //pipes
 void		red_pipe_child(t_cmdtable *rl, int i);
 void		fork_process(t_cmdtable *rl, int i);
+void		close_fds(t_cmdtable *rl);
 
 // check_files
 int			check_red_files(t_cmdtable *rl, char *cmd_line);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fmarin-p <fmarin-p@student.42.fr>          +#+  +:+       +#+        */
+/*   By: clcarrer <clcarrer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 14:36:43 by fmarin-p          #+#    #+#             */
-/*   Updated: 2023/03/08 14:43:13 by fmarin-p         ###   ########.fr       */
+/*   Updated: 2023/03/08 16:02:35 by clcarrer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,8 +51,8 @@ void	forks_n_pipes(t_cmdtable *rl)
 	int	i;
 	int	stat;
 
-	rl->std_in = dup(0);
-	check_perror(rl->std_in, "dup");
+	if (rl->n_cmd > 1)
+		check_perror(rl->std_in = dup(0), "dup");
 	i = -1;
 	if (rl->n_cmd <= 0)
 		error_msg(PIPE);
@@ -67,10 +67,11 @@ void	forks_n_pipes(t_cmdtable *rl)
 			continue ;
 		if (i != rl->n_cmd - 1)
 			check_perror(pipe(rl->pipe), "pipe");
-		(fork_process(rl, i), rl->infile = 0, rl->outfile = 0);
+		(fork_process(rl, i), close_fds(rl));
 	}
 	(free_dp(rl->all_cmd), free(rl->line));
-	(dup2(rl->std_in, 0), close(rl->std_in));
+	if (rl->n_cmd > 1)
+		(dup2(rl->std_in, 0), close(rl->std_in));
 }
 
 int	main(void)

@@ -3,14 +3,22 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fmarin-p <fmarin-p@student.42.fr>          +#+  +:+       +#+        */
+/*   By: clcarrer <clcarrer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/03 15:55:15 by fmarin-p          #+#    #+#             */
-/*   Updated: 2023/03/07 18:43:31 by fmarin-p         ###   ########.fr       */
+/*   Updated: 2023/03/08 15:43:54 by clcarrer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+void	close_fds(t_cmdtable *rl)
+{
+	if (rl->infile)
+		(close(rl->infile), rl->infile = 0);
+	if (rl->outfile)
+		(close(rl->outfile), rl->outfile = 0);
+}
 
 void	free_dp(char **dp)
 {
