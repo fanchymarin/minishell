@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipes.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fmarin-p <fmarin-p@student.42.fr>          +#+  +:+       +#+        */
+/*   By: clcarrer <clcarrer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/17 13:44:44 by fmarin-p          #+#    #+#             */
-/*   Updated: 2023/03/07 18:34:20 by fmarin-p         ###   ########.fr       */
+/*   Updated: 2023/03/08 16:07:25 by clcarrer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,8 @@ void	red_pipe_child(t_cmdtable *rl, int i)
 		(dup2(rl->outfile, 1), close(rl->outfile));
 	else if (i != rl->n_cmd - 1)
 		redirect_pipe(rl->pipe, 1);
+	if (rl->std_in)
+		close(rl->std_in);
 }
 
 void	exec_command_child(t_cmdtable *rl, char **cmd)
