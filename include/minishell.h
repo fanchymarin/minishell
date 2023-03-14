@@ -6,7 +6,7 @@
 /*   By: fmarin-p <fmarin-p@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 14:34:40 by fmarin-p          #+#    #+#             */
-/*   Updated: 2023/03/14 18:37:22 by fmarin-p         ###   ########.fr       */
+/*   Updated: 2023/03/14 19:23:49 by fmarin-p         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,7 +102,6 @@ void		error_msg(char c);
 int			check_perror(int code, char *name);
 
 // debug
-void		print_dp(char **dp);
 char		*manage_pipe(char *line, int *i);
 
 #endif

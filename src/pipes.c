@@ -6,7 +6,7 @@
 /*   By: fmarin-p <fmarin-p@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/17 13:44:44 by fmarin-p          #+#    #+#             */
-/*   Updated: 2023/03/14 18:46:35 by fmarin-p         ###   ########.fr       */
+/*   Updated: 2023/03/14 19:23:29 by fmarin-p         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ void	fork_process(t_cmdtable *rl, int i)
 		if (i != rl->n_cmd - 1)
 			redirect_pipe(rl->pipe, 0);
 		(signal(SIGINT, SIG_IGN), wait(&rl->status));
-		if (WTERMSIG(rl->status) == SIGINT)
-			write(STDOUT_FILENO, "\n", 1);
+		if (WTERMSIG(rl->status))
+			(write(STDOUT_FILENO, "\n", 1), rl->status = 33280);
 	}
 }

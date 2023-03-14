@@ -6,7 +6,7 @@
 /*   By: fmarin-p <fmarin-p@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/18 13:19:20 by fmarin-p          #+#    #+#             */
-/*   Updated: 2023/03/08 14:11:48 by fmarin-p         ###   ########.fr       */
+/*   Updated: 2023/03/14 19:23:38 by fmarin-p         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,13 +54,4 @@ void	error_msg(char c)
 		ft_printf("minishell: syntax error near unexpected token `heredoc'\n");
 	else if (c == APPEND)
 		ft_printf("minishell: syntax error near unexpected token `newline'\n");
-}
-
-void	print_dp(char **dp)
-{
-	int	i;
-
-	i = -1;
-	while (dp[++i])
-		printf("dp[%d]:_%s_\n", i, dp[i]);
 }
