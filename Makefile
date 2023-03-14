@@ -6,7 +6,7 @@
 #    By: fmarin-p <fmarin-p@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/12 14:33:11 by fmarin-p          #+#    #+#              #
-#    Updated: 2023/03/07 18:20:03 by fmarin-p         ###   ########.fr        #
+#    Updated: 2023/03/14 18:22:48 by fmarin-p         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,7 +15,7 @@ NAME = minishell
 LDFLAGS := ${LDFLAGS}
 CPPFLAGS := ${CPPFLAGS}
 
-CFLAGS = -c -g -Wall -Wextra -Werror $(CPPFLAGS) -I$(INCDIR) -I$(LIBFTDIR) -I$(GNLDIR) -I$(PRINTFDIR)/include/
+CFLAGS = -Wall -Wextra -Werror $(CPPFLAGS) -I$(INCDIR) -I$(LIBFTDIR) -I$(GNLDIR) -I$(PRINTFDIR)include/
 SRCFILES = main.c init_struct.c cmd.c environ_cmd.c utils.c utils_2.c \
 			check_files.c pipes.c metachar_checker.c metachar_restore.c \
 			vars_expansion.c here_doc.c check_syntax_export.c 
@@ -32,6 +32,9 @@ PRINTFDIR = ft_printf/
 
 all: $(NAME)
 
+debug: CFLAGS += -g
+debug: $(NAME)
+
 $(NAME): $(SRCOBJ)
 	$(MAKE) bonus -C $(LIBFTDIR)
 	$(MAKE) bonus -C $(GNLDIR)
@@ -40,7 +43,7 @@ $(NAME): $(SRCOBJ)
 
 $(OBJDIR)%.o: $(SRCDIR)%.c
 	mkdir -p obj
-	gcc -g $(CFLAGS) $^ -o $@
+	gcc -c $(CFLAGS) $^ -o $@
 
 clean:
 	$(MAKE) clean -C $(LIBFTDIR)
@@ -57,5 +60,3 @@ fclean: clean
 re: fclean all
 
 .PHONY: all clean fclean re
-
-#-fsanitize=address -fsanitize=leak 

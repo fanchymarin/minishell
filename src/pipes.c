@@ -6,7 +6,7 @@
 /*   By: fmarin-p <fmarin-p@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/17 13:44:44 by fmarin-p          #+#    #+#             */
-/*   Updated: 2023/03/08 18:16:28 by fmarin-p         ###   ########.fr       */
+/*   Updated: 2023/03/14 18:46:35 by fmarin-p         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,9 @@ void	red_pipe_child(t_cmdtable *rl, int i)
 
 void	exec_command_child(t_cmdtable *rl, char **cmd)
 {
+	int	status;
+
+	status = 0;
 	if (!ft_strncmp(cmd[0], "pwd\0", 4))
 		pwd_cmd();
 	else if (!ft_strncmp(cmd[0], "echo\0", 5))
@@ -39,11 +42,11 @@ void	exec_command_child(t_cmdtable *rl, char **cmd)
 	else if (!ft_strncmp(cmd[0], "env\0", 4))
 		env_cmd(rl->env);
 	else
-		execve_cmd(rl->env, ft_find_path(cmd[0], rl->env), cmd);
+		status = execve_cmd(rl->env, ft_find_path(cmd[0], rl->env), cmd);
 	free_dp(cmd);
 	free_dp(rl->all_cmd);
 	free(rl->line);
-	exit(0);
+	exit(status);
 }
 
 void	fork_process(t_cmdtable *rl, int i)

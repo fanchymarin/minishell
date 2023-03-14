@@ -6,7 +6,7 @@
 /*   By: fmarin-p <fmarin-p@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 14:34:40 by fmarin-p          #+#    #+#             */
-/*   Updated: 2023/03/08 18:06:01 by fmarin-p         ###   ########.fr       */
+/*   Updated: 2023/03/14 18:37:22 by fmarin-p         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ void		cd_cmd(char **cmd);
 void		echo_cmd(char **word);
 void		env_cmd(t_list **environ);
 t_list		**export_cmd(t_list **env, char **new_vars);
-void		execve_cmd(t_list **env, char *abs_path, char **cmd);
+int			execve_cmd(t_list **env, char *abs_path, char **cmd);
 t_list		**unset_cmd(t_list **env, char **name);
 
 //pipes

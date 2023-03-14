@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_struct.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: clcarrer <clcarrer@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fmarin-p <fmarin-p@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/17 20:32:08 by fmarin-p          #+#    #+#             */
-/*   Updated: 2023/03/08 16:08:40 by clcarrer         ###   ########.fr       */
+/*   Updated: 2023/03/14 18:43:09 by fmarin-p         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,12 @@ t_list	**clone_env(void)
 	return (new_env);
 }
 
+void	none(int sig)
+{
+	(void) sig;
+	return ;
+}
+
 t_cmdtable	init_struct(void)
 {
 	t_cmdtable	rl;
@@ -56,6 +62,6 @@ t_cmdtable	init_struct(void)
 	rl.status = 0;
 	rl.std_in = 0;
 	rl.env = clone_env();
-	signal(SIGQUIT, SIG_IGN);
+	signal(SIGQUIT, none);
 	return (rl);
 }

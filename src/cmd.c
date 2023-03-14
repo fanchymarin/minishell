@@ -6,7 +6,7 @@
 /*   By: fmarin-p <fmarin-p@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/03 17:32:59 by fmarin-p          #+#    #+#             */
-/*   Updated: 2023/03/07 18:16:21 by fmarin-p         ###   ########.fr       */
+/*   Updated: 2023/03/14 18:37:10 by fmarin-p         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,13 +50,16 @@ void	echo_cmd(char **word)
 		printf("\n");
 }
 
-void	execve_cmd(t_list **env, char *abs_path, char **cmd)
+int	execve_cmd(t_list **env, char *abs_path, char **cmd)
 {
 	char	**array_env;
+	int		status;
 
+	status = 0;
 	array_env = lstoarr(env);
 	if (!abs_path || execve(abs_path, cmd, array_env) == -1)
-		ft_printf("minishell: %s: command not found\n", cmd[0]);
+		(ft_printf("minishell: %s: command not found\n", cmd[0]), status = 127);
 	free(abs_path);
 	free_dp(array_env);
+	return (status);
 }
