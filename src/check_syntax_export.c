@@ -44,7 +44,8 @@ int	more_checks(char **new_vars, int i, char **split_var)
 {
 	if (ft_strchr(new_vars[i], '=') != ft_strrchr(new_vars[i], '='))
 		split_var = restore_equals(split_var);
-	if (!split_var[0] || !split_var[1] || check_name_syntax(split_var[0]))
+	if (!split_var[0] || !split_var[1] || !ft_isalpha(*split_var[0])
+		|| check_name_syntax(split_var[0]))
 	{
 		ft_printf("minishell: export: '%s': is not a valid identifier\n",
 			new_vars[i]);
