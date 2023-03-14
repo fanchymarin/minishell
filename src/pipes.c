@@ -27,8 +27,7 @@ void	red_pipe_child(t_cmdtable *rl, int i)
 		(dup2(rl->outfile, 1), close(rl->outfile));
 	else if (i != rl->n_cmd - 1)
 		redirect_pipe(rl->pipe, 1);
-	if (rl->std_in)
-		close(rl->std_in);
+	close(rl->std_in);
 }
 
 void	exec_command_child(t_cmdtable *rl, char **cmd)

@@ -45,10 +45,11 @@ void	here_doc(t_cmdtable *rl, char *keyword)
 	static int	i;
 
 	if (i > 0)
-		dup2(rl->std_in, 0);
+		check_perror(dup2(rl->std_in, 0), "dup2");
 	check_perror(pipe(rl->pipe), "pipe");
 	if (!check_perror(fork(), "fork"))
-		(close(rl->pipe[0]), reading_doc(rl->pipe[1], keyword, 1));
+		(close(rl->std_in), close(rl->pipe[0]),
+			reading_doc(rl->pipe[1], keyword, 1));
 	(redirect_pipe(rl->pipe, 0), signal(SIGINT, SIG_IGN), wait(&rl->status));
 	if (WTERMSIG(rl->status) == SIGINT)
 		write(STDOUT_FILENO, "\n", 1);

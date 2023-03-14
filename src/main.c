@@ -20,7 +20,8 @@ int	exec_command_parent(t_cmdtable *rl, char **cmd)
 	if (!cmd[0])
 		return (free_dp(cmd), 1);
 	else if (!ft_strncmp(cmd[0], "exit\0", 5))
-		(ft_lstclear(rl->env, (*free)), free_dp(cmd), exit(0));
+		(ft_lstclear(rl->env, (*free)), close(rl->std_in),
+			free_dp(cmd), exit(0));
 	else if (!ft_strncmp(cmd[0], "cd\0", 3))
 		(cd_cmd(cmd), stat++);
 	else if (!ft_strncmp(cmd[0], "export\0", 7))
@@ -51,8 +52,7 @@ void	forks_n_pipes(t_cmdtable *rl)
 	int	i;
 	int	stat;
 
-	if (rl->n_cmd > 1)
-		check_perror(rl->std_in = dup(0), "dup");
+	check_perror(rl->std_in = dup(0), "dup");
 	i = -1;
 	if (rl->n_cmd <= 0)
 		error_msg(PIPE);
@@ -70,8 +70,7 @@ void	forks_n_pipes(t_cmdtable *rl)
 		(fork_process(rl, i), close_fds(rl));
 	}
 	(free_dp(rl->all_cmd), free(rl->line));
-	if (rl->n_cmd > 1)
-		(dup2(rl->std_in, 0), close(rl->std_in));
+	(dup2(rl->std_in, 0), close(rl->std_in));
 }
 
 int	main(void)
