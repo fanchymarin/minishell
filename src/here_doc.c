@@ -6,7 +6,7 @@
 /*   By: fmarin-p <fmarin-p@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/28 14:27:23 by fmarin-p          #+#    #+#             */
-/*   Updated: 2023/03/08 13:32:32 by fmarin-p         ###   ########.fr       */
+/*   Updated: 2023/03/17 13:53:26 by fmarin-p         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	reading_doc(int write_pipe, char *keyword, int control)
 	signal(SIGINT, SIG_DFL);
 	while (1)
 	{
-		if (!control && !ft_strncmp(keyword, "|\n", 2))
+		if (!control && ft_strncmp(keyword, "|", 1))
 			ft_putstr_fd("quote", STDOUT_FILENO);
 		else if (control)
 			ft_putstr_fd("heredoc", STDOUT_FILENO);
