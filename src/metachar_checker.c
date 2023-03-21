@@ -6,7 +6,7 @@
 /*   By: fmarin-p <fmarin-p@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/17 13:40:54 by fmarin-p          #+#    #+#             */
-/*   Updated: 2023/03/08 18:14:53 by fmarin-p         ###   ########.fr       */
+/*   Updated: 2023/03/21 18:39:48 by fmarin-p         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,8 @@ char	*quotes_checker(char *line)
 			line = manage_quotes(line, &i, DOUBLE_QUOTE);
 		else if (line[i] == SIMPLE_QUOTE)
 			line = manage_quotes(line, &i, SIMPLE_QUOTE);
+		if (!line)
+			return (NULL);
 		if (line[i] == PIPE)
 			line = manage_pipe(line, &i);
 		if (!line)

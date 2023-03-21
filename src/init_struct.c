@@ -6,7 +6,7 @@
 /*   By: fmarin-p <fmarin-p@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/17 20:32:08 by fmarin-p          #+#    #+#             */
-/*   Updated: 2023/03/14 18:43:09 by fmarin-p         ###   ########.fr       */
+/*   Updated: 2023/03/21 18:18:29 by fmarin-p         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,10 +57,7 @@ t_cmdtable	init_struct(void)
 
 	rl_outstream = stderr;
 	rl_catch_signals = 0;
-	rl.infile = 0;
-	rl.outfile = 0;
-	rl.status = 0;
-	rl.std_in = 0;
+	ft_memset(&rl, 0, sizeof(t_cmdtable));
 	rl.env = clone_env();
 	signal(SIGQUIT, none);
 	return (rl);

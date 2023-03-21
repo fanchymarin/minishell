@@ -6,7 +6,7 @@
 /*   By: fmarin-p <fmarin-p@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/28 14:27:23 by fmarin-p          #+#    #+#             */
-/*   Updated: 2023/03/08 13:32:32 by fmarin-p         ###   ########.fr       */
+/*   Updated: 2023/03/21 19:06:32 by fmarin-p         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,6 @@ void	reading_doc(int write_pipe, char *keyword, int control)
 	signal(SIGINT, SIG_DFL);
 	while (1)
 	{
-		if (!control && !ft_strncmp(keyword, "|\n", 2))
-			ft_putstr_fd("quote", STDOUT_FILENO);
-		else if (control)
-			ft_putstr_fd("heredoc", STDOUT_FILENO);
 		ft_putstr_fd("> ", STDOUT_FILENO);
 		appended_line = get_next_line(STDIN_FILENO);
 		if (control && !ft_strncmp(appended_line, keyword,
@@ -65,6 +61,9 @@ char	*append_from_input(char *old_line, int read_pipe)
 	check_perror(read(read_pipe, new_line, BUF_SIZE), "read");
 	appended_line = ft_strjoin(old_line, new_line);
 	check_perror(close(read_pipe), "close");
+	if (!*new_line)
+		return (free(new_line), free(old_line),
+			ft_putchar_fd('\n', STDOUT_FILENO), NULL);
 	return (free(new_line), free(old_line), appended_line);
 }
 
