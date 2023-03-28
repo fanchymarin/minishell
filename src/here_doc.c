@@ -6,7 +6,11 @@
 /*   By: fmarin-p <fmarin-p@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/28 14:27:23 by fmarin-p          #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2023/03/17 13:53:26 by fmarin-p         ###   ########.fr       */
+=======
+/*   Updated: 2023/03/21 19:06:32 by fmarin-p         ###   ########.fr       */
+>>>>>>> bd6ca7ea500eff30db8a41918f9171e6f6bae585
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +69,9 @@ char	*append_from_input(char *old_line, int read_pipe)
 	check_perror(read(read_pipe, new_line, BUF_SIZE), "read");
 	appended_line = ft_strjoin(old_line, new_line);
 	check_perror(close(read_pipe), "close");
+	if (!*new_line)
+		return (free(new_line), free(old_line),
+			ft_putchar_fd('\n', STDOUT_FILENO), NULL);
 	return (free(new_line), free(old_line), appended_line);
 }
 
