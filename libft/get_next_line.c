@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fmarin-p <fmarin-p@student.42madrid>       +#+  +:+       +#+        */
+/*   By: fmarin-p <fmarin-p@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/03/29 17:34:51 by fmarin-p          #+#    #+#             */
-/*   Updated: 2022/04/23 19:18:29 by fmarin-p         ###   ########.fr       */
+/*   Created: 2022/04/23 13:21:39 by fmarin-p          #+#    #+#             */
+/*   Updated: 2023/03/29 21:43:58 by fmarin-p         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "libft.h"
 
 char	*save_rest(char *memory)
 {
@@ -26,11 +26,12 @@ char	*save_rest(char *memory)
 		free(memory);
 		return (0);
 	}
-	buf = ft_calloc(ft_strlen(memory) - i + 1, sizeof(char));
+	buf = malloc((ft_strlen(memory) - i + 1) * sizeof(char));
 	++i;
 	i2 = 0;
 	while (memory[i])
 		buf[i2++] = memory[i++];
+	buf[i2] = 0;
 	free(memory);
 	return (buf);
 }
@@ -58,36 +59,28 @@ char	*return_line(char *buf)
 	return (p);
 }
 
-char	*concat_str(char *buf, char *memory)
-{
-	char	*concat;
-
-	concat = ft_strjoin(memory, buf);
-	free(memory);
-	return (concat);
-}
-
 char	*read_fd(int fd, char *memory)
 {
 	int		readb;
 	char	*buf;
+	char	*old_memory;
 
 	if (!memory)
-		memory = ft_calloc(1, 1);
-	if (!memory)
-		return (0);
+	{
+		memory = malloc(sizeof(char));
+		*memory = 0;
+	}
 	readb = 1;
-	buf = ft_calloc(BUFFER_SIZE + 1, sizeof(char));
+	buf = malloc((BUFFER_SIZE + 1) * sizeof(char));
 	while (readb > 0)
 	{
 		readb = read(fd, buf, BUFFER_SIZE);
 		if (readb == -1)
-		{
-			free(buf);
-			return (0);
-		}
+			return (free(buf), NULL);
 		buf[readb] = 0;
-		memory = concat_str(buf, memory);
+		old_memory = memory;
+		memory = ft_strjoin(old_memory, buf);
+		free(old_memory);
 		if (ft_strchr(buf, '\n'))
 			break ;
 	}
@@ -95,17 +88,45 @@ char	*read_fd(int fd, char *memory)
 	return (memory);
 }
 
+char	*select_file(int fd, t_fd_list **head)
+{
+	t_fd_list	*node;
+	t_fd_list	*tmp;
+
+	node = *head;
+	while (node)
+	{
+		if (node->fd == fd)
+			return (node->memory);
+		tmp = node;
+		node = node->next;
+	}
+	node = (t_fd_list *) malloc(sizeof(t_fd_list));
+	*node = (t_fd_list){fd, 0, 0};
+	tmp->next = node;
+	return (node->memory);
+}
+
 char	*get_next_line(int fd)
 {
-	static char	*memory;
-	char		*line;
+	static t_fd_list	**head;
+	char				*memory;
+	char				*line;
 
 	if (fd < 0 || BUFFER_SIZE <= 0 || read(fd, 0, 0) < 0)
 		return (0);
+	if (!head)
+	{
+		head = (t_fd_list **) malloc(sizeof(t_fd_list *));
+		*head = (t_fd_list *) malloc(sizeof(t_fd_list));
+		**head = (t_fd_list){fd, 0, 0};
+	}
+	memory = select_file(fd, head);
 	memory = read_fd(fd, memory);
 	if (!memory)
 		return (0);
 	line = return_line(memory);
-	memory = save_rest(memory);
+	if (!storage_memory(fd, head, save_rest(memory)))
+		head = 0;
 	return (line);
 }

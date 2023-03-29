@@ -6,13 +6,14 @@
 /*   By: fmarin-p <fmarin-p@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/24 15:50:08 by fmarin-p          #+#    #+#             */
-/*   Updated: 2023/02/16 23:09:53 by fmarin-p         ###   ########.fr       */
+/*   Updated: 2023/03/29 21:59:42 by fmarin-p         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef LIBFT_H
 # define LIBFT_H 
 
+# include <unistd.h>
 # include <stdlib.h>
 # include <string.h>
 # include <stdio.h>
@@ -68,5 +69,22 @@ void	ft_lstdelone(t_list *lst, void (*del)(void *));
 void	ft_lstclear(t_list **lst, void (*del)(void *));
 void	ft_lstiter(t_list *lst, void (*f)(void *));
 t_list	*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *));
+
+//GET_NEXT_LINE
+
+# define BUFFER_SIZE 4096
+
+typedef struct s_fd_list
+{
+	int					fd;
+	char				*memory;
+	struct s_fd_list	*next;
+
+}	t_fd_list;
+
+char	*get_next_line(int fd);
+char	*ft_concat_str(char *buf, char *memory);
+int		free_list(t_fd_list **head, t_fd_list *node, t_fd_list *tmp);
+int		storage_memory(int fd, t_fd_list **head, char *memory);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: fmarin-p <fmarin-p@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 14:34:40 by fmarin-p          #+#    #+#             */
-/*   Updated: 2023/03/14 19:23:49 by fmarin-p         ###   ########.fr       */
+/*   Updated: 2023/03/29 22:10:35 by fmarin-p         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,6 @@
 # define BUF_SIZE 4096
 
 # include "libft.h"
-# include "get_next_line.h"
 # include "ft_printf.h"
 # include <stdio.h>
 # include <readline/readline.h>
