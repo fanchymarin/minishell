@@ -6,7 +6,7 @@
 /*   By: fmarin-p <fmarin-p@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/16 13:19:14 by fmarin-p          #+#    #+#             */
-/*   Updated: 2023/03/07 18:35:49 by fmarin-p         ###   ########.fr       */
+/*   Updated: 2023/03/29 21:13:02 by fmarin-p         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,7 @@ int	open_files(t_cmdtable *rl, char *file_name, char red)
 			rl->outfile = open(file_name, O_APPEND | O_CREAT | O_WRONLY, 0644);
 	}
 	if (rl->outfile == -1 || rl->infile == -1)
-		return (ft_printf("minishell: %s: No such file or directory\n",
-				file_name), -1);
+		return (ft_printf("minishell: "), perror(file_name), -1);
 	else if (!*file_name)
 		error_msg(red);
 	return (0);
