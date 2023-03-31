@@ -6,7 +6,7 @@
 /*   By: fmarin-p <fmarin-p@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 14:36:43 by fmarin-p          #+#    #+#             */
-/*   Updated: 2023/03/31 20:57:16 by fmarin-p         ###   ########.fr       */
+/*   Updated: 2023/03/31 21:08:50 by fmarin-p         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,8 +55,10 @@ void	wait_cmds(t_cmdtable *rl)
 	while (++i < rl->n_cmd)
 	{
 		(signal(SIGINT, SIG_IGN), wait(&rl->status));
-		if (WIFSIGNALED(rl->status))
+		if (WTERMSIG(rl->status) == SIGINT)
 			(write(STDOUT_FILENO, "\n", 1), rl->status = 33280);
+		else if (WTERMSIG(rl->status) == SIGQUIT)
+			(write(STDOUT_FILENO, "\n", 1), rl->status = 33536);
 	}
 }
 
