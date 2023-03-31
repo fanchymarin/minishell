@@ -6,7 +6,7 @@
 /*   By: fmarin-p <fmarin-p@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 14:36:43 by fmarin-p          #+#    #+#             */
-/*   Updated: 2023/03/31 21:08:50 by fmarin-p         ###   ########.fr       */
+/*   Updated: 2023/03/31 21:51:05 by fmarin-p         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,9 +74,8 @@ void	forks_n_pipes(t_cmdtable *rl)
 	{
 		if (!check_red_files(rl, rl->all_cmd[i]))
 			break ;
-		restore_pipes(rl->all_cmd[i]);
-		if (exec_command_parent(rl,
-				restore_spaces(ft_split(rl->all_cmd[i], ' '))) == 1)
+		if (exec_command_parent(rl, restore_spaces(ft_split(
+						restore_pipes(rl->all_cmd[i]), ' '))) == 1)
 			continue ;
 		if (i != rl->n_cmd - 1)
 			check_perror(pipe(rl->pipe), "pipe");
