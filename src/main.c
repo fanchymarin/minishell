@@ -41,7 +41,7 @@ void	signal_handler(int sig)
 {
 	if (sig != SIGINT)
 		return ;
-	rl_replace_line("", 0);
+	// rl_replace_line("", 0);
 	rl_on_new_line();
 	write(STDOUT_FILENO, "\n", 1);
 	rl_redisplay();
@@ -53,9 +53,9 @@ void	forks_n_pipes(t_cmdtable *rl)
 	int	stat;
 
 	check_perror(rl->std_in = dup(0), "dup");
-	i = -1;
 	if (rl->n_cmd <= 0)
 		error_msg(PIPE);
+	i = -1;
 	while (++i < rl->n_cmd)
 	{
 		if (!check_red_files(rl, rl->all_cmd[i]))
@@ -68,6 +68,13 @@ void	forks_n_pipes(t_cmdtable *rl)
 		if (i != rl->n_cmd - 1)
 			check_perror(pipe(rl->pipe), "pipe");
 		(fork_process(rl, i), close_fds(rl));
+	}
+	i = -1;
+	while (++i < rl->n_cmd)
+	{
+		(signal(SIGINT, SIG_IGN), wait(&rl->status));
+			if (WTERMSIG(rl->status))
+				(write(STDOUT_FILENO, "\n", 1), rl->status = 33280);
 	}
 	(free_dp(rl->all_cmd), free(rl->line));
 	(dup2(rl->std_in, 0), close(rl->std_in));

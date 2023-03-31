@@ -76,6 +76,13 @@ void	forks_n_pipes(t_cmdtable *rl)
 			continue ;
 		(fork_process(rl, i));
 	}
+	i = -1;
+	while (++i < rl->n_cmd)
+	{
+		(signal(SIGINT, SIG_IGN), wait(&rl->status));
+		if (WTERMSIG(rl->status))
+			(write(STDOUT_FILENO, "\n", 1), rl->status = 33280);
+	}
 	(free_dp(rl->all_cmd), free(rl->line));
 }
 

@@ -56,7 +56,7 @@ t_cmdtable	init_struct(void)
 	extern FILE	*stderr;
 
 	rl_outstream = stderr;
-	rl_catch_signals = 0;
+	// rl_catch_signals = 0;
 	ft_memset(&rl, 0, sizeof(t_cmdtable));
 	rl.env = clone_env();
 	signal(SIGQUIT, none);

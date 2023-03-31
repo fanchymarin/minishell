@@ -68,8 +68,5 @@ void	fork_process(t_cmdtable *rl, int i)
 	{
 		if (i != rl->n_cmd - 1)
 			close(rl->pipe[i][1]);
-		(signal(SIGINT, SIG_IGN), wait(&rl->status));
-		if (WTERMSIG(rl->status))
-			(write(STDOUT_FILENO, "\n", 1), rl->status = 33280);
 	}
 }
