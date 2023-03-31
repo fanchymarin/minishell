@@ -52,32 +52,38 @@ void	forks_n_pipes(t_cmdtable *rl)
 	int	i;
 	int	stat;
 
-	check_perror(rl->std_in = dup(0), "dup");
 	if (rl->n_cmd <= 0)
 		error_msg(PIPE);
+	rl->pipe = malloc(sizeof(int *) * rl->n_cmd - 1);
+	if (!rl->pipe)
+		perror("malloc");
+	i = -1;
+	while (++i < rl->n_cmd - 1)
+	{
+		rl->pipe[i] = malloc(sizeof(int) * 2);
+		if (!rl->pipe[i])
+			perror("malloc"); 
+		check_perror(pipe(rl->pipe[i]), "pipe");
+	}
 	i = -1;
 	while (++i < rl->n_cmd)
 	{
 		if (!check_red_files(rl, rl->all_cmd[i]))
 			break ;
-		restore_pipes(rl->all_cmd[i]);
 		stat = exec_command_parent(rl, restore_spaces(
 					ft_split(rl->all_cmd[i], ' ')));
 		if (stat == 1)
 			continue ;
-		if (i != rl->n_cmd - 1)
-			check_perror(pipe(rl->pipe), "pipe");
-		(fork_process(rl, i), close_fds(rl));
+		(fork_process(rl, i));
 	}
 	i = -1;
 	while (++i < rl->n_cmd)
 	{
 		(signal(SIGINT, SIG_IGN), wait(&rl->status));
-			if (WTERMSIG(rl->status))
-				(write(STDOUT_FILENO, "\n", 1), rl->status = 33280);
+		if (WTERMSIG(rl->status))
+			(write(STDOUT_FILENO, "\n", 1), rl->status = 33280);
 	}
 	(free_dp(rl->all_cmd), free(rl->line));
-	(dup2(rl->std_in, 0), close(rl->std_in));
 }
 
 int	main(void)

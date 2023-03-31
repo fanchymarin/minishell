@@ -12,24 +12,6 @@
 
 #include "minishell.h"
 
-void	redirect_pipe(int *pipe, int fd)
-{
-	close(pipe[fd ^ 1]);
-	dup2(pipe[fd], fd);
-	close(pipe[fd]);
-}
-
-void	red_pipe_child(t_cmdtable *rl, int i)
-{
-	if (rl->infile)
-		(dup2(rl->infile, 0), close(rl->infile));
-	if (rl->outfile)
-		(dup2(rl->outfile, 1), close(rl->outfile));
-	else if (i != rl->n_cmd - 1)
-		redirect_pipe(rl->pipe, 1);
-	close(rl->std_in);
-}
-
 void	exec_command_child(t_cmdtable *rl, char **cmd)
 {
 	int	status;
@@ -49,17 +31,42 @@ void	exec_command_child(t_cmdtable *rl, char **cmd)
 	exit(status);
 }
 
+void	close_all_f_pipes(t_cmdtable *rl)
+{
+	int	i;
+
+	i = -1;
+	while (++i < (rl->n_cmd - 1))
+		(close(rl->pipe[i][0]), close(rl->pipe[i][1]));
+	// (close(rl->std_in), close(rl->std_out));
+}
+
+void	red_caos_of_f_pipes(t_cmdtable *rl, int i)
+{
+	// check_perror(rl->std_in = dup(STDIN_FILENO), "dup");
+	// check_perror(rl->std_out = dup(STDOUT_FILENO), "dup");
+	if (i != 0)
+		dup2(rl->pipe[i - 1][0], STDIN_FILENO);
+	if (i != rl->n_cmd - 1)
+		dup2(rl->pipe[i][1], STDOUT_FILENO);
+	// if (rl->infile)
+	// 	(dup2(rl->infile, STDIN_FILENO), close(rl->infile), rl->infile = 0);
+	// if (rl->outfile)
+	// 	(dup2(rl->outfile, STDOUT_FILENO), close(rl->outfile), rl->outfile = 0);
+	close_all_f_pipes(rl);
+}
+
 void	fork_process(t_cmdtable *rl, int i)
 {
 	pid_t	pid;
 
 	pid = check_perror(fork(), "fork");
 	if (!pid)
-		(red_pipe_child(rl, i), exec_command_child(rl,
+		(red_caos_of_f_pipes(rl, i), exec_command_child(rl,
 				restore_spaces(ft_split(rl->all_cmd[i], ' '))));
 	else
 	{
 		if (i != rl->n_cmd - 1)
-			redirect_pipe(rl->pipe, 0);
+			close(rl->pipe[i][1]);
 	}
 }

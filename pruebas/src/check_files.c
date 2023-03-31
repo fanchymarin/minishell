@@ -17,25 +17,23 @@ int	open_files(t_cmdtable *rl, char *file_name, char red)
 	if ((red == LESS_THAN || red == HERE_DOC) && *file_name)
 	{
 		if (rl->infile)
-			(close(rl->infile), rl->infile = 0);
+			close(rl->infile);
 		if (red == LESS_THAN)
 			rl->infile = open(file_name, O_RDONLY);
 		else
 			here_doc(rl, file_name);
-		if (rl->infile == -1)
-			return (ft_printf("minishell: "), rl->infile = 0, perror(file_name), -1);
 	}
 	else if ((red == MORE_THAN || red == APPEND) && *file_name)
 	{
 		if (rl->outfile)
-			(close(rl->outfile), rl->outfile = 0);
+			close(rl->outfile);
 		if (red == MORE_THAN)
 			rl->outfile = open(file_name, O_TRUNC | O_CREAT | O_WRONLY, 0644);
 		else
 			rl->outfile = open(file_name, O_APPEND | O_CREAT | O_WRONLY, 0644);
-		if (rl->outfile == -1)
-			return (ft_printf("minishell: "), rl->outfile = 0, perror(file_name), -1);
 	}
+	if (rl->outfile == -1 || rl->infile == -1)
+		return (ft_printf("minishell: "), perror(file_name), -1);
 	else if (!*file_name)
 		error_msg(red);
 	return (0);
