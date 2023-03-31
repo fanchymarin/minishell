@@ -6,7 +6,7 @@
 /*   By: fmarin-p <fmarin-p@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/17 13:44:44 by fmarin-p          #+#    #+#             */
-/*   Updated: 2023/03/14 19:23:29 by fmarin-p         ###   ########.fr       */
+/*   Updated: 2023/03/31 16:59:47 by fmarin-p         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,9 +22,9 @@ void	redirect_pipe(int *pipe, int fd)
 void	red_pipe_child(t_cmdtable *rl, int i)
 {
 	if (rl->infile)
-		(dup2(rl->infile, 0), close(rl->infile));
+		(dup2(rl->infile, STDIN_FILENO), close(rl->infile));
 	if (rl->outfile)
-		(dup2(rl->outfile, 1), close(rl->outfile));
+		(dup2(rl->outfile, STDOUT_FILENO), close(rl->outfile));
 	else if (i != rl->n_cmd - 1)
 		redirect_pipe(rl->pipe, 1);
 	close(rl->std_in);
