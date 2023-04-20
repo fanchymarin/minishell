@@ -6,7 +6,7 @@
 /*   By: fmarin-p <fmarin-p@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 14:34:40 by fmarin-p          #+#    #+#             */
-/*   Updated: 2023/03/29 22:10:35 by fmarin-p         ###   ########.fr       */
+/*   Updated: 2023/04/20 20:02:58 by fmarin-p         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,16 +72,19 @@ char		*hide_quoted_metachars(int *i, int j, char *line, int quote);
 
 // cmds
 void		pwd_cmd(void);
-void		cd_cmd(char **cmd);
+int			cd_cmd(char **cmd);
 void		echo_cmd(char **word);
 void		env_cmd(t_list **environ);
 t_list		**export_cmd(t_list **env, char **new_vars);
-int			execve_cmd(t_list **env, char *abs_path, char **cmd);
+int			execve_cmd(t_cmdtable *rl, char *abs_path, char **cmd);
 t_list		**unset_cmd(t_list **env, char **name);
 
 //pipes
 void		red_pipe_child(t_cmdtable *rl, int i);
-void		fork_process(t_cmdtable *rl, int i);
+void		redirect_pipe(int *pipe, int fd);
+void		execute_line(t_cmdtable *rl);
+void		execute_single_cmd(t_cmdtable *rl);
+void		execute_multiple_cmds(t_cmdtable *rl);
 void		close_fds(t_cmdtable *rl);
 
 // check_files
