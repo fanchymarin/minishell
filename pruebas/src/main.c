@@ -6,7 +6,7 @@
 /*   By: fmarin-p <fmarin-p@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 14:36:43 by fmarin-p          #+#    #+#             */
-/*   Updated: 2023/03/31 15:59:55 by fmarin-p         ###   ########.fr       */
+/*   Updated: 2023/04/20 11:22:04 by fmarin-p         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ void	signal_handler(int sig)
 {
 	if (sig != SIGINT)
 		return ;
-	// rl_replace_line("", 0);
+	rl_replace_line("", 0);
 	rl_on_new_line();
 	write(STDOUT_FILENO, "\n", 1);
 	rl_redisplay();
@@ -54,17 +54,6 @@ void	forks_n_pipes(t_cmdtable *rl)
 
 	if (rl->n_cmd <= 0)
 		error_msg(PIPE);
-	rl->pipe = malloc(sizeof(int *) * rl->n_cmd - 1);
-	if (!rl->pipe)
-		perror("malloc");
-	i = -1;
-	while (++i < rl->n_cmd - 1)
-	{
-		rl->pipe[i] = malloc(sizeof(int) * 2);
-		if (!rl->pipe[i])
-			perror("malloc"); 
-		check_perror(pipe(rl->pipe[i]), "pipe");
-	}
 	i = -1;
 	while (++i < rl->n_cmd)
 	{

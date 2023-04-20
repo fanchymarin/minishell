@@ -6,7 +6,7 @@
 /*   By: fmarin-p <fmarin-p@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/17 13:44:44 by fmarin-p          #+#    #+#             */
-/*   Updated: 2023/03/14 19:23:29 by fmarin-p         ###   ########.fr       */
+/*   Updated: 2023/04/20 11:17:49 by fmarin-p         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,14 +46,13 @@ void	red_caos_of_f_pipes(t_cmdtable *rl, int i)
 	// check_perror(rl->std_in = dup(STDIN_FILENO), "dup");
 	// check_perror(rl->std_out = dup(STDOUT_FILENO), "dup");
 	if (i != 0)
-		dup2(rl->pipe[i - 1][0], STDIN_FILENO);
+		(dup2(rl->pipe[i - 1][0], STDIN_FILENO), close(rl->pipe[i - 1][1]));
 	if (i != rl->n_cmd - 1)
-		dup2(rl->pipe[i][1], STDOUT_FILENO);
+		(dup2(rl->pipe[i][1], STDOUT_FILENO), close(rl->pipe[i][0]));
 	// if (rl->infile)
 	// 	(dup2(rl->infile, STDIN_FILENO), close(rl->infile), rl->infile = 0);
 	// if (rl->outfile)
-	// 	(dup2(rl->outfile, STDOUT_FILENO), close(rl->outfile), rl->outfile = 0);
-	close_all_f_pipes(rl);
+	// 	(dup2(rl->outfile, STDOUT_FILENO), close(rl->outfile), rl->outfile = 0);	
 }
 
 void	fork_process(t_cmdtable *rl, int i)
@@ -68,5 +67,7 @@ void	fork_process(t_cmdtable *rl, int i)
 	{
 		if (i != rl->n_cmd - 1)
 			close(rl->pipe[i][1]);
+		if (i)
+			close(rl->pipe[i - 1][0]);
 	}
 }

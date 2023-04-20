@@ -6,7 +6,7 @@
 /*   By: fmarin-p <fmarin-p@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 14:34:40 by fmarin-p          #+#    #+#             */
-/*   Updated: 2023/03/14 19:23:49 by fmarin-p         ###   ########.fr       */
+/*   Updated: 2023/04/20 11:19:00 by fmarin-p         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ typedef struct s_cmdtable
 	char	**all_cmd;
 	t_list	**env;
 	int		n_cmd;
-	int		**pipe;
+	int		pipe[2][2];
 	int		infile;
 	int		outfile;
 	int		std_in;
