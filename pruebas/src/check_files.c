@@ -6,7 +6,7 @@
 /*   By: fmarin-p <fmarin-p@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/16 13:19:14 by fmarin-p          #+#    #+#             */
-/*   Updated: 2023/03/31 21:15:18 by fmarin-p         ###   ########.fr       */
+/*   Updated: 2023/03/29 21:13:02 by fmarin-p         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int	open_files(t_cmdtable *rl, char *file_name, char red)
 	if ((red == LESS_THAN || red == HERE_DOC) && *file_name)
 	{
 		if (rl->infile)
-			(close(rl->infile), rl->infile = 0);
+			close(rl->infile);
 		if (red == LESS_THAN)
 			rl->infile = open(file_name, O_RDONLY);
 		else
@@ -26,17 +26,16 @@ int	open_files(t_cmdtable *rl, char *file_name, char red)
 	else if ((red == MORE_THAN || red == APPEND) && *file_name)
 	{
 		if (rl->outfile)
-			(close(rl->outfile), rl->outfile = 0);
+			close(rl->outfile);
 		if (red == MORE_THAN)
 			rl->outfile = open(file_name, O_TRUNC | O_CREAT | O_WRONLY, 0644);
 		else
 			rl->outfile = open(file_name, O_APPEND | O_CREAT | O_WRONLY, 0644);
 	}
+	if (rl->outfile == -1 || rl->infile == -1)
+		return (ft_printf("minishell: "), perror(file_name), -1);
 	else if (!*file_name)
 		error_msg(red);
-	if (rl->infile == -1 || rl->outfile == -1)
-		return (ft_printf("minishell: "), rl->outfile = 0, rl->infile = 0,
-			perror(file_name), -1);
 	return (0);
 }
 
@@ -72,7 +71,7 @@ int	manage_line(t_cmdtable *rl, char *cmd_line, int i)
 	if (i == j)
 		return (error_msg(red), -1);
 	name = ft_substr(cmd_line, j, i - j);
-	if (open_files(rl, restore_pipes(name), red) == -1)
+	if (open_files(rl, name, red) == -1)
 		return (free(name), -1);
 	free(name);
 	ft_memmove(&cmd_line[j], &cmd_line[i], ft_strlen(cmd_line) - i + 1);
