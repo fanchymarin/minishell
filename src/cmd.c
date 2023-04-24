@@ -6,7 +6,7 @@
 /*   By: fmarin-p <fmarin-p@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/03 17:32:59 by fmarin-p          #+#    #+#             */
-/*   Updated: 2023/04/24 12:54:12 by fmarin-p         ###   ########.fr       */
+/*   Updated: 2023/04/24 14:59:12 by fmarin-p         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void	pwd_cmd(void)
 {
 	char	abs_path[100000];
 
-	printf("%s\n", getcwd(abs_path, 100000));
+	ft_putstr_fd(getcwd(abs_path, sizeof(abs_path)), STDOUT_FILENO);
 }
 
 int	cd_cmd(char **cmd)
@@ -46,14 +46,14 @@ void	echo_cmd(char **word)
 	{
 		if (ft_strncmp(word[i], "-n\0", 3))
 		{
-			printf("%s", word[i]);
+			ft_putstr_fd(word[i], STDOUT_FILENO);
 			if (word[i + 1])
-				printf(" ");
+				ft_putchar_fd(' ', STDOUT_FILENO);
 		}
 		i++;
 	}
 	if (ft_strncmp(word[1], "-n\0", 3))
-		printf("\n");
+		ft_putchar_fd('\n', STDOUT_FILENO);
 }
 
 int	execve_cmd(t_cmdtable *rl, char *abs_path, char **cmd)
@@ -63,14 +63,7 @@ int	execve_cmd(t_cmdtable *rl, char *abs_path, char **cmd)
 
 	status = 0;
 	if (rl->n_cmd == 1 && fork())
-	{
-		(signal(SIGINT, SIG_IGN), wait(&rl->status));
-		if (WTERMSIG(rl->status) == SIGINT)
-			(write(STDOUT_FILENO, "\n", 1), rl->status = exit_status(130));
-		else if (WTERMSIG(rl->status) == SIGQUIT)
-			(write(STDOUT_FILENO, "\n", 1), rl->status = exit_status(131));
-		return (free(abs_path), 0);
-	}
+		return (waiting_parent(rl), free(abs_path), 0);
 	array_env = lstoarr(rl->env);
 	if (!abs_path || execve(abs_path, cmd, array_env) == -1)
 		(ft_printf("minishell: %s: command not found\n", cmd[0]), status = 127);

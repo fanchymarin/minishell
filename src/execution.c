@@ -6,7 +6,7 @@
 /*   By: fmarin-p <fmarin-p@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/17 13:44:44 by fmarin-p          #+#    #+#             */
-/*   Updated: 2023/04/24 13:01:59 by fmarin-p         ###   ########.fr       */
+/*   Updated: 2023/04/24 14:59:55 by fmarin-p         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,13 +18,7 @@ void	wait_cmds(t_cmdtable *rl)
 
 	i = -1;
 	while (++i < rl->n_cmd)
-	{
-		(signal(SIGINT, SIG_IGN), wait(&rl->status));
-		if (WTERMSIG(rl->status) == SIGINT)
-			(write(STDOUT_FILENO, "\n", 1), rl->status = 33280);
-		else if (WTERMSIG(rl->status) == SIGQUIT)
-			(write(STDOUT_FILENO, "\n", 1), rl->status = 33536);
-	}
+		waiting_parent(rl);
 }
 
 void	redirect_child(t_cmdtable *rl, int i)
@@ -35,7 +29,6 @@ void	redirect_child(t_cmdtable *rl, int i)
 		(dup2(rl->outfile, STDOUT_FILENO), close(rl->outfile));
 	else if (i != rl->n_cmd - 1)
 		redirect_pipe(rl->pipe, 1);
-	// close(rl->std_in);
 }
 
 int	exec_command(t_cmdtable *rl, char **cmd)
@@ -45,8 +38,8 @@ int	exec_command(t_cmdtable *rl, char **cmd)
 	if (!ft_strncmp(cmd[0], "pwd\0", 4))
 		pwd_cmd();
 	else if (!ft_strncmp(cmd[0], "exit\0", 5))
-		(ft_lstclear(rl->env, (*free)), close(rl->std_in),
-			free_dp(cmd), exit(0));
+		(ft_lstclear(rl->env, (*free)), free_dp(cmd), close(rl->stdfiles
+				[STDIN_FILENO]), close(rl->stdfiles[STDOUT_FILENO]), exit(0));
 	else if (!ft_strncmp(cmd[0], "cd\0", 3))
 		rl->status = cd_cmd(cmd);
 	else if (!ft_strncmp(cmd[0], "export\0", 7))
@@ -89,26 +82,20 @@ void	execute_multiple_cmds(t_cmdtable *rl)
 	wait_cmds(rl);
 }
 
-void	execute_line(t_cmdtable *rl)
+void	execute_single_cmd(t_cmdtable *rl)
 {
-	if (rl->n_cmd <= 0)
-		error_msg(PIPE);
-	if (rl->n_cmd == 1)
-	{
-		check_perror(rl->std_in = dup(0), "dup");
-		check_perror(rl->std_out = dup(1), "dup");
-		if (!check_red_files(rl, rl->all_cmd[0]))
-			return ;
-		if (rl->infile)
-			(dup2(rl->infile, STDIN_FILENO), close(rl->infile));
-		if (rl->outfile)
-			(dup2(rl->outfile, STDOUT_FILENO), close(rl->outfile));
-		exec_command(rl, restore_spaces(ft_split(rl->all_cmd[0], ' ')));
-		close_fds(rl);
-		(dup2(rl->std_in, 0), close(rl->std_in));
-		(dup2(rl->std_out, 1), close(rl->std_out));
-	}
-	else
-		execute_multiple_cmds(rl);
-	(free_dp(rl->all_cmd), free(rl->line));
+	check_perror(rl->stdfiles[STDIN_FILENO] = dup(STDIN_FILENO), "dup");
+	check_perror(rl->stdfiles[STDOUT_FILENO] = dup(STDOUT_FILENO), "dup");
+	if (!check_red_files(rl, rl->all_cmd[0]))
+		return ;
+	if (rl->infile)
+		(dup2(rl->infile, STDIN_FILENO), close(rl->infile));
+	if (rl->outfile)
+		(dup2(rl->outfile, STDOUT_FILENO), close(rl->outfile));
+	exec_command(rl, restore_spaces(ft_split(rl->all_cmd[0], ' ')));
+	close_fds(rl);
+	(dup2(rl->stdfiles[STDIN_FILENO], STDIN_FILENO),
+		close(rl->stdfiles[STDIN_FILENO]));
+	(dup2(rl->stdfiles[STDOUT_FILENO], STDOUT_FILENO),
+		close(rl->stdfiles[STDOUT_FILENO]));
 }

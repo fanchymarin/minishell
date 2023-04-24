@@ -6,7 +6,7 @@
 /*   By: fmarin-p <fmarin-p@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 14:34:40 by fmarin-p          #+#    #+#             */
-/*   Updated: 2023/04/24 12:50:11 by fmarin-p         ###   ########.fr       */
+/*   Updated: 2023/04/24 14:58:55 by fmarin-p         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,8 +45,7 @@ typedef struct s_cmdtable
 	int		pipe[2];
 	int		infile;
 	int		outfile;
-	int		std_in;
-	int		std_out;
+	int		stdfiles[2];
 	int		status;
 }	t_cmdtable;
 
@@ -87,7 +86,9 @@ void		redirect_pipe(int *pipe, int fd);
 void		execute_line(t_cmdtable *rl);
 void		execute_single_cmd(t_cmdtable *rl);
 void		execute_multiple_cmds(t_cmdtable *rl);
+void		execute_single_cmd(t_cmdtable *rl);
 void		close_fds(t_cmdtable *rl);
+void		waiting_parent(t_cmdtable *rl);
 
 // check_files
 int			check_red_files(t_cmdtable *rl, char *cmd_line);
