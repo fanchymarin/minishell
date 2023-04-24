@@ -55,10 +55,3 @@ void	error_msg(char c)
 	else if (c == APPEND)
 		ft_printf("minishell: syntax error near unexpected token `newline'\n");
 }
-
-void	redirect_pipe(int *pipe, int fd)
-{
-	close(pipe[fd ^ 1]);
-	dup2(pipe[fd], fd);
-	close(pipe[fd]);
-}

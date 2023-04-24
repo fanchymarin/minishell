@@ -42,7 +42,8 @@ typedef struct s_cmdtable
 	char	**all_cmd;
 	t_list	**env;
 	int		n_cmd;
-	int		pipe[2];
+	int 	pipe[2];
+	int		old_fd;
 	int		infile;
 	int		outfile;
 	int		stdfiles[2];
@@ -82,7 +83,6 @@ t_list		**unset_cmd(t_list **env, char **name);
 
 //pipes
 void		red_pipe_child(t_cmdtable *rl, int i);
-void		redirect_pipe(int *pipe, int fd);
 void		execute_line(t_cmdtable *rl);
 void		execute_single_cmd(t_cmdtable *rl);
 void		execute_multiple_cmds(t_cmdtable *rl);
@@ -101,7 +101,6 @@ char		*restore_metachar(char *line, int control);
 
 void		reading_doc(int pipe, char *keyword, int control);
 void		here_doc(t_cmdtable *rl, char *keyword);
-void		redirect_pipe(int *pipe, int fd);
 void		close_fd(t_cmdtable *rl);
 void		error_msg(char c);
 int			check_perror(int code, char *name);
