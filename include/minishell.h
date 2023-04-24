@@ -46,6 +46,7 @@ typedef struct s_cmdtable
 	int		infile;
 	int		outfile;
 	int		std_in;
+	int		std_out;
 	int		status;
 }	t_cmdtable;
 
