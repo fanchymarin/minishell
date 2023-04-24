@@ -6,7 +6,7 @@
 /*   By: fmarin-p <fmarin-p@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/05 13:12:20 by fmarin-p          #+#    #+#             */
-/*   Updated: 2023/03/08 14:16:51 by fmarin-p         ###   ########.fr       */
+/*   Updated: 2023/04/24 12:47:55 by fmarin-p         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,4 +69,28 @@ t_list	**unset_cmd(t_list **env, char **name)
 	}
 	free(full_name);
 	return (env);
+}
+
+char	*ft_getenv(t_list **env, char *name, char *value)
+{
+	char	*full_name;
+	char	**split_name;
+	t_list	*line;
+
+	full_name = ft_strjoin(name, "=");
+	line = *env;
+	while (line)
+	{
+		if (!ft_strncmp((char *)line->content, full_name, ft_strlen(full_name)))
+		{
+			free(full_name);
+			split_name = ft_split(line->content, '=');
+			ft_strlcpy(value, split_name[1], BUF_SIZE);
+			free_dp(split_name);
+			return (value);
+		}
+		line = line->next;
+	}
+	free(full_name);
+	return (0);
 }

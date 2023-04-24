@@ -3,14 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: clcarrer <clcarrer@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fmarin-p <fmarin-p@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/03 15:55:15 by fmarin-p          #+#    #+#             */
-/*   Updated: 2023/03/08 15:43:54 by clcarrer         ###   ########.fr       */
+/*   Updated: 2023/04/24 12:48:35 by fmarin-p         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+int	exit_status(int value)
+{
+	return (value << 8);
+}
 
 void	close_fds(t_cmdtable *rl)
 {
@@ -28,30 +33,6 @@ void	free_dp(char **dp)
 	while (dp[i])
 		free(dp[i++]);
 	free(dp);
-}
-
-char	*ft_getenv(t_list **env, char *name, char *value)
-{
-	char	*full_name;
-	char	**split_name;
-	t_list	*line;
-
-	full_name = ft_strjoin(name, "=");
-	line = *env;
-	while (line)
-	{
-		if (!ft_strncmp((char *)line->content, full_name, ft_strlen(full_name)))
-		{
-			free(full_name);
-			split_name = ft_split(line->content, '=');
-			ft_strlcpy(value, split_name[1], BUF_SIZE);
-			free_dp(split_name);
-			return (value);
-		}
-		line = line->next;
-	}
-	free(full_name);
-	return (0);
 }
 
 int	cmd_counter(char **all_cmd)

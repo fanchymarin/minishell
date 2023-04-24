@@ -6,7 +6,7 @@
 /*   By: fmarin-p <fmarin-p@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 14:34:40 by fmarin-p          #+#    #+#             */
-/*   Updated: 2023/04/20 20:02:58 by fmarin-p         ###   ########.fr       */
+/*   Updated: 2023/04/24 12:50:11 by fmarin-p         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,7 @@ int			quotes_closed(char *line, int i, char quote);
 char		*append_str(t_list **head);
 int			check_syntax(t_list **env, char **new_vars);
 void		replace_var(t_list **env, char *rep_var, char *var_name);
+int			exit_status(int value);
 
 // restore metachars
 char		*restore_pipes(char *line);

@@ -6,7 +6,7 @@
 /*   By: fmarin-p <fmarin-p@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/03 17:32:59 by fmarin-p          #+#    #+#             */
-/*   Updated: 2023/04/20 20:08:43 by fmarin-p         ###   ########.fr       */
+/*   Updated: 2023/04/24 12:54:12 by fmarin-p         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,11 +23,14 @@ int	cd_cmd(char **cmd)
 {
 	int	status;
 
+	status = 0;
 	if (!cmd[1])
 		status = check_perror(chdir(getenv("HOME")), "cd");
 	else
 		status = check_perror(chdir(cmd[1]), "cd");
-	return (status);
+	if (status)
+		return (exit_status(1));
+	return (0);
 }
 
 void	echo_cmd(char **word)
@@ -58,16 +61,16 @@ int	execve_cmd(t_cmdtable *rl, char *abs_path, char **cmd)
 	char	**array_env;
 	int		status;
 
+	status = 0;
 	if (rl->n_cmd == 1 && fork())
 	{
 		(signal(SIGINT, SIG_IGN), wait(&rl->status));
 		if (WTERMSIG(rl->status) == SIGINT)
-			(write(STDOUT_FILENO, "\n", 1), rl->status = 33280);
+			(write(STDOUT_FILENO, "\n", 1), rl->status = exit_status(130));
 		else if (WTERMSIG(rl->status) == SIGQUIT)
-			(write(STDOUT_FILENO, "\n", 1), rl->status = 33536);
+			(write(STDOUT_FILENO, "\n", 1), rl->status = exit_status(131));
 		return (free(abs_path), 0);
 	}
-	status = 0;
 	array_env = lstoarr(rl->env);
 	if (!abs_path || execve(abs_path, cmd, array_env) == -1)
 		(ft_printf("minishell: %s: command not found\n", cmd[0]), status = 127);

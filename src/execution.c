@@ -6,7 +6,7 @@
 /*   By: fmarin-p <fmarin-p@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/17 13:44:44 by fmarin-p          #+#    #+#             */
-/*   Updated: 2023/04/20 20:02:01 by fmarin-p         ###   ########.fr       */
+/*   Updated: 2023/04/24 13:01:59 by fmarin-p         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,18 +40,15 @@ void	redirect_child(t_cmdtable *rl, int i)
 
 int	exec_command(t_cmdtable *rl, char **cmd)
 {
-	int	status;
-
-	status = 0;
 	if (!cmd[0])
-		return (free_dp(cmd), status);
+		return (free_dp(cmd), 1);
 	if (!ft_strncmp(cmd[0], "pwd\0", 4))
 		pwd_cmd();
 	else if (!ft_strncmp(cmd[0], "exit\0", 5))
 		(ft_lstclear(rl->env, (*free)), close(rl->std_in),
 			free_dp(cmd), exit(0));
 	else if (!ft_strncmp(cmd[0], "cd\0", 3))
-		status = cd_cmd(cmd);
+		rl->status = cd_cmd(cmd);
 	else if (!ft_strncmp(cmd[0], "export\0", 7))
 		rl->env = export_cmd(rl->env, cmd);
 	else if (!ft_strncmp(cmd[0], "unset\0", 6))
@@ -61,15 +58,14 @@ int	exec_command(t_cmdtable *rl, char **cmd)
 	else if (!ft_strncmp(cmd[0], "env\0", 4))
 		env_cmd(rl->env);
 	else
-		status = execve_cmd(rl, ft_find_path(cmd[0], rl->env), cmd);
-	return (free_dp(cmd), status);
+		execve_cmd(rl, ft_find_path(cmd[0], rl->env), cmd);
+	return (free_dp(cmd), 0);
 }
 
 void	execute_multiple_cmds(t_cmdtable *rl)
 {
 	pid_t	pid;
 	int		i;
-	int		status;
 
 	i = -1;
 	while (++i < rl->n_cmd)
@@ -80,9 +76,9 @@ void	execute_multiple_cmds(t_cmdtable *rl)
 			check_perror(pipe(rl->pipe), "pipe");
 		pid = check_perror(fork(), "fork");
 		if (!pid)
-			(redirect_child(rl, i), status = exec_command(rl,
-					restore_spaces(ft_split(rl->all_cmd[i], ' '))),
-				free_dp(rl->all_cmd), free(rl->line), exit(status));
+			(redirect_child(rl, i), exec_command(rl, restore_spaces(
+						ft_split(rl->all_cmd[i], ' '))), free_dp(rl->all_cmd),
+				free(rl->line), exit(WEXITSTATUS(rl->status)));
 		else
 		{
 			if (i != rl->n_cmd - 1)
