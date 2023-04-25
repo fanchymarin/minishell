@@ -6,24 +6,33 @@
 /*   By: fmarin-p <fmarin-p@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/28 14:27:23 by fmarin-p          #+#    #+#             */
-/*   Updated: 2023/04/25 14:18:27 by fmarin-p         ###   ########.fr       */
+/*   Updated: 2023/04/25 17:13:14 by fmarin-p         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+void	hdoc_handler(int sig)
+{
+	if (sig != SIGINT)
+		return ;
+	close(STDIN_FILENO);
+}
+
 int	reading_doc(char *keyword, int control)
 {
 	char	*appended_line;
 	int		pip[2];
+	int		stdin_cp;
 
+	stdin_cp = dup(STDIN_FILENO);
 	check_perror(pipe(pip), "pipe");
 	while (1)
 	{
-		ft_putstr_fd("> ", STDOUT_FILENO);
-		appended_line = get_next_line(STDIN_FILENO);
-		if (control && !ft_strncmp(appended_line, keyword,
-				ft_strlen(appended_line + 1)))
+		signal(SIGINT, &hdoc_handler);
+		appended_line = readline("> ");
+		if (!appended_line || (control && !ft_strncmp(appended_line, keyword,
+					ft_strlen(appended_line + 1))))
 			break ;
 		if (!control)
 			ft_memset(&appended_line[ft_strlen(appended_line) - 1], 0, 1);
@@ -32,8 +41,10 @@ int	reading_doc(char *keyword, int control)
 			break ;
 		free(appended_line);
 	}
-	free(appended_line);
+	if (appended_line)
+		free(appended_line);
 	close(pip[1]);
+	dup2(stdin_cp, STDIN_FILENO);
 	return (pip[0]);
 }
 

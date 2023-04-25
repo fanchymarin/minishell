@@ -6,7 +6,7 @@
 /*   By: fmarin-p <fmarin-p@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/03 17:32:59 by fmarin-p          #+#    #+#             */
-/*   Updated: 2023/04/25 14:57:00 by fmarin-p         ###   ########.fr       */
+/*   Updated: 2023/04/25 17:13:48 by fmarin-p         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ void	pwd_cmd(void)
 	char	abs_path[100000];
 
 	ft_putstr_fd(getcwd(abs_path, sizeof(abs_path)), STDOUT_FILENO);
+	ft_putchar_fd('\n', STDOUT_FILENO);
 }
 
 int	cd_cmd(char **cmd)
