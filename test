@@ -4,6 +4,13 @@ ls | sort -r >>out
 wc <out >out1
 ls | grep M | wc -l
 cat | cat | ls
+ls -la | grep a | tr 'a-z' 'A-Z'
+cat <out | tr 'a-i' | sort | grep i
+
+ls | rev > file
+cat file
+rev file | cat
+
 
 single_cmds
 pwd
@@ -26,5 +33,4 @@ here_doc
 wc <<s >out1
 wc <<s | sort <<g
 echo <<stop <<stop >out1
-
-
+cat << EOF > file
