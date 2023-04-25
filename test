@@ -1,0 +1,27 @@
+
+ls >> out
+ls | sort -r >>out
+wc <out >out1
+ls | grep M | wc -l
+cat | cat | ls
+
+single_cmds
+pwd
+cd ..
+pwd
+echo "hola 7'8(/&/()U=)=/)//%$"
+echo "hola " "como " 'estas ??'
+echo "hola como
+estas
+"
+ls
+echo $?
+dfasdfsdf
+echo $?
+
+here_doc
+wc <<s >out1
+wc <<s | sort <<g
+echo <<stop <<stop >out1
+
+
