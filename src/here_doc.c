@@ -14,7 +14,7 @@
 
 void	reading_doc(int write_pipe, char *keyword, int control)
 {
-	char	*appended_line;
+	char		*appended_line;
 
 	signal(SIGINT, SIG_DFL);
 	while (1)
@@ -31,8 +31,7 @@ void	reading_doc(int write_pipe, char *keyword, int control)
 			break ;
 		free(appended_line);
 	}
-	free(appended_line);
-	close(write_pipe);
+	(free(appended_line), close(write_pipe));
 	exit(0);
 }
 

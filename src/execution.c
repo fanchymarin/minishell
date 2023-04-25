@@ -63,7 +63,6 @@ void	execute_multiple_cmds(t_cmdtable *rl)
 	int		i;
 
 	i = -1;
-	check_perror(rl->stdfiles[STDIN_FILENO] = dup(STDIN_FILENO), "dup");
 	while (++i < rl->n_cmd)
 	{
 		if (!check_red_files(rl, rl->all_cmd[i]))
@@ -82,16 +81,13 @@ void	execute_multiple_cmds(t_cmdtable *rl)
 			if (i != rl->n_cmd - 1)
 				(close(rl->pipe[1]), rl->old_fd = rl->pipe[0]);
 		}
+		close_fds(rl);
 	}
-	(dup2(rl->stdfiles[STDIN_FILENO], STDIN_FILENO),
-		close(rl->stdfiles[STDIN_FILENO]));
-	(close_fds(rl), wait_cmds(rl), rl->old_fd = 0);
+	(wait_cmds(rl), rl->old_fd = 0);
 }
 
 void	execute_single_cmd(t_cmdtable *rl)
 {
-	check_perror(rl->stdfiles[STDIN_FILENO] = dup(STDIN_FILENO), "dup");
-	check_perror(rl->stdfiles[STDOUT_FILENO] = dup(STDOUT_FILENO), "dup");
 	if (!check_red_files(rl, rl->all_cmd[0]))
 		return ;
 	if (rl->infile)
@@ -100,8 +96,4 @@ void	execute_single_cmd(t_cmdtable *rl)
 		(dup2(rl->outfile, STDOUT_FILENO), close(rl->outfile));
 	exec_command(rl, restore_spaces(ft_split(rl->all_cmd[0], ' ')));
 	close_fds(rl);
-	(dup2(rl->stdfiles[STDIN_FILENO], STDIN_FILENO),
-		close(rl->stdfiles[STDIN_FILENO]));
-	(dup2(rl->stdfiles[STDOUT_FILENO], STDOUT_FILENO),
-		close(rl->stdfiles[STDOUT_FILENO]));
 }

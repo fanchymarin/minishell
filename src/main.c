@@ -35,10 +35,16 @@ void	execute_line(t_cmdtable *rl)
 {
 	if (rl->n_cmd <= 0)
 		error_msg(PIPE);
+	check_perror(rl->stdfiles[0] = dup(STDIN_FILENO), "dup");
+	check_perror(rl->stdfiles[1] = dup(STDOUT_FILENO), "dup");
 	if (rl->n_cmd == 1)
 		execute_single_cmd(rl);
 	else
 		execute_multiple_cmds(rl);
+	(dup2(rl->stdfiles[STDIN_FILENO], STDIN_FILENO),
+		close(rl->stdfiles[STDIN_FILENO]));
+	(dup2(rl->stdfiles[STDOUT_FILENO], STDOUT_FILENO),
+		close(rl->stdfiles[STDOUT_FILENO]));
 	(free_dp(rl->all_cmd), free(rl->line));
 }
 
