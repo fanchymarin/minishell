@@ -6,7 +6,7 @@
 /*   By: fmarin-p <fmarin-p@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/03 17:32:59 by fmarin-p          #+#    #+#             */
-/*   Updated: 2023/04/24 14:59:12 by fmarin-p         ###   ########.fr       */
+/*   Updated: 2023/04/25 14:31:06 by fmarin-p         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,10 @@ void	echo_cmd(char **word)
 
 	i = 1;
 	if (!word[1])
-		(write(STDOUT_FILENO, "\n", 1), exit(0));
+	{
+		write(STDOUT_FILENO, "\n", 1);
+		return ;
+	}
 	if (!ft_strncmp(word[1], "-n\0", 3))
 		i++;
 	while (word[i])

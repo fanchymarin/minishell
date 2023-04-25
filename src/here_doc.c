@@ -6,7 +6,7 @@
 /*   By: fmarin-p <fmarin-p@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/28 14:27:23 by fmarin-p          #+#    #+#             */
-/*   Updated: 2023/04/25 13:53:39 by fmarin-p         ###   ########.fr       */
+/*   Updated: 2023/04/25 14:18:27 by fmarin-p         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,6 @@ void	here_doc(t_cmdtable *rl, char *keyword)
 
 	if (i > 0)
 		dup2(rl->stdfiles[STDIN_FILENO], STDIN_FILENO);
-	check_perror(pipe(rl->pipe), "pipe");
 	heredoc_fd = reading_doc(keyword, 1);
 	if (rl->old_fd)
 		(close(rl->old_fd), rl->old_fd = heredoc_fd);

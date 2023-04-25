@@ -6,7 +6,7 @@
 /*   By: fmarin-p <fmarin-p@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/17 13:44:44 by fmarin-p          #+#    #+#             */
-/*   Updated: 2023/04/25 14:02:07 by fmarin-p         ###   ########.fr       */
+/*   Updated: 2023/04/25 14:16:17 by fmarin-p         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,8 @@ void	execute_multiple_cmds(t_cmdtable *rl)
 		if (!pid)
 			(redirect_child(rl, i), exec_command(rl, restore_spaces(ft_split
 						(restore_pipes(rl->all_cmd[i]), ' '))), free_dp
-				(rl->all_cmd), free(rl->line), exit(WEXITSTATUS(rl->status)));
+				(rl->all_cmd), free(rl->line), close(rl->stdfiles[0]),
+				close(rl->stdfiles[1]), exit(WEXITSTATUS(rl->status)));
 		else
 		{
 			if (i != 0)
