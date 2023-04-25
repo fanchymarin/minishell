@@ -6,7 +6,7 @@
 /*   By: fmarin-p <fmarin-p@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/28 14:27:23 by fmarin-p          #+#    #+#             */
-/*   Updated: 2023/04/25 17:13:14 by fmarin-p         ###   ########.fr       */
+/*   Updated: 2023/04/25 17:52:11 by fmarin-p         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,25 +26,24 @@ int	reading_doc(char *keyword, int control)
 	int		stdin_cp;
 
 	stdin_cp = dup(STDIN_FILENO);
+	signal(SIGINT, &hdoc_handler);
 	check_perror(pipe(pip), "pipe");
 	while (1)
 	{
-		signal(SIGINT, &hdoc_handler);
 		appended_line = readline("> ");
 		if (!appended_line || (control && !ft_strncmp(appended_line, keyword,
-					ft_strlen(appended_line + 1))))
+					ft_strlen(appended_line) + 1)))
 			break ;
 		if (!control)
 			ft_memset(&appended_line[ft_strlen(appended_line) - 1], 0, 1);
-		ft_putstr_fd(appended_line, pip[1]);
+		(ft_putstr_fd(appended_line, pip[1]), ft_putchar_fd('\n', pip[1]));
 		if (!control && (ft_strchr(appended_line, *keyword) || *keyword == '|'))
 			break ;
 		free(appended_line);
 	}
 	if (appended_line)
 		free(appended_line);
-	close(pip[1]);
-	dup2(stdin_cp, STDIN_FILENO);
+	(close(pip[1]), dup2(stdin_cp, STDIN_FILENO), close(stdin_cp));
 	return (pip[0]);
 }
 

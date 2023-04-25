@@ -6,7 +6,7 @@
 /*   By: fmarin-p <fmarin-p@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/03 17:32:59 by fmarin-p          #+#    #+#             */
-/*   Updated: 2023/04/25 17:17:34 by fmarin-p         ###   ########.fr       */
+/*   Updated: 2023/04/25 17:25:42 by fmarin-p         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,6 @@ int	execve_cmd(t_cmdtable *rl, char *abs_path, char **cmd)
 	free(abs_path);
 	free_dp(array_env);
 	if (rl->n_cmd == 1)
-		exit(status);
+		(close(rl->stdfiles[0]), close(rl->stdfiles[1]), exit(status));
 	return (status);
 }
