@@ -6,7 +6,7 @@
 /*   By: fmarin-p <fmarin-p@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/16 13:19:14 by fmarin-p          #+#    #+#             */
-/*   Updated: 2023/03/31 21:15:18 by fmarin-p         ###   ########.fr       */
+/*   Updated: 2023/04/25 13:58:59 by fmarin-p         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,6 @@ int	manage_line(t_cmdtable *rl, char *cmd_line, int i)
 	char	red;
 	int		j;
 	char	*name;
-	int		res;
 
 	j = i++;
 	red = class_redirection(cmd_line, i);
@@ -73,11 +72,8 @@ int	manage_line(t_cmdtable *rl, char *cmd_line, int i)
 	if (i == j)
 		return (error_msg(red), -1);
 	name = ft_substr(cmd_line, j, i - j);
-	res = open_files(rl, restore_pipes(name), red);
-	if (res == -1)
+	if (open_files(rl, restore_pipes(name), red) == -1)
 		return (free(name), -1);
-	// else if (res == -2)
-	// 	waiting_parent(rl);
 	free(name);
 	ft_memmove(&cmd_line[j], &cmd_line[i], ft_strlen(cmd_line) - i + 1);
 	return (i = i - (i - j));

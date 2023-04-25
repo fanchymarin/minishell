@@ -6,7 +6,7 @@
 /*   By: fmarin-p <fmarin-p@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/17 13:40:54 by fmarin-p          #+#    #+#             */
-/*   Updated: 2023/03/28 18:18:24 by fmarin-p         ###   ########.fr       */
+/*   Updated: 2023/04/25 13:47:29 by fmarin-p         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ char	*manage_quotes(char *line, int *i, char quote)
 	j = quotes_closed(line, *i, quote);
 	while (j == -1)
 	{
-		line = nested_shell(line, &quote);
+		line = append_from_input(line, reading_doc(&quote, 0));
 		if (!line)
 			return (NULL);
 		j = quotes_closed(line, *i, quote);

@@ -6,7 +6,7 @@
 /*   By: fmarin-p <fmarin-p@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/18 13:19:20 by fmarin-p          #+#    #+#             */
-/*   Updated: 2023/04/20 19:39:06 by fmarin-p         ###   ########.fr       */
+/*   Updated: 2023/04/25 13:55:13 by fmarin-p         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ char	*manage_pipe(char *line, int *i)
 			return (free(line), error_msg(PIPE), NULL);
 	}
 	if (!line[*i])
-		line = nested_shell(line, "|");
+		line = append_from_input(line, reading_doc("|", 0));
 	(*i)--;
 	return (line);
 }

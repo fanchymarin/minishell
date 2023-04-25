@@ -6,17 +6,18 @@
 /*   By: fmarin-p <fmarin-p@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/28 14:27:23 by fmarin-p          #+#    #+#             */
-/*   Updated: 2023/04/24 14:54:20 by fmarin-p         ###   ########.fr       */
+/*   Updated: 2023/04/25 13:53:39 by fmarin-p         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	reading_doc(int write_pipe, char *keyword, int control)
+int	reading_doc(char *keyword, int control)
 {
-	char		*appended_line;
+	char	*appended_line;
+	int		pip[2];
 
-	signal(SIGINT, SIG_DFL);
+	check_perror(pipe(pip), "pipe");
 	while (1)
 	{
 		ft_putstr_fd("> ", STDOUT_FILENO);
@@ -26,62 +27,43 @@ void	reading_doc(int write_pipe, char *keyword, int control)
 			break ;
 		if (!control)
 			ft_memset(&appended_line[ft_strlen(appended_line) - 1], 0, 1);
-		ft_putstr_fd(appended_line, write_pipe);
+		ft_putstr_fd(appended_line, pip[1]);
 		if (!control && (ft_strchr(appended_line, *keyword) || *keyword == '|'))
 			break ;
 		free(appended_line);
 	}
-	(free(appended_line), close(write_pipe));
-	exit(0);
+	free(appended_line);
+	close(pip[1]);
+	return (pip[0]);
 }
 
 void	here_doc(t_cmdtable *rl, char *keyword)
 {
 	static int	i;
+	int			heredoc_fd;
 
 	if (i > 0)
 		dup2(rl->stdfiles[STDIN_FILENO], STDIN_FILENO);
 	check_perror(pipe(rl->pipe), "pipe");
-	if (!check_perror(fork(), "fork"))
-		(close(rl->stdfiles[STDIN_FILENO]), close(rl->pipe[0]),
-			reading_doc(rl->pipe[1], keyword, 1));
-	close(rl->pipe[1]);
-	waiting_parent(rl);
+	heredoc_fd = reading_doc(keyword, 1);
 	if (rl->old_fd)
-		(close(rl->old_fd), rl->old_fd = rl->pipe[0]);
+		(close(rl->old_fd), rl->old_fd = heredoc_fd);
 	else
-		(dup2(rl->pipe[0], 0), close(rl->pipe[0]));
+		(dup2(heredoc_fd, STDIN_FILENO), close(heredoc_fd));
 	i++;
 }
 
-char	*append_from_input(char *old_line, int read_pipe)
+char	*append_from_input(char *old_line, int fd)
 {
 	char		*new_line;
 	char		*appended_line;
 
 	new_line = ft_calloc(sizeof(char), BUF_SIZE);
-	check_perror(read(read_pipe, new_line, BUF_SIZE), "read");
+	check_perror(read(fd, new_line, BUF_SIZE), "read");
 	appended_line = ft_strjoin(old_line, new_line);
-	check_perror(close(read_pipe), "close");
+	check_perror(close(fd), "close");
 	if (!*new_line)
 		return (free(new_line), free(old_line),
 			ft_putchar_fd('\n', STDOUT_FILENO), NULL);
 	return (free(new_line), free(old_line), appended_line);
-}
-
-char	*nested_shell(char *line, char *keyword)
-{
-	int		qpipe[2];
-	int		status;
-
-	check_perror(pipe(qpipe), "pipe");
-	if (!check_perror(fork(), "fork"))
-		(check_perror(close(qpipe[0]), "close"),
-			reading_doc(qpipe[1], keyword, 0));
-	(check_perror(close(qpipe[1]), "close"), signal(SIGINT, SIG_IGN),
-		wait(&status));
-	if (WTERMSIG(status) == SIGINT)
-		return (close(qpipe[0]), write(STDOUT_FILENO, "\n", 1),
-			NULL);
-	return (append_from_input(line, qpipe[0]));
 }

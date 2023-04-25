@@ -6,7 +6,7 @@
 /*   By: fmarin-p <fmarin-p@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/17 13:44:44 by fmarin-p          #+#    #+#             */
-/*   Updated: 2023/04/24 14:59:55 by fmarin-p         ###   ########.fr       */
+/*   Updated: 2023/04/25 14:02:07 by fmarin-p         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,9 +71,9 @@ void	execute_multiple_cmds(t_cmdtable *rl)
 			check_perror(pipe(rl->pipe), "pipe");
 		pid = check_perror(fork(), "fork");
 		if (!pid)
-			(redirect_child(rl, i), exec_command(rl, restore_spaces(
-						ft_split(rl->all_cmd[i], ' '))), free_dp(rl->all_cmd),
-				free(rl->line), exit(WEXITSTATUS(rl->status)));
+			(redirect_child(rl, i), exec_command(rl, restore_spaces(ft_split
+						(restore_pipes(rl->all_cmd[i]), ' '))), free_dp
+				(rl->all_cmd), free(rl->line), exit(WEXITSTATUS(rl->status)));
 		else
 		{
 			if (i != 0)
@@ -94,6 +94,7 @@ void	execute_single_cmd(t_cmdtable *rl)
 		(dup2(rl->infile, STDIN_FILENO), close(rl->infile));
 	if (rl->outfile)
 		(dup2(rl->outfile, STDOUT_FILENO), close(rl->outfile));
-	exec_command(rl, restore_spaces(ft_split(rl->all_cmd[0], ' ')));
+	exec_command(rl, restore_spaces(ft_split(
+				restore_pipes(rl->all_cmd[0]), ' ')));
 	close_fds(rl);
 }

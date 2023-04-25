@@ -6,7 +6,7 @@
 /*   By: fmarin-p <fmarin-p@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 14:34:40 by fmarin-p          #+#    #+#             */
-/*   Updated: 2023/04/24 14:58:55 by fmarin-p         ###   ########.fr       */
+/*   Updated: 2023/04/25 13:48:55 by fmarin-p         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ typedef struct s_cmdtable
 	char	**all_cmd;
 	t_list	**env;
 	int		n_cmd;
-	int 	pipe[2];
+	int		pipe[2];
 	int		old_fd;
 	int		infile;
 	int		outfile;
@@ -64,6 +64,7 @@ char		*append_str(t_list **head);
 int			check_syntax(t_list **env, char **new_vars);
 void		replace_var(t_list **env, char *rep_var, char *var_name);
 int			exit_status(int value);
+char		*append_from_input(char *old_line, int fd);
 
 // restore metachars
 char		*restore_pipes(char *line);
@@ -99,7 +100,7 @@ char		**expand_metachar(t_cmdtable *rl, char **rev_cmd);
 char		**lstoarr(t_list **head);
 char		*restore_metachar(char *line, int control);
 
-void		reading_doc(int pipe, char *keyword, int control);
+int			reading_doc(char *keyword, int control);
 void		here_doc(t_cmdtable *rl, char *keyword);
 void		close_fd(t_cmdtable *rl);
 void		error_msg(char c);

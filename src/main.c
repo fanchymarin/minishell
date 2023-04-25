@@ -6,7 +6,7 @@
 /*   By: fmarin-p <fmarin-p@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 14:36:43 by fmarin-p          #+#    #+#             */
-/*   Updated: 2023/04/24 14:58:32 by fmarin-p         ###   ########.fr       */
+/*   Updated: 2023/04/25 13:31:27 by fmarin-p         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	waiting_parent(t_cmdtable *rl)
 {
-	(signal(SIGINT, SIG_IGN), wait(&rl->status));
+	(signal(SIGINT, SIG_IGN), check_perror(wait(&rl->status), "wait"));
 	if (WTERMSIG(rl->status) == SIGINT)
 		(ft_putchar_fd('\n', STDOUT_FILENO), rl->status = exit_status(130));
 	else if (WTERMSIG(rl->status) == SIGQUIT)
@@ -25,7 +25,7 @@ void	signal_handler(int sig)
 {
 	if (sig != SIGINT)
 		return ;
-	// rl_replace_line("", 0);
+	rl_replace_line("", 0);
 	rl_on_new_line();
 	write(STDOUT_FILENO, "\n", 1);
 	rl_redisplay();
