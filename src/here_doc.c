@@ -6,7 +6,7 @@
 /*   By: fmarin-p <fmarin-p@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/28 14:27:23 by fmarin-p          #+#    #+#             */
-/*   Updated: 2023/04/25 17:52:11 by fmarin-p         ###   ########.fr       */
+/*   Updated: 2023/04/25 19:41:16 by fmarin-p         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,9 +34,9 @@ int	reading_doc(char *keyword, int control)
 		if (!appended_line || (control && !ft_strncmp(appended_line, keyword,
 					ft_strlen(appended_line) + 1)))
 			break ;
-		if (!control)
-			ft_memset(&appended_line[ft_strlen(appended_line) - 1], 0, 1);
-		(ft_putstr_fd(appended_line, pip[1]), ft_putchar_fd('\n', pip[1]));
+		ft_putstr_fd(appended_line, pip[1]);
+		if (control)
+			ft_putchar_fd('\n', pip[1]);
 		if (!control && (ft_strchr(appended_line, *keyword) || *keyword == '|'))
 			break ;
 		free(appended_line);
