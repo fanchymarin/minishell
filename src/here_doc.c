@@ -45,10 +45,12 @@ void	here_doc(t_cmdtable *rl, char *keyword)
 	if (!check_perror(fork(), "fork"))
 		(close(rl->stdfiles[STDIN_FILENO]), close(rl->pipe[0]),
 			reading_doc(rl->pipe[1], keyword, 1));
-	(close(rl->pipe[1]), dup2(rl->pipe[0], 0), close(rl->pipe[0]));
-	(signal(SIGINT, SIG_IGN), wait(&rl->status));
-	if (WTERMSIG(rl->status) == SIGINT)
-		write(STDOUT_FILENO, "\n", 1);
+	close(rl->pipe[1]);
+	waiting_parent(rl);
+	if (rl->old_fd)
+		(close(rl->old_fd), rl->old_fd = rl->pipe[0]);
+	else
+		(dup2(rl->pipe[0], 0), close(rl->pipe[0]));
 	i++;
 }
 

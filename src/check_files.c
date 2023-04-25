@@ -21,7 +21,7 @@ int	open_files(t_cmdtable *rl, char *file_name, char red)
 		if (red == LESS_THAN)
 			rl->infile = open(file_name, O_RDONLY);
 		else
-			return (here_doc(rl, file_name), -2);
+			here_doc(rl, file_name);
 	}
 	else if ((red == MORE_THAN || red == APPEND) && *file_name)
 	{
@@ -76,8 +76,8 @@ int	manage_line(t_cmdtable *rl, char *cmd_line, int i)
 	res = open_files(rl, restore_pipes(name), red);
 	if (res == -1)
 		return (free(name), -1);
-	else if (res == -2)
-		waiting_parent(rl);
+	// else if (res == -2)
+	// 	waiting_parent(rl);
 	free(name);
 	ft_memmove(&cmd_line[j], &cmd_line[i], ft_strlen(cmd_line) - i + 1);
 	return (i = i - (i - j));
