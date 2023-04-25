@@ -6,7 +6,7 @@
 /*   By: fmarin-p <fmarin-p@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/17 13:44:44 by fmarin-p          #+#    #+#             */
-/*   Updated: 2023/04/25 14:16:17 by fmarin-p         ###   ########.fr       */
+/*   Updated: 2023/04/25 14:53:57 by fmarin-p         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,6 @@ int	exec_command(t_cmdtable *rl, char **cmd)
 
 void	execute_multiple_cmds(t_cmdtable *rl)
 {
-	pid_t	pid;
 	int		i;
 
 	i = -1;
@@ -69,8 +68,7 @@ void	execute_multiple_cmds(t_cmdtable *rl)
 			break ;
 		if (i != rl->n_cmd - 1)
 			check_perror(pipe(rl->pipe), "pipe");
-		pid = check_perror(fork(), "fork");
-		if (!pid)
+		if (!check_perror(fork(), "fork"))
 			(redirect_child(rl, i), exec_command(rl, restore_spaces(ft_split
 						(restore_pipes(rl->all_cmd[i]), ' '))), free_dp
 				(rl->all_cmd), free(rl->line), close(rl->stdfiles[0]),

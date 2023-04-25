@@ -6,7 +6,7 @@
 /*   By: fmarin-p <fmarin-p@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/16 13:19:14 by fmarin-p          #+#    #+#             */
-/*   Updated: 2023/04/25 13:58:59 by fmarin-p         ###   ########.fr       */
+/*   Updated: 2023/04/25 14:58:16 by fmarin-p         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,7 +108,7 @@ char	*ft_find_path(char *cmd, t_list **env)
 	if (!cmd)
 		return (0);
 	if (!access(cmd, 0) && ft_strchr(cmd, '/'))
-		return (cmd);
+		return (ft_strdup(cmd));
 	split_path = ft_split(ft_getenv(env, "PATH", value_buf), ':');
 	if (!split_path)
 		return (0);
