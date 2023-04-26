@@ -6,7 +6,7 @@
 /*   By: fmarin-p <fmarin-p@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/17 13:44:44 by fmarin-p          #+#    #+#             */
-/*   Updated: 2023/04/25 14:53:57 by fmarin-p         ###   ########.fr       */
+/*   Updated: 2023/04/26 15:52:48 by fmarin-p         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,9 @@ void	redirect_child(t_cmdtable *rl, int i)
 
 int	exec_command(t_cmdtable *rl, char **cmd)
 {
+	int	status;
+
+	status = 0;
 	if (!cmd[0])
 		return (free_dp(cmd), 1);
 	if (!ft_strncmp(cmd[0], "pwd\0", 4))
@@ -43,7 +46,7 @@ int	exec_command(t_cmdtable *rl, char **cmd)
 		(ft_lstclear(rl->env, (*free)), free_dp(cmd), close(rl->stdfiles
 				[STDIN_FILENO]), close(rl->stdfiles[STDOUT_FILENO]), exit(0));
 	else if (!ft_strncmp(cmd[0], "cd\0", 3))
-		rl->status = cd_cmd(cmd);
+		status = cd_cmd(cmd);
 	else if (!ft_strncmp(cmd[0], "export\0", 7))
 		rl->env = export_cmd(rl->env, cmd);
 	else if (!ft_strncmp(cmd[0], "unset\0", 6))
@@ -53,8 +56,8 @@ int	exec_command(t_cmdtable *rl, char **cmd)
 	else if (!ft_strncmp(cmd[0], "env\0", 4))
 		env_cmd(rl->env);
 	else
-		execve_cmd(rl, ft_find_path(cmd[0], rl->env), cmd);
-	return (free_dp(cmd), 0);
+		status = execve_cmd(rl, ft_find_path(cmd[0], rl->env), cmd);
+	return (free_dp(cmd), exit_status(status));
 }
 
 void	execute_multiple_cmds(t_cmdtable *rl)
@@ -93,7 +96,7 @@ void	execute_single_cmd(t_cmdtable *rl)
 		(dup2(rl->infile, STDIN_FILENO), close(rl->infile));
 	if (rl->outfile)
 		(dup2(rl->outfile, STDOUT_FILENO), close(rl->outfile));
-	exec_command(rl, restore_spaces(ft_split(
-				restore_pipes(rl->all_cmd[0]), ' ')));
+	rl->status = exec_command(rl, restore_spaces(ft_split(
+					restore_pipes(rl->all_cmd[0]), ' ')));
 	close_fds(rl);
 }

@@ -6,7 +6,7 @@
 /*   By: fmarin-p <fmarin-p@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/03 17:32:59 by fmarin-p          #+#    #+#             */
-/*   Updated: 2023/04/25 17:25:42 by fmarin-p         ###   ########.fr       */
+/*   Updated: 2023/04/26 15:51:03 by fmarin-p         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ int	cd_cmd(char **cmd)
 	else
 		status = check_perror(chdir(cmd[1]), "cd");
 	if (status)
-		return (exit_status(1));
+		return (1);
 	return (0);
 }
 
@@ -67,7 +67,7 @@ int	execve_cmd(t_cmdtable *rl, char *abs_path, char **cmd)
 
 	status = 0;
 	if (rl->n_cmd == 1 && fork())
-		return (waiting_parent(rl), free(abs_path), 0);
+		return (waiting_parent(rl), free(abs_path), WEXITSTATUS(rl->status));
 	array_env = lstoarr(rl->env);
 	if (!abs_path || execve(abs_path, cmd, array_env) == -1)
 		(ft_printf("minishell: %s: command not found\n", cmd[0]), status = 127);
