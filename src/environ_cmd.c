@@ -6,7 +6,7 @@
 /*   By: fmarin-p <fmarin-p@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/05 13:12:20 by fmarin-p          #+#    #+#             */
-/*   Updated: 2023/04/24 12:47:55 by fmarin-p         ###   ########.fr       */
+/*   Updated: 2023/04/26 14:25:02 by fmarin-p         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,8 @@ t_list	**unset_cmd(t_list **env, char **name)
 		if (!ft_strncmp((char *)line->content, full_name, ft_strlen(full_name)))
 		{
 			ft_lstdelnode(env, line, tmp);
+			if (!ft_lstsize(*env))
+				*env = 0;
 			break ;
 		}
 		tmp = line;
