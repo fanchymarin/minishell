@@ -6,6 +6,10 @@ ls | grep M | wc -l
 cat | cat | ls
 ls -la | grep a | tr 'a-z' 'A-Z'
 cat <out | tr 'a-i' | sort | grep i
+ls>out |        cat
+
+ls >out
+wc <out >out1 | sort <<stop <<stop >out2
 
 ls | rev > file
 cat file
@@ -18,12 +22,10 @@ cd ..
 pwd
 echo "hola 7'8(/&/()U=)=/)//%$"
 echo "hola " "como " 'estas ??'
-echo 1
 
+echo "hola como
+estas"
 
-"hola como
-estas
-"
 ls
 echo $?
 dfasdfsdf
@@ -34,3 +36,13 @@ wc <<s >out1
 wc <<s | sort <<g
 echo <<stop <<stop >out1
 cat << EOF > file
+
+wc <
+wc <<
+ls >>
+ls >
+ls ||| wc
+wc <>
+wc ><
+ls >">"
+ls >'>'

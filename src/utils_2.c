@@ -3,29 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   utils_2.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fmarin-p <fmarin-p@student.42.fr>          +#+  +:+       +#+        */
+/*   By: clcarrer <clcarrer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/18 13:19:20 by fmarin-p          #+#    #+#             */
-/*   Updated: 2023/04/25 13:55:13 by fmarin-p         ###   ########.fr       */
+/*   Updated: 2023/04/26 13:34:05 by clcarrer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-char	*manage_pipe(char *line, int *i)
-{
-	(*i)++;
-	while (ft_isblank(line[*i]) && line[*i])
-	{
-		(*i)++;
-		if (line[*i] && line[*i] == PIPE)
-			return (free(line), error_msg(PIPE), NULL);
-	}
-	if (!line[*i])
-		line = append_from_input(line, reading_doc("|", 0));
-	(*i)--;
-	return (line);
-}
 
 int	check_perror(int code, char *name)
 {
