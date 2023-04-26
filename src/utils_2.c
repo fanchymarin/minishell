@@ -6,26 +6,11 @@
 /*   By: fmarin-p <fmarin-p@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/18 13:19:20 by fmarin-p          #+#    #+#             */
-/*   Updated: 2023/04/25 13:55:13 by fmarin-p         ###   ########.fr       */
+/*   Updated: 2023/04/26 13:59:14 by fmarin-p         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-char	*manage_pipe(char *line, int *i)
-{
-	(*i)++;
-	while (ft_isblank(line[*i]) && line[*i])
-	{
-		(*i)++;
-		if (line[*i] && line[*i] == PIPE)
-			return (free(line), error_msg(PIPE), NULL);
-	}
-	if (!line[*i])
-		line = append_from_input(line, reading_doc("|", 0));
-	(*i)--;
-	return (line);
-}
 
 int	check_perror(int code, char *name)
 {
@@ -48,7 +33,8 @@ void	ft_lstdelnode(t_list **head, t_list *node, t_list *tmp)
 
 void	error_msg(char c)
 {
-	if (c == LESS_THAN || c == MORE_THAN || c == PIPE)
+	if (c == LESS_THAN || c == MORE_THAN || c == PIPE
+		|| c == SIMPLE_QUOTE || c == DOUBLE_QUOTE)
 		ft_printf("minishell: syntax error near unexpected token `%c'\n", c);
 	else if (c == HERE_DOC)
 		ft_printf("minishell: syntax error near unexpected token `heredoc'\n");

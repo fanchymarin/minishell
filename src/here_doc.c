@@ -6,7 +6,7 @@
 /*   By: fmarin-p <fmarin-p@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/28 14:27:23 by fmarin-p          #+#    #+#             */
-/*   Updated: 2023/04/25 19:41:16 by fmarin-p         ###   ########.fr       */
+/*   Updated: 2023/04/26 14:08:50 by fmarin-p         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	hdoc_handler(int sig)
 	close(STDIN_FILENO);
 }
 
-int	reading_doc(char *keyword, int control)
+int	reading_doc(char *keyword)
 {
 	char	*appended_line;
 	int		pip[2];
@@ -31,14 +31,11 @@ int	reading_doc(char *keyword, int control)
 	while (1)
 	{
 		appended_line = readline("> ");
-		if (!appended_line || (control && !ft_strncmp(appended_line, keyword,
-					ft_strlen(appended_line) + 1)))
+		if (!appended_line)
 			break ;
-		ft_putstr_fd(appended_line, pip[1]);
-		if (control)
-			ft_putchar_fd('\n', pip[1]);
-		if (!control && (ft_strchr(appended_line, *keyword) || *keyword == '|'))
+		if (!ft_strncmp(appended_line, keyword, ft_strlen(appended_line) + 1))
 			break ;
+		(ft_putstr_fd(appended_line, pip[1]), ft_putchar_fd('\n', pip[1]));
 		free(appended_line);
 	}
 	if (appended_line)
@@ -54,25 +51,10 @@ void	here_doc(t_cmdtable *rl, char *keyword)
 
 	if (i > 0)
 		dup2(rl->stdfiles[STDIN_FILENO], STDIN_FILENO);
-	heredoc_fd = reading_doc(keyword, 1);
+	heredoc_fd = reading_doc(keyword);
 	if (rl->old_fd)
 		(close(rl->old_fd), rl->old_fd = heredoc_fd);
 	else
 		(dup2(heredoc_fd, STDIN_FILENO), close(heredoc_fd));
 	i++;
-}
-
-char	*append_from_input(char *old_line, int fd)
-{
-	char		*new_line;
-	char		*appended_line;
-
-	new_line = ft_calloc(sizeof(char), BUF_SIZE);
-	check_perror(read(fd, new_line, BUF_SIZE), "read");
-	appended_line = ft_strjoin(old_line, new_line);
-	check_perror(close(fd), "close");
-	if (!*new_line)
-		return (free(new_line), free(old_line),
-			ft_putchar_fd('\n', STDOUT_FILENO), NULL);
-	return (free(new_line), free(old_line), appended_line);
 }

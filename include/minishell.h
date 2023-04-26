@@ -6,7 +6,7 @@
 /*   By: fmarin-p <fmarin-p@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 14:34:40 by fmarin-p          #+#    #+#             */
-/*   Updated: 2023/04/25 13:48:55 by fmarin-p         ###   ########.fr       */
+/*   Updated: 2023/04/26 14:08:43 by fmarin-p         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,8 +99,6 @@ char		**struct_quotes(char *old_cmd);
 char		**expand_metachar(t_cmdtable *rl, char **rev_cmd);
 char		**lstoarr(t_list **head);
 char		*restore_metachar(char *line, int control);
-
-int			reading_doc(char *keyword, int control);
 void		here_doc(t_cmdtable *rl, char *keyword);
 void		close_fd(t_cmdtable *rl);
 void		error_msg(char c);

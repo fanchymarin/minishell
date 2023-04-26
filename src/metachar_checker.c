@@ -6,7 +6,7 @@
 /*   By: fmarin-p <fmarin-p@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/17 13:40:54 by fmarin-p          #+#    #+#             */
-/*   Updated: 2023/04/25 13:47:29 by fmarin-p         ###   ########.fr       */
+/*   Updated: 2023/04/26 13:59:34 by fmarin-p         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,13 +27,8 @@ char	*manage_quotes(char *line, int *i, char quote)
 	int	j;
 
 	j = quotes_closed(line, *i, quote);
-	while (j == -1)
-	{
-		line = append_from_input(line, reading_doc(&quote, 0));
-		if (!line)
-			return (NULL);
-		j = quotes_closed(line, *i, quote);
-	}
+	if (j == -1)
+		return (free(line), error_msg(quote), NULL);
 	return (hide_quoted_metachars(i, j, line, quote));
 }
 
@@ -50,10 +45,6 @@ char	*quotes_checker(char *line)
 			line = manage_quotes(line, &i, DOUBLE_QUOTE);
 		else if (line[i] == SIMPLE_QUOTE)
 			line = manage_quotes(line, &i, SIMPLE_QUOTE);
-		if (!line)
-			return (NULL);
-		if (line[i] == PIPE)
-			line = manage_pipe(line, &i);
 		if (!line)
 			return (NULL);
 	}
