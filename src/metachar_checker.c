@@ -6,7 +6,7 @@
 /*   By: fmarin-p <fmarin-p@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/17 13:40:54 by fmarin-p          #+#    #+#             */
-/*   Updated: 2023/04/26 13:59:34 by fmarin-p         ###   ########.fr       */
+/*   Updated: 2023/04/26 14:11:45 by fmarin-p         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,8 @@ char	*quotes_checker(char *line)
 	i = -1;
 	while (line[++i])
 	{
-		if (line[0] == PIPE || (line[i] == PIPE && line[i + 1] == PIPE))
+		if (line[0] == PIPE || (line[i] == PIPE && line[i + 1] == PIPE)
+			|| (line[i] == PIPE && !check_blank_line(&line[i + 1])))
 			return (free(line), error_msg(PIPE), NULL);
 		else if (line[i] == DOUBLE_QUOTE)
 			line = manage_quotes(line, &i, DOUBLE_QUOTE);
