@@ -6,7 +6,7 @@
 /*   By: fmarin-p <fmarin-p@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/01 16:49:00 by fmarin-p          #+#    #+#             */
-/*   Updated: 2023/03/14 18:06:09 by fmarin-p         ###   ########.fr       */
+/*   Updated: 2023/04/26 16:27:35 by fmarin-p         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ void	expand_vars(char *line, t_cmdtable *rl, t_list **head, int *i)
 	if (line[i[0]] == '?')
 		(ft_lstadd_back(head, ft_lstnew(ft_itoa(WEXITSTATUS(rl->status)))),
 			i[0]++);
-	else if (!ft_isalnum(line[i[0]]))
+	else if (line[i[0]] == -7 || !line[i[0]])
 		ft_lstadd_back(head, ft_lstnew(ft_strdup("$")));
 	else
 	{
@@ -62,7 +62,7 @@ char	*check_vars(t_cmdtable *rl, char *line)
 	t_list	**head;
 	int		i[2];
 
-	i[0] = 0;
+	i[0] = -1;
 	i[1] = 0;
 	head = malloc(sizeof(t_list **));
 	*head = 0;
