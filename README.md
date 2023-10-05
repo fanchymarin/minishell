@@ -1,4 +1,4 @@
-# Minishell - A Simple UNIX Shell Implementation
+# Minishell - A Simple UNIX Shell Implementation ✅Grade 101/100
 
 Minishell is a minimalistic shell program that replicates the basic functionalities of a Unix-like shell. It provides a command-line interface for interacting with the computer, executing commands, and managing processes. This README will explain the various features and capabilities of Minishell.
 
